@@ -1,0 +1,20 @@
+﻿@model BasketVM
+
+<div class="basket"  >
+  <a href="#" class="basket-close" onclick="closeBasket()">X</a>
+  
+    @foreach(var item in Model.BasketItems){
+    <div class="row-cols-5">
+      <img class="" src="@item.Product?.PictureUri" />
+      <i>@item.Product?.Name</i>
+      <input id="@item.ProductId" min="0" type="number" value="@item.Qt" title="Quantity"  />
+      <a href="#" class="fa fa-shopping-basket" title="Update" onclick="setBasketItem(@item.ProductId,true)"></a>
+      <a href="#" class="fa fa-remove" onclick="removeBasketItem(@item.ProductId)"></a>
+
+    </div>
+      
+    }
+ 
+
+
+</div>

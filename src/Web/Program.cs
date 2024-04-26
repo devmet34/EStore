@@ -5,55 +5,96 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using EStore.Infra.EF.Identity;
-
-
-
-
-Helper.SetSeriLog();
-Log.Information("This is test");
-
-//test();
-
-var builder = WebApplication.CreateBuilder(args);
-
-if (builder.Environment.IsDevelopment())
-{
-  var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
-
-  builder.Services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(connectionString));
-  builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppIdentityDbContext>();
-  builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-}
+using EStore.Infra.EF;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
+using EStore.Infra.EF.Config;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System.Net.Mime;
+using EStore.Web.Config;
+using AutoMapper;
+using EStore.Infra.EF.Helpers;
 
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 
+var builder = WebApplication.CreateBuilder(args);
+
+//todo console log as well? +
+Helper.SetSeriLog();
+Log.Information("App starting..");
+builder.Logging.AddSerilog();
+
+if (builder.Environment.IsDevelopment())
+{
+  ConfigDb.AddDbContexts(builder.Configuration, builder.Services);
+  //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+  //var connectionString = builder.Configuration.GetConnectionString("EStore") ?? throw new InvalidOperationException("Connection string 'EStore' not found.");
+  //var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
+
+  //var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
+
+  //builder.Services.AddDbContext<Cont>(options => options.UseSqlServer(connectionString));
+  //builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppIdentityDbContext>();
+  
+}
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddCoreServices();
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+  .AddDefaultUI()
+  .AddEntityFrameworkStores<EstoreIdentityDbContext>()
+  .AddDefaultTokenProviders();
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 var app = builder.Build();
+Log.Information("App created...");
+
+/*
+app.MapGet("/", () =>
+Results.File("images/1.png",contentType:"image/png")
+
+) ;
+*/
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+
+if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
-  // app.UseExceptionHandler("/Home/Error");
-  // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+  app.UseDeveloperExceptionPage();
+  
+}
+
+
+else
+{
+  
+  app.UseExceptionHandler("/Home/Error");
+  //The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
   app.UseHsts();
 }
 
-//AppIdentityDbContext appIdentityDbContext = new(new());
-
+//Helper.SeedEstoreDb(app);
+/*
 using (var scope = app.Services.CreateScope())
 {
   var scopedProvider = scope.ServiceProvider;
-
-  var context = scopedProvider.GetRequiredService<AppIdentityDbContext>();
-  context.Database.Migrate();
-  int g = 1;
+  var estoreCont = scopedProvider.GetRequiredService<EStoreDbContext>();
+  await UpdateProducts.Update(estoreCont);
 }
+*/
+  
+  async void SeedIdentityDB(IServiceProvider scopedProvider)
+{
+  var userManager = scopedProvider.GetRequiredService<UserManager<AppUser>>();
+  var roleManager = scopedProvider.GetRequiredService<RoleManager<IdentityRole>>();
+  var identityContext = scopedProvider.GetRequiredService<EstoreIdentityDbContext>();
+  await EstoreIdentityDbContextSeed.SeedAsync(identityContext, userManager, roleManager);
 
-    app.UseHttpsRedirection();
+}
+app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 
 app.Use( (context,next) => {
   //if (context.Request.QueryString.ToString().Contains("Identit"))
@@ -64,6 +105,7 @@ app.Use( (context,next) => {
   int t = 1;
 
 });
+
 
 app.UseRouting();
 
@@ -78,8 +120,4 @@ app.MapRazorPages();
 
 app.Run();
 
- void test() {
  
-  
-  
-}

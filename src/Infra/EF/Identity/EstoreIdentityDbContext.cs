@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EStore.Infra.EF.Identity;
 
-public class AppIdentityDbContext : IdentityDbContext<AppUser>
+public class EstoreIdentityDbContext : IdentityDbContext<AppUser>
 {
-    public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options)
+    public EstoreIdentityDbContext(DbContextOptions<EstoreIdentityDbContext> options)
         : base(options)
     {
     }

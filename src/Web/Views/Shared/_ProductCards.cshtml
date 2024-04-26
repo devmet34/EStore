@@ -1,0 +1,16 @@
+﻿@model IEnumerable<EStore.Web.Models.ProductVM>
+
+
+<div class="container">
+
+ <div class="product-card-container">
+  @foreach(var item in Model)
+  {
+    
+    <partial name="_ProductCardItem" model="item" />
+  }
+  </div>
+  
+  
+  
+</div>

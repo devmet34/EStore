@@ -1,0 +1,32 @@
+﻿@model ProductVM
+@{
+  //todo validations/alerts for inputs, ie;negative number for input qt
+}
+
+<div class="id" hidden>@Model.Id</div>
+
+<div class="card text-center product-card-item">
+  
+  <img class="card-img h-75" src="@Model.PictureUri" />
+  <div class="card-title">@Model.Name</div>
+  <div class="card-footer">
+    <span>@Model.Price$ </span>
+    <div class="row-cols-3"> 
+     
+    <input id="@Model.Id-qt" min="0" type="number" title="Quantity" />
+    <a href="#" class="fa fa-cart-plus" title="Add to basket" onclick="setBasketItem(@Model.Id)"></a>
+    
+    </div>
+    <!--
+    <form method="post" asp-action="addproduct" asp-controller="home">
+      <a class="fa fa-plus" onclick="updateBasket()"></a>
+      <input hidden name="productId" value="2" />
+      <button type="submit"  class="fa fa-minus" ></button>
+    </form>
+    -->
+  </div>
+ 
+  
+
+</div>
+

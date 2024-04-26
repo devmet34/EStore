@@ -1,8 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model  HomeVM
+@{
+  ViewData["Title"] = "Home Page";
+  var basketCount = Model?.Basket?.BasketItems != null ? Model.Basket.BasketItems.Count : 0;
+  var i = 1;
 }
+<a id="basketToggle" href="#"  class="top-basket-toggle fa fa-shopping-basket" onclick="getBasket()">
+   @basketCount
+</a>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="basket" class="top-basket-container">
+
 </div>
+
+<partial name="_Filter" />
+
+
+<div id="products">
+<partial name="_ProductCards" model="Model?.Products" />
+</div>
+<!----
+<div class="container">
+  <div class="row card-header">
+  <div class="col-md">Name</div>
+  <div class="col-md">Price</div>
+  <div class="col-lg">Image</div>
+  </div>
+ 
+</div>
+-->

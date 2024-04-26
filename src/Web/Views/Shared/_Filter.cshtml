@@ -1,0 +1,24 @@
+﻿
+
+<div class="container filter-container">
+
+  <input type="text" class="find" placeholder="Find product" />
+  <div>
+    <form id="filterForm" asp-action="Index" method="get" >
+    <div class="fa fa-filter"></div>
+
+      <input hidden id="page" name="page" type="number" />
+      <input hidden id="lastId" type="number" />
+    
+
+      <select name="sortBy" class="form-select-sm" id="sortby" title="Sort by" onchange="sortProductsBy()">
+      <option selected  disabled>Sort by</option>
+      <option value="name">Name</option>
+      <option value="price">Price</option>
+      <option value="cat">Category</option>
+    </select>
+    </form>
+  </div>
+ 
+  
+</div>
