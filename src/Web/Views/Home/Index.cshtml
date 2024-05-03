@@ -2,7 +2,7 @@
 @{
   ViewData["Title"] = "Home Page";
   var basketCount = Model?.Basket?.BasketItems != null ? Model.Basket.BasketItems.Count : 0;
-  var i = 1;
+  ViewData["page"] = 1;
 }
 <a id="basketToggle" href="#"  class="top-basket-toggle fa fa-shopping-basket" onclick="getBasket()">
    @basketCount
@@ -16,8 +16,10 @@
 
 
 <div id="products">
-<partial name="_ProductCards" model="Model?.Products" />
+<partial name="_ProductCards" model="Model?.Products" view-data="ViewData" />
 </div>
+
+
 <!----
 <div class="container">
   <div class="row card-header">

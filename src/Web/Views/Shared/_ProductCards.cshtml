@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<EStore.Web.Models.ProductVM>
-
+@{
+ 
+}
 
 <div class="container">
 
@@ -11,6 +13,13 @@
   }
   </div>
   
-  
+  <div class="products-nav ">
+    
+    <a href="#" onclick="goPrevPage()">Prev</a>
+   
+    <a id="pageN" class="">1</a>
+   
+    <a onclick="goNextPage()" href="#">Next</a>
+  </div> 
   
 </div>

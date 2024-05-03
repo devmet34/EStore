@@ -3,6 +3,7 @@ using EStore.Infra.EF;
 using Xunit.Abstractions;
 using static System.Net.Mime.MediaTypeNames;
 
+
 namespace UnitTests;
 
 public class UnitTest1
@@ -16,9 +17,9 @@ public class UnitTest1
   [Fact]
   public void Test()
   {
-    string? t=null;
-    string t2;
-    t.GuardNullOrEmpty();
+    string? t = "test";
+    
+    Helper.LogObjectHash(t);
     
 
   }

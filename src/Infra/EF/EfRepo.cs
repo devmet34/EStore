@@ -42,17 +42,22 @@ public class EfRepo<T>:IRepo<T> where T : class
 
   public IQueryable<T> Query() { return _dbContext.Set<T>().AsQueryable(); }
 
+  public IEnumerable<Product> GetProducts() {
+    throw new NotImplementedException();
+    //return _dbContext.Products.OrderBy(p=>p.Name).Take(20).AsAsyncEnumerable();
+  }  
+
   public async Task<T?> GetByQuery(IQueryable<T> query, CancellationToken cancellationToken = default)
   {
     /*
     var q = _dbContext.Set<T>().AsQueryable();
     q.Provider.CreateQuery(query.Expression);
     */
-
+    
     return await query.FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<T>?> ListByQuery(IQueryable<T> query,CancellationToken cancellationToken=default)
+  public async Task<IEnumerable<T>?> ListByQueryAsync(IQueryable<T> query,CancellationToken cancellationToken=default)
   {
     return await query.ToListAsync();
   }

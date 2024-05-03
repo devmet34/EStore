@@ -48,17 +48,17 @@ namespace EStore.Web.Controllers
     }
 
 
-    public async Task<IActionResult> Index(int index = 0, int page = 1, string sortBy = "Id")
+    public async Task<IActionResult> Index( int page = 1, string sortBy = "id")
     {
       if (!ModelState.IsValid)
         throw new ArgumentException();
 
-      _logger.LogError("index,page,filterby:" + index + page + sortBy);
+     
       Basket? basket = null;
       if (IsUserSigned())
         basket = await GetOrCreateBasketAsync(); 
 
-      var products= await _productService.GetProductsAsync(index,page,sortBy);
+      var products= await _productService.GetProductsAsync(sortBy);
       //var productModels=new IEnumerable<ProductModel>();
       
       var productVM=_mapper.Map<IEnumerable< ProductVM>>(products);
@@ -82,7 +82,18 @@ namespace EStore.Web.Controllers
 
     }
 
-    
+
+    [HttpGet]
+    [Route("getproductsbypage")]
+    public async Task<IActionResult> GetProductsByPage( int page, string sortBy="name", string? find = null)
+    {     
+      if (!ModelState.IsValid)
+        throw new ArgumentException();
+      var products= await _productService.GetProductsOnPageAsync(page, sortBy);
+      var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
+      return PartialView("_productcards", productVM);
+    }
+
 
 
     [HttpPost]

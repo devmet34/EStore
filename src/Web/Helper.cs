@@ -1,6 +1,7 @@
 ﻿using EStore.Infra.EF;
 
 using Serilog;
+using System.Runtime.CompilerServices;
 
 namespace EStore.Web
 {
@@ -9,6 +10,10 @@ namespace EStore.Web
     public const string TEST_NAME = "TEST_NAME";
 
     
+    public static void LogObjectHash(object obj, [CallerArgumentExpression("obj")] string? paramName = null)
+    {
+      Console.WriteLine($"****** hash of {paramName}:" + obj.GetHashCode());
+    }
 
     public static void SetSeriLog()
     {

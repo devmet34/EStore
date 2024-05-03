@@ -5,6 +5,12 @@ function log(msg) {
 
 }
 
+function changeProductsHtml(resp) {
+
+  document.getElementById("products").innerHTML = resp;
+  log("changeProductsHtml");
+}
+
 const getForgeryToken = () => {
   try {
     const forgeryToken = document.getElementsByName('__RequestVerificationToken')[0].value;
@@ -24,17 +30,47 @@ function sortProductsBy() {
     {
       data: { "sortBy": sort }
     }
-  ).done((res) => {
-    document.getElementById("products").innerHTML = res;
+  ).done((resp) => {
+    changeProductsHtml(resp)
+    //document.getElementById("products").innerHTML = res;
   });
 
   //document.getElementById("filterForm").submit();
 }
 
-function movePage() {
+function goNextPage() {
+  const pageNumber = parseInt($('#pageN').text()) + 1
+  goToPage(pageNumber)
+}
+
+function goPrevPage() {
+  const page = parseInt($('#pageN').text()) - 1
+  goToPage(page)
+}
+function goToPage(pageNumber) {
   const sort = $('#sortby').val();
-  const page = $('#page').val();
-  const lastId = $('.id').last().text();
+  //const page = pageNumber //parseInt( $('#pageN').val())+ 1;
+  const uri = "getproductsbypage";
+ 
+
+  $.ajax(uri,
+    {
+      data: { page: pageNumber, sortBy: sort }
+    }
+  ).done(resp => {
+    changeProductsHtml(resp);
+    changePageN(pageNumber);
+  
+  })
+    
+  
+}
+
+function changePageN(pageNumber) {
+  let page = document.getElementById("pageN");
+  page.textContent = pageNumber;
+  
+  
 }
 
 function getBasket() {
@@ -69,8 +105,6 @@ function closeBasket() {
    
  
 }
-
-
 
 function setBasketItem(productId,isFromBasket) {
   

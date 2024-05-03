@@ -68,6 +68,17 @@ body {
   width:25%;
 }
 
+.products-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2%;
+}
+
+.footer{
+  position:absolute;
+  bottom:2px;
+}
+
 @media (max-width:450px){
 
   .product-card-item {
