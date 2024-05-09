@@ -10,12 +10,13 @@ namespace EStore.Infra.EF.Config
     {
         public static void AddDbContexts(IConfiguration config, IServiceCollection services)
         {
+            var connectionStringApp = config["Sql:ConnectionStrings:Estore"] ?? throw new InvalidOperationException("Connection string 'EStore' not found.");
+            var connectionStringIdentity = config["Sql:ConnectionStrings:Identity"] ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
+      //var connectionStringApp = config.GetConnectionString("EStore") ?? throw new InvalidOperationException("Connection string 'EStore' not found.");
+      //var connectionStringIdentity = config.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
 
-            var connectionStringApp = config.GetConnectionString("EStore") ?? throw new InvalidOperationException("Connection string 'EStore' not found.");
-            var connectionStringIdentity = config.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
 
-
-            services.AddDatabaseDeveloperPageExceptionFilter();
+      services.AddDatabaseDeveloperPageExceptionFilter();
             bool useInMemoryDatabase = false;
 
 
@@ -30,8 +31,8 @@ namespace EStore.Infra.EF.Config
                 return;
             }
 
-            services.AddDbContext<EstoreIdentityDbContext>(options => options.UseSqlServer(config.GetConnectionString("Identity")));
-            services.AddDbContext<EStoreDbContext>(options => options.UseSqlServer(config.GetConnectionString("EStore")));
+            services.AddDbContext<EstoreIdentityDbContext>(options => options.UseSqlServer(connectionStringIdentity));
+            services.AddDbContext<EStoreDbContext>(options => options.UseSqlServer(connectionStringApp));
             
         }
     }

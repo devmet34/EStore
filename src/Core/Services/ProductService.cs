@@ -56,22 +56,38 @@ public class ProductService
     page.GuardNegative();
 
     query = _repo.Query();
-        
+    SetSort(sortBy);
+
 
     if ( find == null)
     {
-      SetSort(sortBy);
+      
       query = query.Skip((page-1)*pageSize);
-      query = query.Take(pageSize);      
+      query = query.AsNoTracking().Take(pageSize);      
       return await _repo.ListByQueryAsync(query);
     }
 
-   
+    
+    query = query.Where(p => p.Name.Contains(find));
+    query = query.Skip((page - 1) * pageSize);
+    query = query.AsNoTracking().Take(pageSize);
+    return await _repo.ListByQueryAsync(query);
 
-    throw new NotImplementedException();
+
+
+    
    
   }
 
+
+  public async Task<IEnumerable<Product>?> FindProductsAsync(string productName)
+  {
+    productName.GuardNullOrEmpty();
+    query = _repo.Query();
+    query = query.Where(p => p.Name.Contains(productName));
+    query=  query.AsNoTracking().Take(pageSize);
+    return await _repo.ListByQueryAsync(query);
+  }
   
 
   public async Task<Product?> GetProductAsync(int productId)

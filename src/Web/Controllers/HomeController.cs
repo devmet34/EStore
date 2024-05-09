@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
 using System.Diagnostics;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace EStore.Web.Controllers
@@ -22,6 +23,7 @@ namespace EStore.Web.Controllers
     private readonly BasketService _basketService;
     private readonly IMapper _mapper;
     private readonly SignInManager<AppUser> _signInManager;
+    private const string DEFAULT_SORT = "id";
     
 
     public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager,  ProductService productService,BasketService basketService, IMapper mapper)
@@ -48,7 +50,7 @@ namespace EStore.Web.Controllers
     }
 
 
-    public async Task<IActionResult> Index( int page = 1, string sortBy = "id")
+    public async Task<IActionResult> Index( int page = 1, string sortBy = DEFAULT_SORT)
     {
       if (!ModelState.IsValid)
         throw new ArgumentException();
@@ -69,29 +71,44 @@ namespace EStore.Web.Controllers
     }
 
 
+
+    [HttpGet]
+    [Route("findproducts")] //todo find products done without paging +
+    public async Task<IActionResult> FindProducts(string productName)
+    {
+      var products = await _productService.FindProductsAsync(productName);
+      var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
+
+      return PartialView("_productcards", productVM);
+    }
+
+
     [HttpGet]
     [Route("sortproducts")]
     public async Task<IActionResult> SortProducts(string sortBy)
     {
       var products = await _productService.GetProductsAsync( sortBy:sortBy);     
-      var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
-
-      _logger.LogError(productVM.ToJson());
+      var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);      
 
       return PartialView("_productcards", productVM);
 
     }
 
 
+
+
     [HttpGet]
     [Route("getproductsbypage")]
-    public async Task<IActionResult> GetProductsByPage( int page, string sortBy="name", string? find = null)
+    public async Task<IActionResult> GetProductsByPage( int page, string sortBy= DEFAULT_SORT, string? find = null)
     {     
       if (!ModelState.IsValid)
         throw new ArgumentException();
-      var products= await _productService.GetProductsOnPageAsync(page, sortBy);
+      _logger.LogError("sort/find:" + sortBy + '/' + find);
+      var products= await _productService.GetProductsOnPageAsync(page, sortBy, find);
       var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
-      return PartialView("_productcards", productVM);
+      if (productVM.Count()>1)
+        return PartialView("_productcards", productVM);
+      throw new Exception("No more products for page:"+page);
     }
 
 

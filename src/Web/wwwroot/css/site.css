@@ -21,6 +21,10 @@ body {
   margin-bottom: 60px;
 }
 
+show {
+  
+}
+
 .top-basket-toggle{
   float:right;
   
@@ -50,18 +54,20 @@ body {
   justify-content: center;
 }
 
+.product-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .product-card-item {
   flex: 0 0 auto;
-  width: 25%
-}
-
-.product-card-container{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:space-between;
+  width: 23%;
+  margin: 1%;
   
-
 }
+
+
 
 
 .myrow-cols > *{

@@ -21,11 +21,20 @@ const getForgeryToken = () => {
   }
 }
 
+function findProducts() {
+  const uri = "findproducts";
+  const find = document.getElementById("find").value;
+  $.ajax(uri, {
+    data: { productName: find }
+  }).done(resp => {
+    changeProductsHtml(resp);
+  });
+}
 function sortProductsBy() {
   const uri = "sortproducts";
   const sort = $('#sortby').val();
 
-  sessionStorage.setItem("sortby", sort);
+  //sessionStorage.setItem("sortby", sort);
   $.ajax(uri,
     {
       data: { "sortBy": sort }
@@ -49,27 +58,37 @@ function goPrevPage() {
 }
 function goToPage(pageNumber) {
   const sort = $('#sortby').val();
+  const find = $('#find').val();
   //const page = pageNumber //parseInt( $('#pageN').val())+ 1;
   const uri = "getproductsbypage";
  
 
   $.ajax(uri,
     {
-      data: { page: pageNumber, sortBy: sort }
+      data: { page: pageNumber, sortBy: sort, find:find  }
     }
   ).done(resp => {
     changeProductsHtml(resp);
     changePageN(pageNumber);
-  
+    
   })
     
   
 }
 
 function changePageN(pageNumber) {
-  let page = document.getElementById("pageN");
-  page.textContent = pageNumber;
+  let pageN = document.getElementById("pageN");
+  pageN.textContent = pageNumber;
+  if (pageNumber > 1)
+    ActivatePrev();
   
+  
+}
+
+function ActivatePrev() {
+  
+  const prev = document.getElementById("prevA");
+  prev.hidden = false;
   
 }
 

@@ -2,7 +2,8 @@
 
 <div class="container filter-container">
 
-  <input type="text" class="find" placeholder="Find product" />
+  <input id="find" type="text" class="find" placeholder="Search string"  />
+  <button onclick="findProducts()" >Find</button>
   <div>
     <form id="filterForm" asp-action="Index" method="get" >
     <div class="fa fa-filter"></div>

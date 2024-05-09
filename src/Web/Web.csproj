@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>EStore.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <UserSecretsId>ba89ef81-b9ca-42d2-8faa-7aaa037c2957</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
