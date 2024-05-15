@@ -27,17 +27,5 @@ public class DBTest
     
   }
 
-  [Fact]
-  public void RepoTest()
-  {
-    var app = ProgramFactory.webApplicationFactory;
-    var context = app.Services.GetRequiredService<EStoreDbContext>();
-    var x= context.Products.FirstOrDefault();
-    _output.WriteLine("test started");
-    ProductSpec spec = new ProductSpec();
-   
-   
-    
-  }
 
 }
