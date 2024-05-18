@@ -1,5 +1,5 @@
 ﻿using EStore.Infra.EF;
-
+using NuGet.Protocol;
 using Serilog;
 using System.Runtime.CompilerServices;
 
@@ -9,7 +9,11 @@ namespace EStore.Web
   {
     public const string TEST_NAME = "TEST_NAME";
 
-    
+    //mc; check if 2 given objects are equal by json serializing. 
+    public static bool AreObjectsEqual(object obj, object obj2)
+    {
+      return obj.ToJson()==obj2.ToJson();
+    }
     public static void LogObjectHash(object obj, [CallerArgumentExpression("obj")] string? paramName = null)
     {
       Console.WriteLine($"****** hash of {paramName}:" + obj.GetHashCode());

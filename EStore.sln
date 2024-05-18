@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Src\Web\Web.csproj", "{2A52A9D6-FE89-4F0F-AD07-CCB48EDFC5F8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{CF23D902-A6B2-4233-8B99-FAAED57AF703}"
+	ProjectSection(SolutionItems) = preProject
+		todo.cs = todo.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "Src\WebApi\WebApi.csproj", "{256DED16-48C6-4626-A28C-51E9B3CB4BC8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -18,9 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra", "Src\Infra\Infra.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E954EB8-E818-455A-A286-98D08F241C14}"
-	ProjectSection(SolutionItems) = preProject
-		todo.cs = todo.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Src\Core\Core.csproj", "{09CFC20F-DCAF-4D29-9FD1-7E41EE8529E5}"
 EndProject

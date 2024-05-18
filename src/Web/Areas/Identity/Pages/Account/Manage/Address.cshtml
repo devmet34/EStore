@@ -1,0 +1,43 @@
+﻿@page
+@model EStore.Web.Areas.Identity.Pages.Account.Manage.AddressModel
+@{
+
+ }
+  <h2 class="mb-5">Customer Details</h2>
+
+  <h3>Address</h3>
+
+  <form method="post">
+    
+    <div class="row mb-3">
+      <label class="form-label text-lg" for="street">Street</label>
+      <input class="form-control" asp-for="Address!.Street" id="street" type="text" required maxlength="20" value="@Model.Address.Street" />
+    </div>
+
+    <div class="row mb-3">
+      <label class="form-label text-lg" for="province">Province</label>
+      <input class="form-control" asp-for="Address!.Province"  id="province" type="text"  maxlength="20" value="@Model.Address.Province" />
+    </div>
+
+    <div class="row mb-3">
+      <label class="form-label text-lg" for="city">City</label>
+      <input class="form-control" asp-for="Address!.City" id="city" type="text" required maxlength="20" value="@Model.Address.City" />
+    </div>
+
+    <div class="row mb-3">
+      <label class="form-label-" for="zip">Zip Code</label>
+      <input class="form-control" asp-for="Address!.ZipCode" id="zip" type="number" required min =1 max="99000" value="@Model.Address.ZipCode" />
+    </div>
+
+    <div class="row mb-3">
+      <label class="form-label text-lg" for="country">Country</label>
+      <input  class="form-control" asp-for="Address!.Country" id="country" type="text" required maxlength="20" value="@Model.Address.Country" />
+    </div>
+
+
+    <button class="btn btn-primary mt-3" type="submit">Save</button>
+  </form>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}

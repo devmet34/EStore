@@ -21,7 +21,7 @@ namespace EStore.Infra.EF
 
     public DbSet<Brand> Brands { get; set; }
 
-    
+    public DbSet<CustomerAddress> CustomerAddresses { get; set; }
 
 
   

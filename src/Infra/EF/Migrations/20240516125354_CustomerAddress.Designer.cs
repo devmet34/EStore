@@ -4,6 +4,7 @@ using EStore.Infra.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EStore.Infra.EF.Migrations
 {
     [DbContext(typeof(EStoreDbContext))]
-    partial class EStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240516125354_CustomerAddress")]
+    partial class CustomerAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +42,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Basket", (string)null);
+                    b.ToTable("Basket");
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.BasketItem", b =>
@@ -65,7 +68,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("BasketItem", (string)null);
+                    b.ToTable("BasketItem");
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.Brand", b =>
@@ -82,7 +85,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.Category", b =>
@@ -105,7 +108,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.CustomerAddress", b =>
@@ -140,7 +143,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerAddresses", (string)null);
+                    b.ToTable("CustomerAddresses");
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.Product", b =>
@@ -180,7 +183,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.BasketItem", b =>

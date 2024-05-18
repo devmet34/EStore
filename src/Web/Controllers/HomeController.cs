@@ -141,6 +141,7 @@ namespace EStore.Web.Controllers
       productId.GuardZero();
       productId.GuardNegative();
 
+      
 
       var buyerId = GetBuyerId();
       GuardExtensions.GuardNullOrEmpty(buyerId);
