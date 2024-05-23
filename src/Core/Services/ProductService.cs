@@ -38,7 +38,7 @@ public class ProductService
     
           
 
-    Helper.LogObjectHash(query);
+    //Helper.LogObjectHash(query);
 
     //var products = await query.AsNoTracking().Take(20).ToListAsync();
     var products= await _repo.ListByQueryAsync(query);

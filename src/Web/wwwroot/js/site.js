@@ -149,22 +149,66 @@ function setBasketItem(productId,isFromBasket) {
 
 }
 
-function removeBasketItem(productId) {
+async function removeBasketItem(productId) {
   const uri = "removebasketitem";
 
-  
-  fetch(uri,
-    {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
+  const remove =
+    await fetch(uri,
+      {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
 
-      body: JSON.stringify(productId)
+        body: JSON.stringify(productId)
 
-    }
-  ).then(getBasket). then(decreaseBasketCount);
-  
+      }
+    );
+
+  let resp = await remove;
+  if (!resp.ok) {
+    log("Error during removing product");
+    showToast(0);
+    return;
+  }
+  getBasket();
+  decreaseBasketCount();
+  showToast();
 
 }
+
+const toastFailHtml = `
+  <div id="bsToast" class="toast fixed-top d-flex alert alert-danger justify-content-center align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+    
+      <div class="toast-body">
+        FAILED
+      </div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+   
+  </div>
+  `
+
+const toastSuccessHtml = `
+  <div id="bsToast" class="toast fixed-top d-flex alert alert-success justify-content-center align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+    
+      <div class="toast-body">
+        SUCCESS
+      </div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+   
+  </div>
+  `
+function showToast(n) {
+  
+  if (n==0) {
+    document.body.innerHTML += toastFailHtml;
+  }
+  else { document.body.innerHTML +=toastSuccessHtml }
+  //setTimeout(null, 1000);
+  const bsToastEl = document.getElementById("bsToast");
+  let toastEl =  new bootstrap.Toast(bsToastEl);
+  toastEl.show();
+}
+
+
 
 function decreaseBasketCount() {
   let basketToggle = $('#basketToggle');

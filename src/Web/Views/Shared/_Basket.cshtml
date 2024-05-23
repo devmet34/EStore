@@ -1,6 +1,12 @@
 ﻿@model BasketVM
+@{
+  //ViewData["status"] = "success";
+}
+
+
 
 <div class="basket"  >
+  
   <a href="#" class="basket-close" onclick="closeBasket()">X</a>
   
     @foreach(var item in Model.BasketItems){
@@ -14,7 +20,7 @@
     </div>
       
     }
- 
 
+  
 
 </div>

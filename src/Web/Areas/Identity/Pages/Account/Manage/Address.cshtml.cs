@@ -30,8 +30,8 @@ namespace EStore.Web.Areas.Identity.Pages.Account.Manage
       _mapper = mapper;
     }
 
-
-
+    [TempData]
+    public string Status { get; set; }
 
     public async Task OnGetAsync()
     {      
@@ -57,7 +57,8 @@ namespace EStore.Web.Areas.Identity.Pages.Account.Manage
       
       await _dbcontext.SaveChangesAsync();
 
-      return Page();
+      Status = "success";
+      return RedirectToPage();
       
     }
 

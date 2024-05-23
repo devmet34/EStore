@@ -1,0 +1,15 @@
+﻿@model string
+@{
+}
+<div class="d-flex justify-content-center fixed-top   ">
+<div hidden=@(Model=="success"? false:true) class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  @Model
+</div>
+
+<div hidden=@(Model=="fail"? false:true) class="alert alert-danger  alert-success alert-dismissible" role="alert">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  @Model
+</div>
+
+</div>

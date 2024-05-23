@@ -1,6 +1,6 @@
 //todo
 //address for users +
-//validations 
+//validations + 
 //error page
 //success/error msg
 //global error handling

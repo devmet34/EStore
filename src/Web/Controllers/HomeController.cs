@@ -160,6 +160,7 @@ namespace EStore.Web.Controllers
       productId.GuardZero();
       productId.GuardNegative();
 
+      
 
       var buyerId = GetBuyerId();
       GuardExtensions.GuardNullOrEmpty(buyerId);
@@ -182,7 +183,7 @@ namespace EStore.Web.Controllers
 
       var basket=await _basketService.GetBasketAsync(buyerId!,false,true);
       var basketVM=_mapper.Map<BasketVM>(basket);
-      _logger.LogError("basketcount:"+basketVM?.BasketItems?.Count());
+      //_logger.LogError("basketcount:"+basketVM?.BasketItems?.Count());
       return PartialView("_basket", basketVM);
 
     }
