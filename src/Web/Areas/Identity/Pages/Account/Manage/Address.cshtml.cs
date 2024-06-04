@@ -31,7 +31,7 @@ namespace EStore.Web.Areas.Identity.Pages.Account.Manage
     }
 
     [TempData]
-    public string Status { get; set; }
+    public string? Status { get; set; }
 
     public async Task OnGetAsync()
     {      

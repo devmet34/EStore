@@ -38,15 +38,19 @@ if (builder.Environment.IsDevelopment())
   //builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppIdentityDbContext>();
   
 }
-builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddCoreServices();
+
 builder.Services.AddIdentity<AppUser, IdentityRole>()
   .AddDefaultUI()
   .AddEntityFrameworkStores<EstoreIdentityDbContext>()
   .AddDefaultTokenProviders();
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+ConfigRedis.AddRedis(builder);
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddCoreServices();
+
+
 var app = builder.Build();
 Log.Information("App created...");
 

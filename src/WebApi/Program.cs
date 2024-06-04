@@ -44,11 +44,14 @@ builder.Logging.AddSerilog();
 
 if (builder.Environment.IsDevelopment())
   ConfigDb.AddDbContexts(builder.Configuration, builder.Services);
-builder.Services.AddCoreServices();
+
 builder.Services.AddScoped<IIdentityTokenClaimService, IdentityTokenClaimService>();
 builder.Services.AddIdentity<AppUser, IdentityRole>()
   .AddEntityFrameworkStores<EstoreIdentityDbContext>()
   .AddDefaultTokenProviders();
+
+ConfigRedis.AddRedis(builder);
+builder.Services.AddCoreServices();
 
 //custom extension
 builder.Services.AddAuthentications(builder.Configuration);

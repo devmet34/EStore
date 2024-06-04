@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Security.Claims;
@@ -21,17 +22,20 @@ namespace EStore.Web.Controllers
     private readonly ILogger<HomeController> _logger;
     private readonly ProductService _productService;
     private readonly BasketService _basketService;
+    private readonly RedisService _redisService;
     private readonly IMapper _mapper;
     private readonly SignInManager<AppUser> _signInManager;
     private const string DEFAULT_SORT = "id";
+    private readonly string cacheProducts = ":Products";
     
-
-    public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager,  ProductService productService,BasketService basketService, IMapper mapper)
+    //mc; separate controllers or razor pages would be better to mitigate di overhead. not using for brevity 
+    public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager,  ProductService productService,BasketService basketService, RedisService redisService, IMapper mapper)
     {
       _logger = logger;
       _signInManager = signInManager;
       _productService = productService;
       _basketService = basketService;
+      _redisService = redisService;
       _mapper = mapper;
     }
 
@@ -58,9 +62,17 @@ namespace EStore.Web.Controllers
      
       Basket? basket = null;
       if (IsUserSigned())
-        basket = await GetOrCreateBasketAsync(); 
+        basket = await GetOrCreateBasketAsync();
 
-      var products= await _productService.GetProductsAsync(sortBy);
+      var products = await _redisService.GetCachedDataAsync<IEnumerable<Product>>(cacheProducts);
+      if (products == null)
+      {
+        products = await _productService.GetProductsAsync(sortBy);
+        if (products != null)
+          await _redisService.SetCacheDataAsync<IEnumerable<Product>>(cacheProducts, products,TimeSpan.FromMinutes(30));
+
+      }
+       
       //var productModels=new IEnumerable<ProductModel>();
       
       var productVM=_mapper.Map<IEnumerable< ProductVM>>(products);
