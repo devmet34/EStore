@@ -24,18 +24,14 @@ public class RedisTest
   {
     var app = ProgramFactory.webApplicationFactory;
     using var scope = app.Services.CreateScope();
-    var redisCache = scope.ServiceProvider.GetRequiredService<IDistributedCache>();
+    //var redisCache = scope.ServiceProvider.GetRequiredService<IDistributedCache>();
     //redisCache.SetString("key1", "value1");
     //redisCache.SetString("key2", "value2");
     
     var redisService = scope.ServiceProvider.GetRequiredService<RedisService>();
-    var redisMux = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
-    var redis=redisMux.GetDatabase();
-    redisCache.SetString("key3", "val3");
-    var t = redis.StringGet("key1");
-    var t2= redis.StringGet("key2");
-    var t3 = redisCache.GetString("key3");
-    var t4 = redis.StringGet("key3");
+    //var redisMux = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
+    //var redis=redisMux.GetDatabase();
+    
     string str = "test";
     var testDto = new TestDto(12, "myname");    
 

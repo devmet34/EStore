@@ -64,20 +64,24 @@ namespace EStore.Web.Controllers
       if (IsUserSigned())
         basket = await GetOrCreateBasketAsync();
 
-      var products = await _redisService.GetCachedDataAsync<IEnumerable<Product>>(cacheProducts);
-      if (products == null)
+      HomeVM? homeVM=null;
+      var cachedProducts = await _redisService.GetCachedDataAsync<IEnumerable<ProductVM>>(cacheProducts);
+      if (cachedProducts != null)
       {
-        products = await _productService.GetProductsAsync(sortBy);
-        if (products != null)
-          await _redisService.SetCacheDataAsync<IEnumerable<Product>>(cacheProducts, products,TimeSpan.FromMinutes(30));
-
+        _logger.LogDebug("Fetched products from cache");
+        homeVM = new HomeVM() { Basket = basket, Products = cachedProducts };
+        return View(homeVM);
+        
       }
-       
-      //var productModels=new IEnumerable<ProductModel>();
-      
-      var productVM=_mapper.Map<IEnumerable< ProductVM>>(products);
+      IEnumerable<ProductVM>? productVM = null;
+      var products = await _productService.GetProductsAsync(sortBy);
+      if (products != null)
+      {
+        productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
+        await _redisService.SetCacheDataAsync<IEnumerable<ProductVM>>(cacheProducts, productVM, TimeSpan.FromMinutes(30));
+      }        
 
-      var homeVM = new HomeVM() { Basket = basket, Products = productVM };
+      homeVM = new HomeVM() { Basket = basket, Products = productVM };
       
       return View(homeVM);
     }
@@ -123,24 +127,6 @@ namespace EStore.Web.Controllers
       throw new Exception("No more products for page:"+page);
     }
 
-
-
-    [HttpPost]
-    [Authorize]
-    [Route("AddProduct")]
-    [ValidateAntiForgeryToken]
-    public async Task AddProductAsync( int productId)
-    {
-
-      productId.GuardZero();
-      productId.GuardNegative();
-
-      var buyerId= User.FindFirstValue(ClaimTypes.NameIdentifier);
-      GuardExtensions.GuardNullOrEmpty(buyerId);
-      
-      await _basketService.AddProductAsync(buyerId!, productId);
-      //return RedirectToAction("Index");
-    }
 
 
     [HttpPost]
