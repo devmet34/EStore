@@ -94,7 +94,7 @@ function ActivatePrev() {
 
 function getBasket() {
 
-  const uri = "getbasket"
+  const uri = "basket/getbasket"
   fetch(uri, { })
     .then(res => res.text())
     .then(r => {
@@ -112,7 +112,7 @@ function closeBasket() {
 }
 
  function updateBasketCount() {
-  const uri = "getbasketcount";
+  const uri = "basket/getbasketcount";
    //$('#basketToggle').text(' ' + basketCount)
  
    fetch(uri, {
@@ -132,7 +132,7 @@ function setBasketItem(productId,isFromBasket) {
   :document.getElementById(productId).value ;
   const forgeryToken = getForgeryToken();  
   const baseUrl = document.URL;
-  const uri="setbasketitem"
+  const uri="basket/setbasketitem"
   //const url = baseUrl + "addproduct";
   console.debug("test:{id}" + productId);
   
@@ -140,23 +140,32 @@ function setBasketItem(productId,isFromBasket) {
 
     method: "post",
     headers: { RequestVerificationToken: forgeryToken },
-    data: { productId: productId,qt:qt }
+    data: { productId: productId, qt: qt }
 
   }
-  ).done(updateBasketCount);
+  ).done(() => {
+    updateBasketCount();
+    showToast(1);
+  }).fail(showToast(0))
+  
+
   
   //post(url, id);
 
 }
 
 async function removeBasketItem(productId) {
-  const uri = "removebasketitem";
+  const uri = "basket/removebasketitem";
+  const forgeryToken = getForgeryToken();  
 
   const remove =
     await fetch(uri,
       {
         method: "post",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "RequestVerificationToken": forgeryToken
+        },
 
         body: JSON.stringify(productId)
 

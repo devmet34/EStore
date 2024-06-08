@@ -129,6 +129,7 @@ namespace EStore.Web.Controllers
 
 
 
+    /*
     [HttpPost]
     [Authorize]
     [Route("SetBasketItem")]
@@ -148,8 +149,9 @@ namespace EStore.Web.Controllers
       await _basketService.SetBasketItemAsync(buyerId!, productId,qt);
       //return RedirectToAction("Index");
     }
+    */
 
-
+    /*
     [HttpPost]
     [Authorize]
     [Route("RemoveBasketItem")]
@@ -168,24 +170,7 @@ namespace EStore.Web.Controllers
       return Ok("Basket item removed");
 
     }
-
-
-
-    [HttpGet]
-    [Authorize]
-    [Route("getbasket")]
-    public async Task<IActionResult> GetBasketAsync()
-    {
-      var buyerId=GetBuyerId();
-      buyerId.GuardNullOrEmpty();
-
-      var basket=await _basketService.GetBasketAsync(buyerId!,false,true);
-      var basketVM=_mapper.Map<BasketVM>(basket);
-      //_logger.LogError("basketcount:"+basketVM?.BasketItems?.Count());
-      return PartialView("_basket", basketVM);
-
-    }
-
+    
 
 
     [HttpGet]
@@ -200,6 +185,9 @@ namespace EStore.Web.Controllers
       basket.GuardNull();
       return basket!.BasketItems.Count;
     }
+
+    */
+
 
       private string? GetBuyerId()
     {

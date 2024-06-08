@@ -15,7 +15,7 @@ using AutoMapper;
 using EStore.Infra.EF.Helpers;
 
 
-
+int applicationCookieTimeoutHours = 2;
 // Add services to the container.
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +43,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
   .AddDefaultUI()
   .AddEntityFrameworkStores<EstoreIdentityDbContext>()
   .AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+  options.ExpireTimeSpan = TimeSpan.FromHours(applicationCookieTimeoutHours);
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
