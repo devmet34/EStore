@@ -1,5 +1,6 @@
 ﻿
 
+
 function log(msg) {
   console.log(msg);
 
@@ -145,8 +146,10 @@ function setBasketItem(productId,isFromBasket) {
   }
   ).done(() => {
     updateBasketCount();
-    showToast(1);
-  }).fail(showToast(0))
+    showToast();
+  }).fail(() => {
+    showToast(0)
+  });
   
 
   
@@ -185,38 +188,53 @@ async function removeBasketItem(productId) {
 }
 
 const toastFailHtml = `
-  <div id="bsToast" class="toast fixed-top d-flex alert alert-danger justify-content-center align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-    
+  <div class="toast-container fixed-top d-flex alert alert-danger justify-content-center align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="bsToast" class="toast" role="alert" data-bs-delay="2000" data-bs-autohide="true">
       <div class="toast-body">
         FAILED
       </div>
       <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-   
+   </div>
   </div>
   `
 
 const toastSuccessHtml = `
-  <div id="bsToast" class="toast fixed-top d-flex alert alert-success justify-content-center align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-    
+  <div  class="toast-container fixed-top d-flex alert alert-success justify-content-center align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="bsToast" class="toast" role="alert" data-bs-delay="2000" data-bs-autohide="true">
       <div class="toast-body">
         SUCCESS
       </div>
       <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-   
+   </div>
   </div>
   `
 function showToast(n) {
+  let toast;
+  if (n == 0) {
+    toast = document.getElementById("bsToastFail")
+    
+  }
+  else {
+    toast = document.getElementById("bsToastSuccess")
+  }
+
+  let bsToast = bootstrap.Toast.getOrCreateInstance(toast);
+  bsToast.show();
+}
+  /*
+function showToast(n) {
   
-  if (n==0) {
+  if (n == 0) {
+
     document.body.innerHTML += toastFailHtml;
   }
   else { document.body.innerHTML +=toastSuccessHtml }
   //setTimeout(null, 1000);
   const bsToastEl = document.getElementById("bsToast");
-  let toastEl =  new bootstrap.Toast(bsToastEl);
+  const toastEl =   bootstrap.Toast.getOrCreateInstance(bsToastEl);
   toastEl.show();
 }
-
+*/
 
 
 function decreaseBasketCount() {

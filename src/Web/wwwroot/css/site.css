@@ -29,9 +29,14 @@ body {
   margin-bottom: 60px;
 }
 
-show {
-  
+.body-container{
+  padding-top:6%;
 }
+
+show {
+}
+
+
 
 .top-basket-toggle{
   float:right;

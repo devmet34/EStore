@@ -4,6 +4,9 @@
   var basketCount = Model?.Basket?.BasketItems != null ? Model.Basket.BasketItems.Count : 0;
   ViewData["page"] = 1;
 }
+
+
+
 <a id="basketToggle" href="#"  class="top-basket-toggle fa fa-shopping-basket" onclick="getBasket()">
    @basketCount
 </a>
@@ -11,6 +14,7 @@
 <div id="basket" class="top-basket-container">
 
 </div>
+
 
 <partial name="_Filter" />
 
