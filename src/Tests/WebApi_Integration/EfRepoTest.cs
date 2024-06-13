@@ -43,11 +43,7 @@ public class EfRepoTest
   {
     //IRepo<Basket> repo;
     //var app = ProgramFactory.webApplicationFactory;
-    /*
-    var config = ManualConfig.Create(DefaultConfig.Instance)
-        .WithOptions(ConfigOptions.DisableOptimizationsValidator)
-        .AddJob(Job.ShortRun.WithPowerPlan(PowerPlan.UserPowerPlan)); //to stop changing power plan to high
-    */
+    
     var config = Config.GetConfig();
     var res = BenchmarkRunner.Run<BenchEfRepo>(config);
     return;

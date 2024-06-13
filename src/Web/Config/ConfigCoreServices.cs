@@ -11,6 +11,7 @@ public static class ConfigureCoreServices
     services.AddScoped(typeof(IRepo<>),typeof( EfRepo<>));
     services.AddScoped<BasketService>();
     services.AddScoped<ProductService>();
+    services.AddScoped<OrderService>();
     services.AddScoped<RedisService>();
     return services;
 

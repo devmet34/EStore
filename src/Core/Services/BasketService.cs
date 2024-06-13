@@ -91,14 +91,13 @@ public class BasketService
     var product = await _productService.GetProductAsync(productId);
     product.GuardNull();
 
-    
-
-    basket!.SetBasketItem(productId, qt);
+    basket!.SetBasketItem(productId, qt,product!.Price);
     await _repo.UpdateAsync(basket);
 
 
   }
 
+  /*
   public async Task AddProductAsync( string buyerId,int productId)
   {
     var basketSpec = new BasketSpec(buyerId);
@@ -113,6 +112,7 @@ public class BasketService
    
 
   }
+  */
 
   public async Task RemoveBasketItemAsync(string buyerId, int productId)
   {
@@ -123,6 +123,11 @@ public class BasketService
     basketItem.GuardNull();
 
     await _repo.DeleteAsync(basketItem!);
+  }
+
+  public async Task RemoveBasketAsync(Basket basket)
+  {
+    await _repo.DeleteAsync(basket);
   }
 
   public async Task SubtractProductAsync(string buyerId, int productId)

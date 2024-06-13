@@ -23,7 +23,9 @@ namespace EStore.Infra.EF
 
     public DbSet<CustomerAddress> CustomerAddresses { get; set; }
 
+    public DbSet<Order> Orders { get; set; }
 
+   
   
 
 

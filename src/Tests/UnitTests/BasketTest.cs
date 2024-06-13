@@ -20,11 +20,12 @@ public class BasketTest
   public void TestBasket()
   {
     Basket basket = new Basket("test buyer id");
+    /*
     basket.AddItem(3);
     basket.AddItem(3);
     basket.AddItem(4);
     basket.AddItem(4);
-    
+    */
 
     Assert.True(basket.BasketItems.Count == 2);
     Assert.True(basket.BasketItems.Where(b=>b.ProductId == 3).FirstOrDefault().Qt==2);

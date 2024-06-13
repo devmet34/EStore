@@ -23,7 +23,7 @@ namespace Estore.Core.Entities
       
     }
 
-    public void SetBasketItem(int productId, int qt)
+    public void SetBasketItem(int productId, int qt, decimal price)
     {
       //qt.GuardNegative(); already guarded in basketitem
       qt.GuardZero();
@@ -35,7 +35,8 @@ namespace Estore.Core.Entities
         basketItem.SetQt(qt);
         return;
       }
-      basketItem = new BasketItem(Id, productId, qt);
+      
+      basketItem = new BasketItem(Id, productId, qt, price);
       BasketItems.Add(basketItem);
 
 
@@ -47,6 +48,7 @@ namespace Estore.Core.Entities
 
     }
 
+    /*
     public void AddItem( int productId,int qt=1 )
     {
       var basketItem = GetBasketItem(productId);
@@ -60,8 +62,7 @@ namespace Estore.Core.Entities
 
 
     }
-
-   
+   */
 
     public BasketItem? GetBasketItem(int productId)
     {

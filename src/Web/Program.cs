@@ -49,7 +49,10 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages( options =>
+{
+  
+});
 
 ConfigRedis.AddRedis(builder);
 builder.Services.AddAutoMapper(typeof(Program));

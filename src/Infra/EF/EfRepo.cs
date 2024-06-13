@@ -119,7 +119,8 @@ public class EfRepo<T>:IRepo<T> where T : class
 
   public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
   {
-    throw new NotImplementedException();
+    _dbContext.Remove(entity);
+    await SaveChangesAsync(cancellationToken);
   }
 
 

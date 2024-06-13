@@ -10,15 +10,17 @@ public class BasketItem:BaseEntity
 {
   public int BasketId {  get; private set; }
   public int ProductId {  get; private set; }
-  public Product Product { get; set; }
+  public Product? Product { get; set; }
   public int Qt {  get; private set; }
+  public decimal Price {  get; private set; }
   
   //todo guards
-  public BasketItem(int basketId,int productId, int qt) 
+  public BasketItem(int basketId,int productId, int qt,decimal price) 
   {    
     BasketId = basketId;
     ProductId = productId;
     SetQt(qt);
+    Price = price;
 
   }
 

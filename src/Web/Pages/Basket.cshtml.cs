@@ -12,6 +12,7 @@ using System.Text.Json;
 
 namespace EStore.Web.Pages
 {
+  [Authorize]
   public class BasketModel : PageModel
   {
     private readonly ProductService _productService;
@@ -44,7 +45,7 @@ namespace EStore.Web.Pages
 
     }
 
-
+    
     public async Task<ContentResult> OnGetGetBasketCount()
     {
       var buyerId = GetBuyerId();
