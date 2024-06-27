@@ -17,13 +17,15 @@ namespace EStore.Web.Pages
   {
     private readonly ProductService _productService;
     private readonly BasketService _basketService;
+    private readonly ILogger<BasketModel> _logger;
     private readonly IMapper _mapper;
     internal BasketVM BasketVM { get; set; }
-    public BasketModel(ProductService productService, BasketService basketService, IMapper mapper)
+    public BasketModel(ProductService productService, BasketService basketService, IMapper mapper, ILogger<BasketModel> logger)
     {
       _productService = productService;
       _basketService = basketService;
       _mapper = mapper;
+      _logger = logger;
     }
 
     private string? GetBuyerId()
@@ -91,6 +93,20 @@ namespace EStore.Web.Pages
 
     }
 
+    public async Task<IActionResult> OnPostRemoveBasket()
+    {
+      _logger.LogWarning("Removing basket");
+      var buyerId = GetBuyerId();
+      buyerId.GuardNullOrEmpty();
+
+      var basket=await _basketService.GetBasketAsync(buyerId!);
+      basket.GuardNull();
+
+      await _basketService.RemoveBasketAsync(basket!);
+
+      return RedirectToAction("index", "home"); 
+
+    }
 
 
 

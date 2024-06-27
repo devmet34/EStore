@@ -116,13 +116,20 @@ public class BasketService
 
   public async Task RemoveBasketItemAsync(string buyerId, int productId)
   {
+    _logger.LogDebug("cus_log: Removing basket item for userId: " + buyerId);
     var basket=await GetBasketAsync(buyerId,true);
     basket.GuardNull();
 
+    basket!.RemoveBasketItem(productId);
+
+    await _repo.UpdateAsync(basket);
+
+    /*
     var basketItem = basket?.BasketItems.Where(bi => bi.ProductId == productId).FirstOrDefault();
     basketItem.GuardNull();
-
-    await _repo.DeleteAsync(basketItem!);
+    */
+    //await _repo.DeleteAsync(basketItem!);
+    
   }
 
   public async Task RemoveBasketAsync(Basket basket)

@@ -17,4 +17,9 @@ public class Helper
   {
     Console.WriteLine($"****** hash of {paramName}:" + obj.GetHashCode());
   }
+
+  public static void Test()
+  {
+
+  }
 }

@@ -1,0 +1,19 @@
+﻿@page
+@model EStore.Web.Pages.CheckoutModel
+@{
+
+}
+
+<h2>Checkout</h2>
+
+<div id="orderContainer" class="container-fluid">
+
+  @foreach (var item in @Model.BasketItems)
+  {
+
+    <label asp-for=@item.> @item.ProductId</label>
+
+    <div class="row">@item.ProductId</div>
+  }
+
+</div>

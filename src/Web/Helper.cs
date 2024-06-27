@@ -2,6 +2,7 @@
 using NuGet.Protocol;
 using Serilog;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 
 namespace EStore.Web
 {
@@ -60,6 +61,11 @@ namespace EStore.Web
       if (app == null)
         throw new ArgumentNullException("app");
       return app.Services.CreateScope();
+    }
+
+    public static string? GetUserId(ClaimsPrincipal user )
+    {
+      return user.FindFirstValue(ClaimTypes.NameIdentifier);
     }
     public static void LogD()
     {

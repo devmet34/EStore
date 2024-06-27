@@ -13,6 +13,7 @@ using System.Net.Mime;
 using EStore.Web.Config;
 using AutoMapper;
 using EStore.Infra.EF.Helpers;
+using NuGet.Protocol;
 
 
 int applicationCookieTimeoutHours = 2;
@@ -117,6 +118,14 @@ app.Use( (context,next) => {
   int t = 1;
 
 });
+
+//mc; map for listing all registered routes
+app.MapGet("routes",(IEnumerable<EndpointDataSource> epSources) =>
+{
+  var res= string.Join("\n", epSources.SelectMany(ep => ep.Endpoints));
+  return res;
+  
+} );
 
 
 app.UseRouting();

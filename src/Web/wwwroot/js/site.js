@@ -146,14 +146,21 @@ function setBasketItem(productId,isFromBasket) {
   }
   ).done(() => {
     updateBasketCount();
+    if (isFromBasket)
+      getBasket();
     showToast();
   }).fail(() => {
     showToast(0)
   });
   
-
+ 
   
   //post(url, id);
+
+}
+
+function updateBasketItem() {
+
 
 }
 

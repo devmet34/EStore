@@ -5,14 +5,22 @@
 
 
 
-<div class="basket shadow"  >
+<div class="basket shadow container"  >
   <span class="fa fa-basket-shopping"></span>
   <a href="#" class="basket-close" onclick="closeBasket()">X</a>
-  <div class="mt-5">
+  <div class="mt-3">
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-3 fw-bold">Name</div>
+      <div class="col fw-bold">Price</div>
+    </div>
+    
+    
     @foreach(var item in Model.BasketItems){
     <div class="row align-items-center">
-      <img class="col-3" src="@item.Product?.PictureUri" />
-      <i class="col-4 overflow-auto">@item.Product?.Name</i>
+      <img class="col-2" src="@item.Product?.PictureUri" />
+      <i class="col-3 overflow-auto">@item.Product?.Name</i>
+      <i class="col">@item.Price</i>
       <input class="col" id="@item.ProductId" min="0" type="number" value="@item.Qt" title="Quantity" />
       <a  href="#" class="col fa fa-shopping-basket" title="Update" onclick="setBasketItem(@item.ProductId,true)"></a>
       <a  href="#" class="col fa fa-remove" title="Remove" onclick="removeBasketItem(@item.ProductId)"></a>
@@ -20,7 +28,12 @@
     </div>
       
     }
-
+    <div class="bg-info">Total Price @Model.TotalPrice</div>
+    
+    <form  method="post">
+    <input type="submit" class="btn-sm mt-2" value="Remove Basket" asp-page-handler="removebasket" ></input>
+    </form>
+    <a asp-page="CheckOut"  class="btn-primary shadow float-end ">CheckOut</a>
   </div>
 
 </div>

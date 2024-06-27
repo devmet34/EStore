@@ -11,6 +11,7 @@ namespace Estore.Core.Entities
   {
     public string BuyerId {  get; private set; }
     public DateTime BasketCreatedAt { get; private set; }
+    public decimal TotalPrice { get; private set; }
 
     public ICollection<BasketItem> BasketItems { get; private set; }=new List<BasketItem>();
 
@@ -32,21 +33,19 @@ namespace Estore.Core.Entities
       {
         if (basketItem.Qt == qt)
           throw new Exception("Same quantity already set");
-        basketItem.SetQt(qt);
+
+        TotalPrice += basketItem.Price * (qt - basketItem.Qt);
+        basketItem.SetQt(qt);        
         return;
       }
       
       basketItem = new BasketItem(Id, productId, qt, price);
+      TotalPrice += basketItem.Price * qt;
       BasketItems.Add(basketItem);
 
 
     }
 
-    
-    private void UpdateBasketItemQt(BasketItem basketItem,int qt)
-    {
-
-    }
 
     /*
     public void AddItem( int productId,int qt=1 )
@@ -68,19 +67,7 @@ namespace Estore.Core.Entities
     {
       return BasketItems.FirstOrDefault(bi => bi.ProductId == productId);
     }
-
-    public void IncrementQt(BasketItem basketItem)
-    {
-      //var basketItem = BasketItems.FirstOrDefault(bi => bi.ProductId == productId);
-      basketItem?.SetQt(basketItem.Qt+1);
-    }
-
-    public void DecrementQt(BasketItem basketItem)
-    {
-      if (basketItem.Qt==1)
-        BasketItems.Remove(basketItem);
-      basketItem?.SetQt(basketItem.Qt - 1);
-    }
+  
     public void UpdateItemQt(int productId, int qt)
     {
       
@@ -88,11 +75,12 @@ namespace Estore.Core.Entities
 
     }
 
-    public void RemoveItem(int productId)
+    public void RemoveBasketItem(int productId)
     {
       var basketItem=BasketItems.FirstOrDefault(bi => bi.ProductId == productId);
 
       BasketItems.Remove(basketItem ?? throw new Exception("Item to remove not found"));
+      TotalPrice -= basketItem.Price * basketItem.Qt;
     }
 
     public bool IsItemExist(int productId)
