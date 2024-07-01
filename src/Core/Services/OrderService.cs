@@ -33,6 +33,22 @@ public class OrderService
     return await _repo.Query().Where(o => o.BuyerId == buyerId).ToListAsync();
   }
 
+  public async Task CreateOrderAsync(Basket basket)
+  {
+    _logger.LogDebug("Creating order for user: "+basket.BuyerId);
+    try
+    {
+      var order = new Order(basket);
+      await _repo.AddAsync(order);
+    }
+    catch (Exception ex)
+    {
+      throw new Exception(ex.Message);
+    }
+    await _basketService.RemoveBasketAsync(basket!);
+
+  }
+
   public async Task CreateOrderAsync(string buyerId)
   {
     var basket= await _basketService.GetBasketAsync(buyerId);
@@ -49,6 +65,8 @@ public class OrderService
     await _basketService.RemoveBasketAsync(basket!);
 
   }
+
+
 
   
 

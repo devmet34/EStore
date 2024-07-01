@@ -4,6 +4,7 @@ using Estore.Core.Entities;
 using Estore.Core.Extensions;
 using Estore.Core.Services;
 using EStore.Infra.EF.Identity;
+using EStore.Web.Config;
 using EStore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -65,20 +66,43 @@ namespace EStore.Web.Controllers
         basket = await GetOrCreateBasketAsync();
 
       HomeVM? homeVM=null;
-      var cachedProducts = await _redisService.GetCachedDataAsync<IEnumerable<ProductVM>>(cacheProducts);
-      if (cachedProducts != null)
+      IEnumerable<ProductVM>? cachedProducts=null;
+      if (RedisHealthCheckService.isRedisConnected)
       {
-        _logger.LogDebug("Fetched products from cache");
-        homeVM = new HomeVM() { Basket = basket, Products = cachedProducts };
-        return View(homeVM);
-        
+        try
+        {
+          cachedProducts = await _redisService.GetCachedDataAsync<IEnumerable<ProductVM>>(cacheProducts);
+        }
+        catch (Exception ex)
+        {
+          _logger.LogError(ex.ToString());
+        }
       }
+
+      if (cachedProducts != null)
+        {
+          _logger.LogDebug("Fetched products from cache");
+          homeVM = new HomeVM() { Basket = basket, Products = cachedProducts };
+          return View(homeVM);
+
+        }            
+
       IEnumerable<ProductVM>? productVM = null;
       var products = await _productService.GetProductsAsync(sortBy);
       if (products != null)
       {
         productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
-        await _redisService.SetCacheDataAsync<IEnumerable<ProductVM>>(cacheProducts, productVM, TimeSpan.FromMinutes(30));
+        if (RedisHealthCheckService.isRedisConnected)
+        {
+          try
+          {
+            await _redisService.SetCacheDataAsync<IEnumerable<ProductVM>>(cacheProducts, productVM, TimeSpan.FromMinutes(30));
+          }
+          catch (Exception ex)
+          {
+            _logger?.LogError(ex.ToString());
+          }
+        }
       }        
 
       homeVM = new HomeVM() { Basket = basket, Products = productVM };

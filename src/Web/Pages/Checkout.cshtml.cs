@@ -10,25 +10,40 @@ namespace EStore.Web.Pages
 {
   public class CheckoutModel : PageModel
   {
-    private readonly BasketService basketService;
-    private readonly OrderService orderService;
+    private readonly BasketService _basketService;
+    private readonly OrderService _orderService;
    
 
-  
-    public IEnumerable< BasketItem> BasketItems { get; set; }
+    public Basket Basket { get; set; }
+    //public IEnumerable< BasketItem> BasketItems { get; set; }
     public CheckoutModel(BasketService basketService, OrderService orderService) {
-      this.basketService= basketService;
-      this.orderService= orderService;
-     
+      this._basketService= basketService;
+      this._orderService= orderService;
+      
     }
     public async Task OnGet()
     {
       var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
-      var basket=await basketService.GetBasketAsync(buyerId);
+      var basket=await _basketService.GetBasketAsync(buyerId,true,true);
       basket!.BasketItems.GuardNull();
-      BasketItems=basket.BasketItems;
+      //BasketItems=basket.BasketItems;
+      Basket = basket;
      
 
+    }
+
+    public async Task<IActionResult> OnPostMakeOrder()
+    {
+      
+      var buyerId = GetBuyerId();
+      
+      await _orderService.CreateOrderAsync(buyerId);
+      return RedirectToAction("index", "home");
+    }
+
+    private string GetBuyerId()
+    {
+      return Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
     }
   }
 }

@@ -1,19 +1,33 @@
 ﻿@page
 @model EStore.Web.Pages.CheckoutModel
-@{
 
-}
 
 <h2>Checkout</h2>
 
-<div id="orderContainer" class="container-fluid">
+<div id="orderContainer" class="container-fluid mt-5">
 
-  @foreach (var item in @Model.BasketItems)
+  <div class="row fw-bold mb-2">
+    <div class="col-1">Img</div>
+    <div class="col">Name</div>
+    <div class="col">Qt</div>
+    <div class="col">Price</div>
+  </div>
+
+  
+
+  @foreach (var item in @Model.Basket.BasketItems)
   {
-
-    <label asp-for=@item.> @item.ProductId</label>
-
-    <div class="row">@item.ProductId</div>
+    <div class="row mt-1">
+    <img class="col-1" src="@item.Product?.PictureUri" />
+    <div class="col">@item.Product?.Name</div>
+    <div class="col">@item.Qt</div>
+    <div class="col">@item.Price</div>
+    </div>    
+    
   }
+  <div class="text-info mt-3">Total: @Model.Basket.TotalPrice</div>
+  <form method="post">
+    <input type="submit" asp-page-handler="MakeOrder" value="Make Order"  />
+  </form>
 
 </div>

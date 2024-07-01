@@ -20,6 +20,7 @@ public class Order:BaseEntity
     basket.BasketItems.GuardNull();
     BuyerId =basket.BuyerId;
     CreatedAt=DateTime.Now;
+    TotalPrice = basket.TotalPrice;
     SetOrderItems (basket);
 
   }
@@ -32,7 +33,7 @@ public class Order:BaseEntity
       OrderItems.Add(
         new OrderItem(Id,item.ProductId,item.Qt,totalPrice)
         );
-      TotalPrice += totalPrice;
+      
 
     
     }

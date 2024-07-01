@@ -14,6 +14,7 @@ using EStore.Web.Config;
 using AutoMapper;
 using EStore.Infra.EF.Helpers;
 using NuGet.Protocol;
+using Estore.Core.Services;
 
 
 int applicationCookieTimeoutHours = 2;
@@ -56,6 +57,7 @@ builder.Services.AddRazorPages( options =>
 });
 
 ConfigRedis.AddRedis(builder);
+builder.Services.AddHostedService<RedisHealthCheckService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddCoreServices();
 
@@ -96,7 +98,8 @@ using (var scope = app.Services.CreateScope())
   await UpdateProducts.Update(estoreCont);
 }
 */
-  
+
+
   async void SeedIdentityDB(IServiceProvider scopedProvider)
 {
   var userManager = scopedProvider.GetRequiredService<UserManager<AppUser>>();
