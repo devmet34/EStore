@@ -8,5 +8,11 @@ public class BasketVM
   public decimal TotalPrice { get; set; } = 0;
   //public int Count { get; set; }
 
+  public BasketVM(IEnumerable<BasketItem>? basketItems,decimal totalPrice)
+  {
+    BasketItems = basketItems;
+    TotalPrice = totalPrice;
+  }
+
   
 }
