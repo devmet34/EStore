@@ -30,7 +30,8 @@ public class OrderService
 
   public async Task<IEnumerable<Order?>> GetAllOrders(string buyerId)
   {
-    return await _repo.Query().Where(o => o.BuyerId == buyerId).ToListAsync();
+    return await _repo.Query().Where(o => o.BuyerId == buyerId)
+      .Include(o=>o.OrderItems).ThenInclude(x=>x.Product).ToListAsync();
   }
 
   public async Task CreateOrderAsync(Basket basket)

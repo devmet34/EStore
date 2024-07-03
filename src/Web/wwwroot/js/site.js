@@ -256,6 +256,9 @@ function refreshBasket(html) {
   $('#basket').html(html);
 }
 
+function getOrderDetails(el) {
+  el.nextElementSibling.hidden = ! el.nextElementSibling.hidden
+}
 
 function test() {
   const forgeryToken = getForgeryToken();

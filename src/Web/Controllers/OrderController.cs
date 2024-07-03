@@ -9,7 +9,7 @@ namespace EStore.Web.Controllers;
 
 [Authorize]
 
-public class OrderController:Controller
+public class OrderController : Controller
 {
 
 
@@ -22,11 +22,11 @@ public class OrderController:Controller
     basket.GuardNull();
     basket?.BasketItems.GuardNull();
 
-    var basketVM = new BasketVM(basket!.BasketItems,basket.TotalPrice);
+    var basketVM = new BasketVM(basket!.BasketItems, basket.TotalPrice);
 
-    return View("checkout",basketVM);
-    
-    
+    return View("checkout", basketVM);
+
+
   }
 
 
@@ -42,6 +42,17 @@ public class OrderController:Controller
   }
 
 
+  [HttpGet]
+  [Route("OrderController/Orders")]
+  [Route("Orders")]
+  public async Task<IActionResult> Orders([FromServices] OrderService orderService)
+  {
+    var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
+    var orders=await orderService.GetAllOrders(buyerId);
+    
+    return View(orders);
 
 
-}//eo class
+  }//eo class
+
+}

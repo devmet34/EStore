@@ -93,6 +93,12 @@ show {
   gap: 2%;
 }
 
+.orders:hover{
+  cursor:pointer;
+  opacity:50%;
+
+}
+
 .footer{
   position:absolute;
   bottom:2px;
