@@ -15,6 +15,10 @@ using AutoMapper;
 using EStore.Infra.EF.Helpers;
 using NuGet.Protocol;
 using Estore.Core.Services;
+using MC.Logger;
+using Microsoft.VisualBasic;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Drawing.Text;
 
 
 int applicationCookieTimeoutHours = 2;
@@ -24,8 +28,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 //todo console log as well? +
 Helper.SetSeriLog();
-Log.Information("App starting..");
+//Log.Information("App starting..");
 builder.Logging.AddSerilog();
+
+
+
+builder.Logging.AddMCLogger(builder.Configuration);
+//builder.Services.Configure<MCLoggerOptions>(builder.Configuration.GetSection("MCLoggerOptions"));
+/*builder.Logging.AddMCLogger(options => { 
+  options.Delimeter = "||||";options.LogLevel = LogLevel.Information; });
+*/
+
+
+//Helper.SetMCLogger();
+
 
 if (builder.Environment.IsDevelopment())
 {
@@ -38,7 +54,7 @@ if (builder.Environment.IsDevelopment())
 
   //builder.Services.AddDbContext<Cont>(options => options.UseSqlServer(connectionString));
   //builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppIdentityDbContext>();
-  
+
 }
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
@@ -51,19 +67,22 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages( options =>
+builder.Services.AddRazorPages(options =>
 {
-  
+
 });
 
+
 ConfigRedis.AddRedis(builder);
+
+
 builder.Services.AddHostedService<RedisHealthCheckService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddCoreServices();
 
 
 var app = builder.Build();
-Log.Information("App created...");
+app.Logger.LogInformation("App created...");
 
 /*
 app.MapGet("/", () =>
@@ -74,16 +93,25 @@ Results.File("images/1.png",contentType:"image/png")
 
 // Configure the HTTP request pipeline.
 
+//mc test
+app.Use( (context,next)=>
+{    
+  app.Logger.LogInformation("in first use");
+  int b = 1;
+  return next();
+
+});
+
 if (app.Environment.IsDevelopment())
 {
   app.UseDeveloperExceptionPage();
-  
+
 }
 
 
 else
 {
-  
+
   app.UseExceptionHandler("/Home/Error");
   //The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
   app.UseHsts();
@@ -100,7 +128,7 @@ using (var scope = app.Services.CreateScope())
 */
 
 
-  async void SeedIdentityDB(IServiceProvider scopedProvider)
+async void SeedIdentityDB(IServiceProvider scopedProvider)
 {
   var userManager = scopedProvider.GetRequiredService<UserManager<AppUser>>();
   var roleManager = scopedProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -112,23 +140,24 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 
-app.Use( (context,next) => {
+app.Use((context, next) =>
+{
   //if (context.Request.QueryString.ToString().Contains("Identit"))
-    //throw new Exception("Custom error");
-
-
+  //throw new Exception("Custom error");
+  var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+  logger.LogInformation("this is test! request path: " + context.Request.Path);
   return next();
   int t = 1;
 
 });
 
 //mc; map for listing all registered routes
-app.MapGet("routes",(IEnumerable<EndpointDataSource> epSources) =>
+app.MapGet("routes", (IEnumerable<EndpointDataSource> epSources) =>
 {
-  var res= string.Join("\n", epSources.SelectMany(ep => ep.Endpoints));
+  var res = string.Join("\n", epSources.SelectMany(ep => ep.Endpoints));
   return res;
-  
-} );
+
+});
 
 
 app.UseRouting();
@@ -144,4 +173,3 @@ app.MapRazorPages();
 
 app.Run();
 
- 

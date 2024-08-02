@@ -5,7 +5,7 @@
 
 <div class="id" hidden>@Model.Id</div>
 
-<div class="card text-center product-card-item">
+<div class="card text-center ">
   
   <img class="card-img h-75" src="@Model.PictureUri" />
   <div class="card-title">@Model.Name</div>
@@ -13,7 +13,7 @@
     <span>@Model.Price$ </span>
     <div class="row-cols-3"> 
      
-    <input id="@Model.Id-qt" min="0" type="number" title="Quantity" />
+    <input id="@Model.Id-qt" min="1" value="1" type="number" title="Quantity" />
     <a href="#" class="fa fa-cart-plus" title="Add to basket" onclick="setBasketItem(@Model.Id)"></a>
     
     </div>
