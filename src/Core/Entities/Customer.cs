@@ -24,7 +24,7 @@ public class Customer:BaseEntity
 
   public void UpdateCredit(decimal credit) 
   {
-    credit.GuardNegative();
-    Credit = credit;
+    Credit= credit.GuardNegative();
+    
   }
 }

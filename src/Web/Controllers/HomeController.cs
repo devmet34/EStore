@@ -67,7 +67,7 @@ namespace EStore.Web.Controllers
 
       HomeVM? homeVM=null;
       IEnumerable<ProductVM>? cachedProducts=null;
-      if (RedisHealthCheckService.isRedisConnected)
+      if (RedisHealthCheckService.IsRedisConnected)
       {
         try
         {
@@ -92,7 +92,7 @@ namespace EStore.Web.Controllers
       if (products != null)
       {
         productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
-        if (RedisHealthCheckService.isRedisConnected)
+        if (RedisHealthCheckService.IsRedisConnected)
         {
           try
           {

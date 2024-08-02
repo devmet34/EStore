@@ -11,7 +11,7 @@ public class RedisHealthCheckService : BackgroundService
   private string? connectionString = null;
   private readonly ILogger<RedisHealthCheckService> logger;
   private readonly IConfiguration configuration;
-  public static bool isRedisConnected = false;
+  private static bool isRedisConnected = false;
 
 
   public RedisHealthCheckService(ILogger<RedisHealthCheckService> logger, IConfiguration configuration)
@@ -19,6 +19,8 @@ public class RedisHealthCheckService : BackgroundService
     this.logger = logger;
     this.configuration = configuration;
   }
+
+  public static bool IsRedisConnected { get { return isRedisConnected; } }
   protected override async Task ExecuteAsync(CancellationToken stoppingToken)
   {
     IConnectionMultiplexer? redis = ConnectToRedis();

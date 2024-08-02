@@ -27,18 +27,15 @@ public class Product : BaseEntity
     Description = description;
     CategoryId = categoryId;
     BrandId = brandId;
-    price.GuardNegative();
-    Price = price;
-    qt.GuardNegative();
-    Qt = qt;
+    Price= price.GuardNegative();   
+    Qt=qt.GuardNegative();    
     PictureUri = pictureUri;
 
   }
 
   public void UpdatePrice(decimal price)
   {
-    price.GuardZeroOrNegative();
-    Price = price;    
+    Price= price.GuardZeroOrNegative();     
   }
 
   /// <summary>

@@ -18,8 +18,7 @@ namespace Estore.Core.Entities
     
     public Basket(string buyerId )
     {
-      buyerId.GuardNullOrEmpty();
-      BuyerId = buyerId;
+      BuyerId= buyerId.GuardNullOrEmpty();      
       BasketCreatedAt = DateTime.Now;
       
     }

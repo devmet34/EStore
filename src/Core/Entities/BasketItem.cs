@@ -26,8 +26,8 @@ public class BasketItem:BaseEntity
 
   public void SetQt(int qt)
   {
-    qt.GuardNegative();
-    Qt= qt;
+    Qt=qt.GuardNegative();
+   
   }
 
 }

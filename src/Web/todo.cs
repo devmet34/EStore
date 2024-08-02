@@ -6,4 +6,5 @@
 //success/error msg +
 //global error handling +
 //todo; redis cache +
+//todo; confirmation when removing basket
 //todo; orders

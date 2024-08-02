@@ -16,32 +16,32 @@ public static class GuardExtensions
       throw new ArgumentNullException(paramName, $"{paramName} cant be null");
   }
   
-  public static void GuardZero(this int value, [CallerArgumentExpression("value")] string? paramName = null)
+  public static int GuardZero(this int value, [CallerArgumentExpression("value")] string? paramName = null)
   {
     if (value == 0) 
-      throw new ArgumentException($"{paramName} cant be zero");    
-    
+      throw new ArgumentException($"{paramName} cant be zero");
+    return value;
   }
 
-  public static void GuardZeroOrNegative(this decimal value, [CallerArgumentExpression("value")] string? paramName = null)
+  public static decimal GuardZeroOrNegative(this decimal value, [CallerArgumentExpression("value")] string? paramName = null)
   {
     if (value <= 0)
       throw new ArgumentException($"{paramName} cant be zero or negative");
-
+    return value;
   }
 
-  public static void GuardNegative(this decimal value, [CallerArgumentExpression("value")] string? paramName = null)
+  public static decimal GuardNegative(this decimal value, [CallerArgumentExpression("value")] string? paramName = null)
   {
     if (value < 0)
       throw new ArgumentException($"{paramName} cant be negative");
-
+    return value;
   }
 
-  public static void GuardNegative(this int value, [CallerArgumentExpression("value")] string? paramName = null)
+  public static int GuardNegative(this int value, [CallerArgumentExpression("value")] string? paramName = null)
   {
     if (value < 0)
       throw new ArgumentException($"{paramName} cant be negative");
-
+    return value;
   }
 
   public static string GuardNullOrEmpty( this string? value, [CallerArgumentExpression("value")] string? paramName=null)

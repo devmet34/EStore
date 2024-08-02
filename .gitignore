@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /src/Web/Log.txt
 /src/Web/wwwroot/lib/bootstrap
+/src/Web/MCLogger.txt
