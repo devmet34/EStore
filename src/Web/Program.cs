@@ -19,21 +19,24 @@ using MC.Logger;
 using Microsoft.VisualBasic;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Drawing.Text;
+using EStore.Web.Middlewares.Custom;
+using Web;
+using static Web.Constants;
+using Estore.Core.Entities;
 
 
-int applicationCookieTimeoutHours = 2;
 // Add services to the container.
 
 var builder = WebApplication.CreateBuilder(args);
 
-//todo console log as well? +
-Helper.SetSeriLog();
-//Log.Information("App starting..");
-builder.Logging.AddSerilog();
+
+//Helper.SetSeriLog();
+//builder.Logging.AddSerilog();
 
 
 
-builder.Logging.AddMCLogger(builder.Configuration);
+builder.Logging.AddMCLogger(builder.Configuration)
+ .AddFileSink();
 //builder.Services.Configure<MCLoggerOptions>(builder.Configuration.GetSection("MCLoggerOptions"));
 /*builder.Logging.AddMCLogger(options => { 
   options.Delimeter = "||||";options.LogLevel = LogLevel.Information; });
@@ -43,19 +46,18 @@ builder.Logging.AddMCLogger(builder.Configuration);
 //Helper.SetMCLogger();
 
 
-if (builder.Environment.IsDevelopment())
-{
-  ConfigDb.AddDbContexts(builder.Configuration, builder.Services);
-  //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-  //var connectionString = builder.Configuration.GetConnectionString("EStore") ?? throw new InvalidOperationException("Connection string 'EStore' not found.");
-  //var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
 
-  //var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
+ConfigDb.AddDbContexts(builder.Configuration, builder.Services);
+//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+//var connectionString = builder.Configuration.GetConnectionString("EStore") ?? throw new InvalidOperationException("Connection string 'EStore' not found.");
+//var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
 
-  //builder.Services.AddDbContext<Cont>(options => options.UseSqlServer(connectionString));
-  //builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppIdentityDbContext>();
+//var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
 
-}
+//builder.Services.AddDbContext<Cont>(options => options.UseSqlServer(connectionString));
+//builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppIdentityDbContext>();
+
+
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
   .AddDefaultUI()
@@ -76,13 +78,13 @@ builder.Services.AddRazorPages(options =>
 ConfigRedis.AddRedis(builder);
 
 
-builder.Services.AddHostedService<RedisHealthCheckService>();
+//builder.Services.AddHostedService<RedisHealthCheckService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddCoreServices();
 
 
 var app = builder.Build();
-app.Logger.LogInformation("App created...");
+app?.Logger.LogInformation("App created...");
 
 /*
 app.MapGet("/", () =>
@@ -93,14 +95,6 @@ Results.File("images/1.png",contentType:"image/png")
 
 // Configure the HTTP request pipeline.
 
-//mc test
-app.Use( (context,next)=>
-{    
-  app.Logger.LogInformation("in first use");
-  int b = 1;
-  return next();
-
-});
 
 if (app.Environment.IsDevelopment())
 {
@@ -117,6 +111,12 @@ else
   app.UseHsts();
 }
 
+
+
+//await Helper.UpdateProd(app);
+
+
+
 //Helper.SeedEstoreDb(app);
 /*
 using (var scope = app.Services.CreateScope())
@@ -125,7 +125,6 @@ using (var scope = app.Services.CreateScope())
   var estoreCont = scopedProvider.GetRequiredService<EStoreDbContext>();
   await UpdateProducts.Update(estoreCont);
 }
-*/
 
 
 async void SeedIdentityDB(IServiceProvider scopedProvider)
@@ -136,19 +135,28 @@ async void SeedIdentityDB(IServiceProvider scopedProvider)
   await EstoreIdentityDbContextSeed.SeedAsync(identityContext, userManager, roleManager);
 
 }
+*/
+
+
+/*
+app.Use(async (context, next) => {
+  Helper.LogCrit("app.use before next"); 
+  await next();
+  var logger = context.RequestServices.GetRequiredService<ILogger<object>>();
+  Helper.LogCrit("app.use after next");
+
+});
+*/
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-
-app.Use((context, next) =>
+app.MapGet("filter", async context =>
 {
-  //if (context.Request.QueryString.ToString().Contains("Identit"))
-  //throw new Exception("Custom error");
-  var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-  logger.LogInformation("this is test! request path: " + context.Request.Path);
-  return next();
-  int t = 1;
-
+  using var scope=context.RequestServices.CreateScope();
+  var prodService= scope.ServiceProvider.GetRequiredService<ProductService>();
+  var prods = await prodService.FilterProductsAsync();
+  var prods2=await prodService.FilterProductsAsync(true);
 });
 
 //mc; map for listing all registered routes
@@ -162,7 +170,9 @@ app.MapGet("routes", (IEnumerable<EndpointDataSource> epSources) =>
 
 app.UseRouting();
 
+
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",

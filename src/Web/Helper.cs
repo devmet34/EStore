@@ -1,4 +1,5 @@
 ﻿using EStore.Infra.EF;
+using EStore.Infra.EF.Helpers;
 using NuGet.Protocol;
 using Serilog;
 using System.Runtime.CompilerServices;
@@ -6,7 +7,7 @@ using System.Security.Claims;
 
 namespace EStore.Web
 {
-  public sealed class Helper
+    public sealed class Helper
   {
     public const string TEST_NAME = "TEST_NAME";
 
@@ -27,6 +28,7 @@ namespace EStore.Web
       //.WriteTo.Console(outputTemplate: "[{Timestamp:yyyy-dd-MM HH:mm:ss:fff}\t[{Level:u3}]\t{Message:lj}\t{NewLine}{Exception}")
       .WriteTo.File("Log.txt",
       outputTemplate: "[{Timestamp:yyyy-dd-MM HH:mm:ss:fff}\t[{Level:u3}]\t{Message:lj}\t{NewLine}{Exception}")
+      
       .CreateLogger();
     }
 
@@ -56,6 +58,13 @@ namespace EStore.Web
 
     }
 
+    internal static async Task UpdateProd(WebApplication app)
+    {
+      using var scope = app.Services.CreateScope();
+      var dbContext = scope.ServiceProvider.GetRequiredService<EStoreDbContext>();
+      await UpdateProducts.UpdateProductsBatch(dbContext);
+    }
+
     public static IServiceScope GetServiceScope(WebApplication app)
     {
       if (app == null)
@@ -70,6 +79,14 @@ namespace EStore.Web
     public static void LogD()
     {
       
+    }
+
+    public static void LogCrit(string str)
+    {
+      Console.BackgroundColor = ConsoleColor.Red;
+      var date=DateTime.Now;
+      Console.WriteLine(date+"**********"+str);
+
     }
 
 

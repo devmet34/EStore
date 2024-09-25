@@ -27,6 +27,7 @@ public class ProductService
 
   public async Task<IEnumerable<Product>?> GetProductsAsync( string sortBy="name")
   {
+    
     query = _repo.Query();
     sortBy = sortBy.ToLower();
 
@@ -34,8 +35,8 @@ public class ProductService
     SetSort(sortBy);
 
     query =query.AsNoTracking().Take(pageSize);
-
-    
+    var q=query.Include(p=>p.Category).AsNoTracking().Take(pageSize);
+    var l = await q.ToListAsync();      
           
 
     //Helper.LogObjectHash(query);
@@ -95,6 +96,15 @@ public class ProductService
     return await _repo.GetByIdAsync(productId);
   }
 
+  public async Task<IEnumerable<Product>?> FilterProductsAsync(bool sub=false)
+  {
+    if (sub)
+      return await _repo.Query().AsNoTracking().Include(p => p.Category).Where(p => p.Category!.MainCat.Contains( "basketball shoes")).ToListAsync();
+    else
+      return await _repo.Query().AsNoTracking().Include(p=>p.Category).Where(p => p.Category!.MainCat == "shoes").ToListAsync();
+    
+  }
+
   private void SetSort(string sortBy)
   {
     switch (sortBy)
@@ -109,7 +119,7 @@ public class ProductService
         query = query.OrderByDescending(p => p.Price).ThenBy(p => p.Name);
         break;
       case "category":
-        query.OrderBy(p => p.Category).ThenBy(p => p.Name);
+        query=query.OrderBy(p => p.Category).ThenBy(p => p.Name);
         break;
       default:
         query = query.OrderBy(p => p.Id);
@@ -117,4 +127,12 @@ public class ProductService
     }
     
   }
-}
+
+  public async Task UpdateProductsBatch()
+  {
+     
+  }
+
+}//eo class
+
+

@@ -13,7 +13,7 @@ namespace EStore.Infra.EF.Migrations
             migrationBuilder.AddColumn<decimal>(
                 name: "TotalPrice",
                 table: "Basket",
-                type: "decimal(18,2)",
+                type: "decimal(18,2)",                
                 nullable: false,
                 defaultValue: 0m);
         }

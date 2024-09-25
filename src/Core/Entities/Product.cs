@@ -47,5 +47,10 @@ public class Product : BaseEntity
     Qt += qt;
   }
 
+  public void UpdateName(string name) {
+    name.GuardNullOrEmpty();
+    Name = name;
+  }
+
 }//eq cls
 

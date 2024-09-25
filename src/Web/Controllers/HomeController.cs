@@ -7,9 +7,11 @@ using EStore.Infra.EF.Identity;
 using EStore.Web.Config;
 using EStore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using NuGet.Protocol;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -54,6 +56,16 @@ namespace EStore.Web.Controllers
       return _signInManager.IsSignedIn(HttpContext.User);
     }
 
+    [HttpGet]
+    [Route("err")]
+    [AllowAnonymous]
+    public async Task<IActionResult> TestError()
+    {
+      _logger.LogDebug("in error method");
+      int[] ar=Array.Empty<int>();
+      ar[2] = 23;
+      return Ok(ar);
+    }
 
     public async Task<IActionResult> Index( int page = 1, string sortBy = DEFAULT_SORT)
     {
@@ -225,6 +237,9 @@ namespace EStore.Web.Controllers
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
+      var exceptionHandlerPathFeature =
+           HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+      _logger.LogCritical("#################:"+exceptionHandlerPathFeature.Error.Message);
       return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 

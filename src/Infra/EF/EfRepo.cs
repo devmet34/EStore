@@ -1,5 +1,6 @@
 ﻿using Estore.Core.Entities;
 using Estore.Core.Interfaces;
+using EStore.Infra.EF.Identity;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -22,6 +23,8 @@ public class EfRepo<T>:IRepo<T> where T : class
     _dbContext = dbContext;
 
   }
+
+  public EStoreDbContext DbContext => _dbContext;
 
   public IQueryable<T> EvaluateSpec(IQueryable<T> query, ISpec<T> spec)
   {

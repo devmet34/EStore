@@ -1,13 +1,14 @@
 ﻿
 using EStore.Web.Config;
 using StackExchange.Redis;
+using System.Threading.Tasks;
 
 namespace EStore.Web;
 
 public class RedisHealthCheckService : BackgroundService
 {
-  private readonly int connectTimeout = 2000;
-  private readonly int healthCheckTimeout = 20000;
+  private readonly int connectTimeoutMs = 2000; 
+  private readonly int healthCheckTimeoutMs = 60000;
   private string? connectionString = null;
   private readonly ILogger<RedisHealthCheckService> logger;
   private readonly IConfiguration configuration;
@@ -22,37 +23,34 @@ public class RedisHealthCheckService : BackgroundService
 
   public static bool IsRedisConnected { get { return isRedisConnected; } }
   protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-  {
-    IConnectionMultiplexer? redis = ConnectToRedis();
-
-    if (redis != null)
-    {
+  {         
       while (!stoppingToken.IsCancellationRequested)
       {
-
-        if (!redis.IsConnected)
+      IConnectionMultiplexer? redis = await ConnectToRedis();
+      if (redis == null || !redis.IsConnected)
         {
           isRedisConnected = false;
           logger.LogCritical("Redis not connected");
         }
-        else { isRedisConnected = true; }
+      else { isRedisConnected = true; }
 
-       await Task.Delay(healthCheckTimeout, stoppingToken);
+       await Task.Delay(healthCheckTimeoutMs, stoppingToken);
+        
       }
-    }
+    //}
 
   }
 
 
-  IConnectionMultiplexer? ConnectToRedis()
+  async Task<IConnectionMultiplexer?> ConnectToRedis()
   {
     var connectionString = configuration["Redis:ConnectionString"] ?? throw new InvalidOperationException("Connection string 'redis' not found.");
     try
     {
-      return ConnectionMultiplexer.Connect(connectionString, options =>
+      return await ConnectionMultiplexer.ConnectAsync(connectionString, options =>
       {
-        options.SyncTimeout = 2000;
-        options.ConnectTimeout = 2000;
+        options.SyncTimeout = connectTimeoutMs;
+        options.ConnectTimeout = connectTimeoutMs;
       });
       //redis = services.GetRequiredService<IConnectionMultiplexer>();
     }
