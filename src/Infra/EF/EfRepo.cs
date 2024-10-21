@@ -97,6 +97,11 @@ public class EfRepo<T>:IRepo<T> where T : class
     throw new NotImplementedException();
   }
 
+  public async Task<IEnumerable<T>?> GetAllNoTrackingAsync(CancellationToken cancellationToken = default)
+  {
+    return await _dbContext.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
+
+  }
   public async Task<IEnumerable<T>?> GetAllAsync(CancellationToken cancellationToken = default)
   {
     return await _dbContext.Set<T>().ToListAsync(cancellationToken);

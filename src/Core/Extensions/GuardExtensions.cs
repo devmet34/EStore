@@ -10,6 +10,13 @@ using System.Threading.Tasks;
 namespace Estore.Core.Extensions;
 public static class GuardExtensions
 {
+  /// <summary>
+  /// Throw ArgumentNullException if given object is null.
+  /// </summary>
+  /// <typeparam name="T"></typeparam>
+  /// <param name="value"></param>
+  /// <param name="paramName"></param>
+  /// <exception cref="ArgumentNullException"></exception>
   public static void GuardNull<T>(this T? value, [CallerArgumentExpression("value")] string? paramName = null)
   {
     if (value == null)

@@ -16,6 +16,7 @@ using EStore.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging.EventLog;
@@ -53,7 +54,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 ConfigRedis.AddRedis(builder);
 builder.Services.AddCoreServices();
 
-//custom extension
+/* test basic auth
+builder.Services.AddAuthentication(opt =>opt.DefaultAuthenticateScheme=AuthenticationSchemes.Basic);
+*/
+
+//custom extension for adding authentications like jwt.
 builder.Services.AddAuthentications(builder.Configuration);
 
 builder.Services.AddControllers();

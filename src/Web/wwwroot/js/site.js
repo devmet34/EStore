@@ -1,20 +1,21 @@
-﻿
+﻿//todo closure for protecting js from global
 
 
 function log(msg) {
-  console.log(msg);
+
+  console.log(new Date() +" "+msg);
 
 }
 
 function changeProductsHtml(resp) {
 
   document.getElementById("products").innerHTML = resp;
-  log("changeProductsHtml");
+  
 }
 
 const getForgeryToken = () => {
   try {
-    const forgeryToken = document.getElementsByName('__RequestVerificationToken')[0].value;
+    const forgeryToken = document.querySelector('[name=__RequestVerificationToken]').value;
     return forgeryToken
   }
   catch (ex) {
@@ -22,9 +23,9 @@ const getForgeryToken = () => {
   }
 }
 
-function findProducts() {
+function findProducts() { 
   const uri = "findproducts";
-  const find = document.getElementById("find").value;
+  const find = document.querySelector("#find").value;
   $.ajax(uri, {
     data: { productName: find }
   }).done(resp => {
@@ -48,6 +49,80 @@ function sortProductsBy() {
   //document.getElementById("filterForm").submit();
 }
 
+$("#formFilterProds").submit( function (e) {  
+  e.preventDefault();
+  let formData = new FormData(this);
+  let formObj = Object.fromEntries(formData);
+  let formSeri = $(this).serialize();
+  const uri = "filterproducts";
+  const formJson = JSON.stringify(formObj);
+  let formArray = $(this).serializeArray();
+   
+  $.ajax(uri, {
+    method: "get",    
+    data: formObj
+    
+  }).done(r => {
+    changeProductsHtml(r);
+    productFilterFormObj = formObj;
+  })
+    .fail(r => {
+      log("failed " + r.status)
+    });
+  
+  var g = 1;
+  //return false;
+
+});
+
+
+var productFilterFormObj = {};
+
+$("#btnFilterGet").on("click", function (e) {
+  let catsContainer = document.querySelector("#catsContainer");
+  if (catsContainer.children.length > 0) { return; }
+  const uri = "filter/GetCats";
+  const getFilters= $.ajax(uri, {
+    method: "get"
+    
+  }).done(r => {
+    log("getfilters done")    
+    loadFilterCats(r);
+  }).fail(r => log("getfilters failed"));
+  /*
+  getFilters.done(log("getfilters done"));
+   getFilters.fail(log("getfilters failed"));
+  */
+
+
+});
+
+function loadFilterCats(obj) {
+  let catsContainer = document.querySelector("#catsContainer");  
+  for (var key in obj) {
+    catsContainer.innerHTML += `<h6 class='text-decoration-underline'>${key}</h6>`
+    catsContainer.innerHTML +=` &nbsp &nbsp   
+     ${key}  <input type='radio' name='mainCat' value='${key}' /> <br/>`;
+     
+    for (var index in obj[key]) {
+      //<label>${obj[key][val]}</label>
+      const val = obj[key][index];
+      catsContainer.innerHTML += `&nbsp &nbsp   
+     ${val} <input type='radio' name='subCat' value='${val}' /> <br/>`;
+    }
+  }
+  
+}
+
+
+/* bind to bs modal load event
+$('#modalFilter').on('shown.bs.modal',function() {
+  let catsContainer = document.querySelector("#catsContainer");
+  catsContainer.innerHTML +='<h5>asdasdasdsd</h5>'
+  var a = 1;
+});
+*/
+
 function goNextPage() {
   const pageNumber = parseInt($('#pageN').text()) + 1
   goToPage(pageNumber)
@@ -60,20 +135,24 @@ function goPrevPage() {
 function goToPage(pageNumber) {
   const sort = $('#sortby').val();
   const find = $('#find').val();
+  
   //const page = pageNumber //parseInt( $('#pageN').val())+ 1;
   const uri = "getproductsbypage";
- 
+  
 
   $.ajax(uri,
     {
-      data: { page: pageNumber, sortBy: sort, find:find  }
+      method: "get",
+      data: {
+        page: pageNumber, sortBy: sort, find: find, mainCat: productFilterFormObj['mainCat'], subCat: productFilterFormObj['subCat'], priceMin: productFilterFormObj['priceMin'], priceMax: productFilterFormObj['priceMax']  }
+      
     }
   ).done(resp => {
     changeProductsHtml(resp);
     changePageN(pageNumber);
     
   })
-    
+  
   
 }
 
@@ -84,6 +163,10 @@ function changePageN(pageNumber) {
     ActivatePrev();
   
   
+}
+
+function testJquery() {
+  $('#button1').val = "bej";
 }
 
 function ActivatePrev() {
@@ -311,5 +394,11 @@ function SubtractProduct(productId) {
 
 */
 
+/*
+convert form to json
+const formObj = Object.fromEntries(new FormData(e));
+const json = JSON.stringify(formObj);
 
+
+*/
 

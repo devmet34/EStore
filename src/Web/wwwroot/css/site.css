@@ -38,9 +38,11 @@ show {
 
 
 
-.top-basket-toggle{
-  float:right;
-  
+.top-basket-toggle {
+  float: right;
+  font-size: xx-large;
+  text-decoration:none;
+  color:green;
 }
 
 .top-basket-container{
@@ -65,6 +67,19 @@ show {
   gap: 3%;
   align-items: center;
   justify-content: center;
+}
+
+.find-form{
+  width:45%;
+  margin-left:auto;
+}
+
+.find{
+  width:75%;
+}
+
+.btn-filterget{
+  margin-left:auto;
 }
 
 .product-card-container {

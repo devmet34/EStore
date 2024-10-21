@@ -1,6 +1,7 @@
 ﻿using Estore.Core.Entities;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
+using Estore.Core.Models;
 using EStore.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,7 +17,7 @@ public class ProductService
 {
   private readonly IRepo<Product> _repo;
   private readonly ILogger<ProductService> _logger;
-  private readonly int pageSize = 20;
+  private readonly int pageSize = Constants.pageSize;
   private IQueryable<Product>? query;
 
   public ProductService(IRepo<Product> repo, ILogger<ProductService> logger)
@@ -51,12 +52,17 @@ public class ProductService
     
   }
 
-  public async Task<IEnumerable<Product>?> GetProductsOnPageAsync(int page, string sortBy, string? find = null)
+  public async Task<IEnumerable<Product>?> GetProductsOnPageAsync(int page, string sortBy, string? find = null,FilterModel? filterModel=null)
   {
     page.GuardZero();
     page.GuardNegative();
 
-    query = _repo.Query();
+    if (filterModel != null)
+      query=SetFilterQuery(filterModel);
+    else
+      query = _repo.Query();
+
+
     SetSort(sortBy);
 
 
@@ -96,13 +102,53 @@ public class ProductService
     return await _repo.GetByIdAsync(productId);
   }
 
-  public async Task<IEnumerable<Product>?> FilterProductsAsync(bool sub=false)
+  public async Task<IEnumerable<Product>?> FilterProductsAsync(FilterModel filterModel)
   {
-    if (sub)
-      return await _repo.Query().AsNoTracking().Include(p => p.Category).Where(p => p.Category!.MainCat.Contains( "basketball shoes")).ToListAsync();
-    else
-      return await _repo.Query().AsNoTracking().Include(p=>p.Category).Where(p => p.Category!.MainCat == "shoes").ToListAsync();
-    
+    query= SetFilterQuery(filterModel);
+    /*
+    int minPrice=filterModel.MinPrice;
+    int maxPrice=filterModel.MaxPrice;
+
+    if (minPrice > 0 || maxPrice > 0)
+    {
+      if (minPrice > 0 & maxPrice > 0)
+        query = query.Where(p => p.Price > minPrice & p.Price < maxPrice);
+      else if (minPrice > 0)
+        query = query.Where(p => p.Price > minPrice);
+      else if (maxPrice > 0)
+        query = query.Where(p => p.Price < maxPrice);
+    }
+
+    if (!string.IsNullOrEmpty(filterModel.MainCat))
+      query=query.Where(p => p.Category.MainCat == filterModel.MainCat);
+    else if(!string.IsNullOrEmpty(filterModel.SubCat))
+      query=query.Where(p => p.Category.SubCat == filterModel.SubCat);
+    */
+
+    return await query.Include(p=>p.Category).AsNoTracking().Take(pageSize).ToListAsync();
+
+  }
+
+  private IQueryable<Product> SetFilterQuery(FilterModel filterModel) {
+    query=_repo.Query();
+    int minPrice = filterModel.PriceMin;
+    int maxPrice = filterModel.PriceMax;
+
+    if (minPrice > 0 || maxPrice > 0)
+    {
+      if (minPrice > 0 & maxPrice > 0)
+        query = query.Where(p => p.Price >= minPrice & p.Price <= maxPrice);
+      else if (minPrice > 0)
+        query = query.Where(p => p.Price >= minPrice);
+      else if (maxPrice > 0)
+        query = query.Where(p => p.Price <= maxPrice);
+    }
+
+    if (!string.IsNullOrEmpty(filterModel.MainCat))
+      query = query.Where(p => p.Category.MainCat == filterModel.MainCat);
+    else if (!string.IsNullOrEmpty(filterModel.SubCat))
+      query = query.Where(p => p.Category.SubCat == filterModel.SubCat);
+    return query;
   }
 
   private void SetSort(string sortBy)

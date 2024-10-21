@@ -1,0 +1,36 @@
+﻿
+
+<div class="btn-filterget">
+  
+  <button id="btnFilterGet" class=" btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalFilter">Filters</button>
+  
+
+  <div id="modalFilter" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Filter Products</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formFilterProds">
+            <h5>Categories</h5>
+            
+            <div id="catsContainer" class="container ">
+              
+            </div>
+            
+            <h5>Price Range</h5>
+            <input type="number" name="priceMin" value="0" />
+            <input type="number" name="priceMax" value="0" />
+            <div class="row"></div>
+            <br/>
+            <button type="submit" class="btn btn-info">Filter</button>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

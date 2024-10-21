@@ -5,8 +5,13 @@
 //error page +
 //success/error msg +
 //global error handling +
-//todo; redis cache +
-//todo add more prod pics
-//todo advanced filter on left 
-//todo; confirmation when removing basket
-//todo; orders
+//todo redis cache +
+//todo add more prod pics +
+//todo advanced filter +
+//todo filter duplicating issue +
+//todo closure js
+//todo confirmation when removing basket
+//todo orders
+//todo ts errors
+//todo helper js
+//todo response compression

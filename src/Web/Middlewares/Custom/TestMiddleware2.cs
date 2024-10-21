@@ -13,9 +13,9 @@ public class TestMiddleware2
 
   public async Task Invoke(HttpContext context) 
   {
-    Helper.LogCrit("testmiddleware2 before next");
+    Helper.LogCritical("testmiddleware2 before next");
     await _next(context);
-    Helper.LogCrit("testmiddleware2 after next");
+    Helper.LogCritical("testmiddleware2 after next");
   }
 
 

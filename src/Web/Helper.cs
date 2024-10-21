@@ -81,7 +81,7 @@ namespace EStore.Web
       
     }
 
-    public static void LogCrit(string str)
+    public static void LogCritical(string str)
     {
       Console.BackgroundColor = ConsoleColor.Red;
       var date=DateTime.Now;

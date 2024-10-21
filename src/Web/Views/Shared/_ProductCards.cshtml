@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<EStore.Web.Models.ProductVM>
 @{
- 
+  var pageSize= Estore.Core.Constants.pageSize;
 }
 
 <div class="container">
@@ -19,7 +19,11 @@
    
     <a id="pageN" class="">1</a>
    
-    <a id="nextA" onclick="goNextPage()" href="#">Next</a>
+    <a id="nextA" @(Model.Count()<pageSize?"hidden":"") onclick="goNextPage()" href="#">Next</a>
   </div> 
   
 </div>
+
+ <!---- 
+   conditional tag attribute; @(Model.Count() < pageSize ? "hidden" : "")
+ >

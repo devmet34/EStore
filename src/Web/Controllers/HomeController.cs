@@ -2,6 +2,7 @@
 using AutoMapper;
 using Estore.Core.Entities;
 using Estore.Core.Extensions;
+using Estore.Core.Models;
 using Estore.Core.Services;
 using EStore.Infra.EF.Identity;
 using EStore.Web.Config;
@@ -11,15 +12,17 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 using NuGet.Protocol;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace EStore.Web.Controllers
 {
+  
   public class HomeController : Controller
   {
     private readonly ILogger<HomeController> _logger;
@@ -55,18 +58,7 @@ namespace EStore.Web.Controllers
     {
       return _signInManager.IsSignedIn(HttpContext.User);
     }
-
-    [HttpGet]
-    [Route("err")]
-    [AllowAnonymous]
-    public async Task<IActionResult> TestError()
-    {
-      _logger.LogDebug("in error method");
-      int[] ar=Array.Empty<int>();
-      ar[2] = 23;
-      return Ok(ar);
-    }
-
+    
     public async Task<IActionResult> Index( int page = 1, string sortBy = DEFAULT_SORT)
     {
       if (!ModelState.IsValid)
@@ -147,18 +139,17 @@ namespace EStore.Web.Controllers
     }
 
 
-
-
     [HttpGet]
     [Route("getproductsbypage")]
-    public async Task<IActionResult> GetProductsByPage( int page, string sortBy= DEFAULT_SORT, string? find = null)
-    {     
+    public async Task<IActionResult> GetProductsByPage( int page, string sortBy= DEFAULT_SORT,  string? find = null, FilterModel? filterModel=null)
+    {
       if (!ModelState.IsValid)
         throw new ArgumentException();
-      _logger.LogError("sort/find:" + sortBy + '/' + find);
-      var products= await _productService.GetProductsOnPageAsync(page, sortBy, find);
+
+      
+      var products= await _productService.GetProductsOnPageAsync(page, sortBy, find,filterModel);
       var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
-      if (productVM.Count()>1)
+      if (productVM.Count()>=1)
         return PartialView("_productcards", productVM);
       throw new Exception("No more products for page:"+page);
     }

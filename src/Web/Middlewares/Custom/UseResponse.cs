@@ -15,7 +15,7 @@ public static class UseResponse
       var originalBody = context.Response.Body;
       var memStream = new MemoryStream();
       context.Response.Body = memStream;
-      Helper.LogCrit("useresponse before next");
+      Helper.LogCritical("useresponse before next");
       throw new Exception("exception from useresponse");
       await next();
 
@@ -27,7 +27,7 @@ public static class UseResponse
       await memStream.CopyToAsync(originalBody);
 
       var logger=context.RequestServices.GetRequiredService<ILogger<object>>();
-      Helper.LogCrit("useresponse after next");
+      Helper.LogCritical("useresponse after next");
       //var resp=await new StreamReader(context.Response.Body).ReadToEndAsync();
 
        context.Response.Body=originalBody;

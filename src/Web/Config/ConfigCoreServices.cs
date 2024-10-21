@@ -12,6 +12,7 @@ public static class ConfigureCoreServices
     services.AddScoped<BasketService>();
     services.AddScoped<ProductService>();
     services.AddScoped<OrderService>();
+    services.AddScoped<FilterService>();
     services.AddScoped<RedisService>();
     return services;
 

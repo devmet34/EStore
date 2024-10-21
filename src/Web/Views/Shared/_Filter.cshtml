@@ -1,11 +1,12 @@
 ﻿
 
 <div class="container filter-container">
-
-  <input id="find" type="text" class="find" placeholder="Search string"  />
-  <button onclick="findProducts()" >Find</button>
+  <form class="find-form" onsubmit="findProducts();return false;">
+  <input id="find" class="find" type="text" placeholder="Search" />
+  <button type="submit" >Find</button>
+  </form>
   <div>
-    <form id="filterForm" asp-action="Index" method="get" >
+    <form id="sortForm" asp-action="Index" method="get" >
     <div class="fa fa-filter"></div>
 
       <input hidden id="page" name="page" type="number" />
@@ -18,9 +19,22 @@
       <option value="price">Price Low</option>
       <option value="price_desc">Price High</option>
       <option value="cat">Category</option>
-    </select>
+      </select>
+     
     </form>
   </div>
- 
+  
+ <partial name="_ModalFilter" />
+  
   
 </div>
+
+<!--
+<form id="formt" asp-controller="home" asp-action="FilterProducts">
+  <input name="cat" type="text" placeholder="cat" required />
+  <input name="priceStart" type="number" value="0" />
+  <input name="priceEnd" type="number" value="99999" />
+  <button type="submit">Submit</button>
+</form>
+
+-->
