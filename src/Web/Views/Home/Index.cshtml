@@ -3,13 +3,20 @@
   ViewData["Title"] = "Home Page";
   var basketCount = Model?.Basket?.BasketItems != null ? Model.Basket.BasketItems.Count : 0;
   ViewData["page"] = 1;
+  var isAuthenticated= User.Identity!.IsAuthenticated;
 }
 
 
+@if (isAuthenticated)
+{
+  <a id="basketBtn" href="#" title="Basket" class="top-basket-toggle fa fa-shopping-basket" onclick="estore_site.getBasket()"> @basketCount </a>
+}
+else{
+  <a id="basketBtn" title="Basket" class="top-basket-toggle fa fa-shopping-basket" href="identity/account/login"> @basketCount </a>
+}
+  
+  
 
-<a id="basketToggle" href="#" title="Basket" class="top-basket-toggle fa fa-shopping-basket" onclick="getBasket()">
-   @basketCount
-</a>
 
 <div id="basket" class="top-basket-container">
 
@@ -19,8 +26,10 @@
 <partial name="_Filter" />
 
 
-<div id="products">
-<partial name="_ProductCards" model="Model?.Products" view-data="ViewData" />
+<div id="divProducts">
+  
+    <partial name="_ProductCards" model="Model?.Products" view-data="ViewData" />
+  
 </div>
 
 

@@ -7,7 +7,7 @@
 
 <div class="basket shadow container"  >
   <span class="fa fa-basket-shopping"></span>
-  <a href="#" class="basket-close" onclick="closeBasket()">X</a>
+  <a href="#" class="basket-close" onclick="estore_site.closeBasket()">X</a>
   <div class="mt-3">
     <div class="row">
       <div class="col-2"></div>
@@ -22,8 +22,8 @@
       <i class="col-3 overflow-auto">@item.Product?.Name</i>
       <i class="col">@item.Price</i>
       <input class="col" id="@item.ProductId" min="0" type="number" value="@item.Qt" title="Quantity" />
-      <a  href="#" class="col fa fa-shopping-basket" title="Update" onclick="setBasketItem(@item.ProductId,true)"></a>
-      <a  href="#" class="col fa fa-remove" title="Remove" onclick="removeBasketItem(@item.ProductId)"></a>
+        <a href="#" class="col fa fa-shopping-basket" title="Update" onclick="estore_site.setBasketItem(@item.ProductId,true)"></a>
+        <a href="#" class="col fa fa-remove" title="Remove" onclick="estore_site.removeBasketItem(@item.ProductId)"></a>
 
     </div>
       

@@ -1,5 +1,8 @@
 ﻿@model ProductVM
 @{
+  bool isAuth = false;
+  if (User.Identity?.IsAuthenticated==true)
+    isAuth = true;
   //todo validations/alerts for inputs, ie;negative number for input qt
 }
 
@@ -12,10 +15,10 @@
   <div class="card-footer">
     <span>@Model.Price$ </span>
     <div class="row-cols-3"> 
-     
+     @if(isAuth){
     <input id="@Model.Id-qt" min="1" value="1" type="number" title="Quantity" />
-    <a href="#" class="fa fa-cart-plus" title="Add to basket" onclick="setBasketItem(@Model.Id)"></a>
-    
+      <a href="#" class="fa fa-cart-plus" title="Add to basket" onclick="estore_site.setBasketItem(@Model.Id)"></a>
+     }
     </div>
     <!--
     <form method="post" asp-action="addproduct" asp-controller="home">

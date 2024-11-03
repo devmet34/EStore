@@ -1,29 +1,32 @@
 ﻿@model IEnumerable<EStore.Web.Models.ProductVM>
 @{
-  var pageSize= Estore.Core.Constants.pageSize;
+  var pageSize = Estore.Core.Constants.pageSize;
 }
 
-<div class="container">
+<div id="divProductCards">
+  <div class="container">
 
- <div class="row row-cols-2 row-cols-md-4 ">
-  @foreach(var item in Model)
-  {
-    
-    <partial name="_ProductCardItem" model="item" />
-  }
+    <div class="row row-cols-2 row-cols-md-4 ">
+      @foreach (var item in Model)
+      {
+
+        <partial name="_ProductCardItem" model="item" />
+      }
+    </div>
+
+    <div class="products-nav ">
+
+      <a id="prevPage" hidden href="#">Prev</a>
+
+      <a id="pageN" class="">1</a>
+
+      <a id="nextPage" @(Model.Count() < pageSize ? "hidden" : "") href="#">Next</a>
+    </div>
+
   </div>
-  
-  <div class="products-nav ">
-    
-    <a id="prevA" hidden href="#" onclick="goPrevPage()">Prev</a>
-   
-    <a id="pageN" class="">1</a>
-   
-    <a id="nextA" @(Model.Count()<pageSize?"hidden":"") onclick="goNextPage()" href="#">Next</a>
-  </div> 
-  
+
 </div>
 
- <!---- 
-   conditional tag attribute; @(Model.Count() < pageSize ? "hidden" : "")
- >
+<!----
+  conditional tag attribute; @(Model.Count() < pageSize ? "hidden" : "")
+>

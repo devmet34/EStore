@@ -70,10 +70,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages(options =>
-{
-
-});
+builder.Services.AddRazorPages();
 
 
 ConfigRedis.AddRedis(builder);
