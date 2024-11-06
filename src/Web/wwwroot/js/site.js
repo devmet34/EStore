@@ -25,7 +25,8 @@ const estore_site = function () {
     }
   }
 
-  //vanilla js binding to form submit event
+
+  //MC vanilla js binding to form submit event
   document.querySelector("#findForm").addEventListener("submit", function (e) {
     e.preventDefault();
     findProducts();
@@ -275,10 +276,10 @@ const estore_site = function () {
       updateBasketCount();
       if (isFromBasket)
         getBasket();
-      showToast();
+      showToast("Item added to basket",false);
 
     }).fail(() => {
-      showToast(0)
+      showToastFail()
     });
 
 
@@ -309,12 +310,12 @@ const estore_site = function () {
     let resp = await remove;
     if (!resp.ok) {
       log("Error during removing product");
-      showToast(0);
+      //showToastFail();
       return;
     }
     getBasket();
     decreaseBasketCount();
-    showToast();
+    //showToastSuccess();
 
   }
 
@@ -339,16 +340,44 @@ const estore_site = function () {
    </div>
   </div>
   `
-  function showToast(n) {
-    let toast;
-    if (n == 0) {
+
+  function showToastFail() {
+    showToast("FAIL", true);
+  }
+
+  function showToastSuccess() {
+    showToast("SUCCESS", false);
+  }
+
+  /**     //mc jsdoc
+  @param {string} str
+  @param {bool} alert
+  */
+  function showToast(str, alert) {
+    if (str == null) {
+      log("No string given for toast");
+      return;
+    }
+    const toast = document.querySelector("#bsToastCustom");
+    toast.querySelector("#toastBody").textContent = str;
+
+    if (alert === false)
+      toast.className = "toast alert-success";
+      
+
+      
+
+
+    /*
+    if (n === 0) {
       toast = document.getElementById("bsToastFail")
 
     }
     else {
       toast = document.getElementById("bsToastSuccess")
     }
-
+    */
+    
     let bsToast = bootstrap.Toast.getOrCreateInstance(toast);
     bsToast.show();
   }
@@ -444,7 +473,7 @@ function showToast(n) {
   */
 
   return {
-    getBasket: getBasket, closeBasket: closeBasket, setBasketItem: setBasketItem, removeBasketItem: removeBasketItem, setBasketItem: setBasketItem, resetFilterForm: resetFilterForm
+    getBasket: getBasket, closeBasket: closeBasket, setBasketItem: setBasketItem, removeBasketItem: removeBasketItem, setBasketItem: setBasketItem, resetFilterForm: resetFilterForm, showToast:showToast
   }
 }();
 

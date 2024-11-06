@@ -59,12 +59,12 @@ namespace EStore.Web.Controllers
       return _signInManager.IsSignedIn(HttpContext.User);
     }
     
-    public async Task<IActionResult> Index( int page = 1, string sortBy = DEFAULT_SORT)
+    public async Task<IActionResult> Index( int page = 1, string sortBy = DEFAULT_SORT, bool? isSuccess=null)
     {
       if (!ModelState.IsValid)
         throw new ArgumentException();
-
-     
+      
+      ViewData["success"] = isSuccess;
       Basket? basket = null;
       if (IsUserSigned())
         basket = await GetOrCreateBasketAsync();

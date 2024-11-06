@@ -36,9 +36,12 @@ public class OrderController : Controller
   {
 
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
-
-    await orderService.CreateOrderAsync(buyerId);
-    return RedirectToAction("index", "home");
+    try { await orderService.CreateOrderAsync(buyerId); }
+    catch (Exception ex) {
+      return RedirectToAction("index", "home", new {isSuccess=false}); 
+    }
+    
+    return RedirectToAction("index", "home", new { isSuccess = true });
   }
 
 

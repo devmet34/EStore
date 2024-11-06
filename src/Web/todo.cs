@@ -10,6 +10,7 @@
 //todo advanced filter +
 //todo filter duplicating issue +
 //todo closure js +
+//make order status msg
 //todo confirmation when removing basket
 //todo caching for basket
 //todo orders

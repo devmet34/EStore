@@ -4,6 +4,8 @@
   var basketCount = Model?.Basket?.BasketItems != null ? Model.Basket.BasketItems.Count : 0;
   ViewData["page"] = 1;
   var isAuthenticated= User.Identity!.IsAuthenticated;
+  var success = (bool?) ViewData["success"];
+  
 }
 
 
@@ -32,7 +34,35 @@ else{
   
 </div>
 
+<!-- MC page will load with below js -->
+@section Scripts {
+ 
+<script>
+    
 
+    @if (success==true) 
+  { 
+    <text> 
+     estore_site.showToast("SUCCESS", false);
+    </text> 
+  }
+  else if(success==false) { 
+    <text> 
+     estore_site.showToast("FAIL", true); 
+    </text>
+  }
+    /*
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log("index from event");
+    estore_site.showToast("test index");
+  });
+  */
+  
+  function showToast() { 
+    estore_site.showToast("test index");
+  }
+</script>
+}
 <!----
 <div class="container">
   <div class="row card-header">
