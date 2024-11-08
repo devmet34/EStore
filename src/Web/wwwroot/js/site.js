@@ -27,10 +27,13 @@ const estore_site = function () {
 
 
   //MC vanilla js binding to form submit event
-  document.querySelector("#findForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    findProducts();
-  });
+  const findForm = document.querySelector("#findForm");
+  if (findForm) {
+    document.querySelector("#findForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      findProducts();
+    });
+  }
 
   function findProducts() {
     const uri = "findproducts";

@@ -4,7 +4,7 @@
   var basketCount = Model?.Basket?.BasketItems != null ? Model.Basket.BasketItems.Count : 0;
   ViewData["page"] = 1;
   var isAuthenticated= User.Identity!.IsAuthenticated;
-  var success = (bool?) ViewData["success"];
+  var success = (bool?) ViewData["success"]; //mc status alert msg passed from controller action
   
 }
 
@@ -33,6 +33,9 @@ else{
     <partial name="_ProductCards" model="Model?.Products" view-data="ViewData" />
   
 </div>
+
+<partial name="_Contacts" />
+
 
 <!-- MC page will load with below js -->
 @section Scripts {

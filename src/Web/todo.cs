@@ -10,8 +10,8 @@
 //todo advanced filter +
 //todo filter duplicating issue +
 //todo closure js +
-//make order status msg
-//todo confirmation when removing basket
+//make order status msg +
+//todo confirmations for order/basket +
 //todo caching for basket
 //todo orders
 //todo ts errors
