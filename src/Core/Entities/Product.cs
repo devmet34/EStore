@@ -1,4 +1,5 @@
 ﻿using Estore.Core.Extensions;
+using Estore.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Estore.Core.Entities;
 
-public class Product : BaseEntity
+public class Product : BaseEntity, IAggregateRoot
 {
 
   public string Name { get; private set; }

@@ -4,6 +4,7 @@ using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 using Estore.Core.Entities;
+using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Interfaces;
 using Estore.Core.Services;
 using EStore.Core.Query;

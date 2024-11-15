@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Estore.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Estore.Core.Entities;
-public class Category:BaseEntity
+public class Category:BaseEntity,IAggregateRoot
 {
   public string MainCat { get;private set; }
   public string? SubCat {  get;private set; }

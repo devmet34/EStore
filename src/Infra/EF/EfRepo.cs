@@ -1,4 +1,5 @@
 ﻿using Estore.Core.Entities;
+using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Interfaces;
 using EStore.Infra.EF.Identity;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -14,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace EStore.Infra.EF;
-public class EfRepo<T>:IRepo<T> where T : class
+public class EfRepo<T>:IRepo<T> where T : class, IAggregateRoot
 {
   private readonly EStoreDbContext _dbContext;
 

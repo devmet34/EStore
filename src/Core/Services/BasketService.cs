@@ -1,4 +1,4 @@
-﻿using Estore.Core.Entities;
+﻿using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
 using Estore.Core.Specs;
@@ -91,7 +91,7 @@ public class BasketService
     var product = await _productService.GetProductAsync(productId);
     product.GuardNull();
 
-    basket!.SetBasketItem(productId, qt,product!.Price);
+    basket!.SetBasketItem(productId, product!.Name, qt,product!.Price);
     await _repo.UpdateAsync(basket);
 
 

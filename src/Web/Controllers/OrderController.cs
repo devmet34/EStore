@@ -11,7 +11,12 @@ namespace EStore.Web.Controllers;
 
 public class OrderController : Controller
 {
+  private readonly ILogger<OrderController> _logger;
 
+  public OrderController(ILogger<OrderController> logger)
+  {
+    _logger = logger;
+  }
 
   [HttpGet]
   [Route("OrderController/GetCheckOut")]
@@ -33,9 +38,9 @@ public class OrderController : Controller
   [HttpPost]
   [Route("OrderController/MakeOrder")]
   public async Task<IActionResult> MakeOrder([FromServices] OrderService orderService)
-  {
-
+  {    
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
+
     try { await orderService.CreateOrderAsync(buyerId); }
     catch (Exception ex) {
       return RedirectToAction("index", "home", new {isSuccess=false}); 
@@ -52,7 +57,11 @@ public class OrderController : Controller
   {
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
     var orders=await orderService.GetAllOrders(buyerId);
+    //debug test
+    var order=orders.ElementAt(10);
+    Helper.LogCritical($"****orderitem:{order.Id} count:"+order.OrderItems.Count);
     
+   
     return View(orders);
 
 

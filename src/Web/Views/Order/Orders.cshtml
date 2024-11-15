@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Estore.Core.Entities.Order>
+﻿@using Estore.Core.Entities.OrderAggregate
+@model IEnumerable<Order>
 
 <h2>Orders</h2>
 
@@ -33,9 +34,9 @@
       @foreach (var orderItem in item.OrderItems)
       {
         <div class="row mt-3 text-info ">
-          <div class="col">@orderItem.Product?.Name</div>
+          <div class="col">@orderItem.ProductName</div>
           <div class="col">@orderItem.Qt</div>
-          <div class="col">@orderItem.Product?.Price</div>
+          <div class="col">@orderItem.Price</div>
         </div>
       }
 

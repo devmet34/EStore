@@ -1,4 +1,4 @@
-﻿using Estore.Core.Entities;
+﻿using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
