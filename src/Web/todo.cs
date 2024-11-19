@@ -12,7 +12,10 @@
 //todo closure js +
 //make order status msg +
 //todo confirmations for order/basket +
+//todo check GetProductPriceAsync for db perf +
+//todo prevent making empty order
 //todo caching for basket
+//todo error handle for production
 //todo orders
 //todo ts errors
 //todo helper js

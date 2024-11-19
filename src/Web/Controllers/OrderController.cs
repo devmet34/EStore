@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace EStore.Web.Controllers;
 
 [Authorize]
-
 public class OrderController : Controller
 {
   private readonly ILogger<OrderController> _logger;
@@ -37,13 +36,13 @@ public class OrderController : Controller
 
   [HttpPost]
   [Route("OrderController/MakeOrder")]
-  public async Task<IActionResult> MakeOrder([FromServices] OrderService orderService)
+  public async Task<IActionResult> MakeOrder([FromServices] OrderService orderService, [FromServices] ProductService productService)
   {    
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
 
     try { await orderService.CreateOrderAsync(buyerId); }
     catch (Exception ex) {
-      return RedirectToAction("index", "home", new {isSuccess=false}); 
+      throw ex;
     }
     
     return RedirectToAction("index", "home", new { isSuccess = true });

@@ -476,7 +476,7 @@ function showToast(n) {
   */
 
   return {
-    getBasket: getBasket, closeBasket: closeBasket, setBasketItem: setBasketItem, removeBasketItem: removeBasketItem, setBasketItem: setBasketItem, resetFilterForm: resetFilterForm, showToast:showToast
+    getBasket: getBasket, closeBasket: closeBasket, setBasketItem: setBasketItem, removeBasketItem: removeBasketItem, setBasketItem: setBasketItem, resetFilterForm: resetFilterForm, showToast:showToast, getOrderDetails:getOrderDetails
   }
 }();
 

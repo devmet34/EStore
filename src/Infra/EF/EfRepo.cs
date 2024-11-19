@@ -43,7 +43,10 @@ public class EfRepo<T>:IRepo<T> where T : class, IAggregateRoot
     query = EvaluateSpec(query, spec);
     return await query.FirstOrDefaultAsync();
   }
-
+  /// <summary>
+  /// mc return dbContext.Set<T> as queryable 
+  /// </summary>
+  /// <returns></returns>
   public IQueryable<T> Query() { return _dbContext.Set<T>().AsQueryable(); }
 
   public IEnumerable<Product> GetProducts() {

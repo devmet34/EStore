@@ -33,7 +33,10 @@
     <form  method="post">
     <input type="submit" class="btn-sm mt-2" value="Remove Basket" asp-page-handler="removebasket" onclick="return confirm('Are you sure to remove basket?')" />
     </form>
-    <a asp-controller="OrderController" asp-action="GetCheckOut" class="btn-primary shadow btn-lg float-end ">CheckOut</a>
+    @if (Model.BasketItems.Count() > 0)
+    {
+      <a asp-controller="OrderController" asp-action="GetCheckOut" class="btn-primary shadow btn-lg float-end ">CheckOut</a>
+    }
   </div>
 
 </div>

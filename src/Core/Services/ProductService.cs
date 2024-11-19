@@ -102,6 +102,12 @@ public class ProductService
     return await _repo.GetByIdAsync(productId);
   }
 
+  public async Task<decimal> GetProductPriceAsync(int productId)
+  {
+    
+    return await _repo.Query().Where(p => p.Id == productId).Select(p => p.Price).FirstOrDefaultAsync();
+  }
+
   public async Task<IEnumerable<Product>?> FilterProductsAsync(FilterModel filterModel)
   {
     query= SetFilterQuery(filterModel);
