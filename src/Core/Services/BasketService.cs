@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 
 namespace Estore.Core.Services;
-public class BasketService 
+public class BasketService:IBasketService 
 {
   private readonly IRepo<Basket> _repo;
   private readonly ILogger<BasketService> _logger;
@@ -88,10 +88,10 @@ public class BasketService
     var basket = await GetBasketAsync(buyerId);
     basket.GuardNull();
 
-    var product = await _productService.GetProductAsync(productId);
+    var product = await _productService.GetProductForBasketAsync(productId);
     product.GuardNull();
 
-    basket!.SetBasketItem(productId, product!.Name, qt,product!.Price);
+    basket!.SetBasketItem(productId, qt,product!.Price);
     await _repo.UpdateAsync(basket);
 
 
@@ -117,7 +117,7 @@ public class BasketService
   public async Task RemoveBasketItemAsync(string buyerId, int productId)
   {
     _logger.LogDebug("cus_log: Removing basket item for userId: " + buyerId);
-    var basket=await GetBasketAsync(buyerId,true);
+    var basket=await GetBasketAsync(buyerId);
     basket.GuardNull();
 
     basket!.RemoveBasketItem(productId);
@@ -155,5 +155,15 @@ public class BasketService
   {
     _logger.LogInformation("test from basketservice");
     var basket = new Basket("test");
+  }
+
+  public Basket? GetBasket(string cacheKey)
+  {
+    throw new NotImplementedException();
+  }
+
+  public Task<Basket?> GetBasketAsync(string buyerId)
+  {
+    throw new NotImplementedException();
   }
 }

@@ -19,10 +19,10 @@ public class OrderController : Controller
 
   [HttpGet]
   [Route("OrderController/GetCheckOut")]
-  public async Task<IActionResult> GetCheckOut([FromServices] BasketService basketService)
+  public async Task<IActionResult> GetCheckOut([FromServices] IBasketService basketService)
   {
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
-    var basket = await basketService.GetBasketAsync(buyerId, true, true);
+    var basket = await basketService.GetBasketAsync(buyerId);
     basket.GuardNull();
     basket?.BasketItems.GuardNull();
 

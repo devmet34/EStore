@@ -102,7 +102,7 @@ async void Debug4Scope()
   {
     var scopedProvider= scope.ServiceProvider;
 
-    var service = scopedProvider.GetRequiredService<BasketService>();
+    var service = scopedProvider.GetRequiredService<IBasketService>();
 
 
 

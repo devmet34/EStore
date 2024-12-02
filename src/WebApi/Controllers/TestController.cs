@@ -12,8 +12,8 @@ namespace EStore.WebApi.Controllers
   [ApiController]
   public class TestController : ControllerBase
   {
-    private readonly BasketService _basketService;
-    public TestController(BasketService basketService) {
+    private readonly IBasketService _basketService;
+    public TestController(IBasketService basketService) {
       _basketService = basketService;
       
     }
@@ -23,7 +23,7 @@ namespace EStore.WebApi.Controllers
     public void Test()
     {
       
-      _basketService.Test();
+      
       
       
     }

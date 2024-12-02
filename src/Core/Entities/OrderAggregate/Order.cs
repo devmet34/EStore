@@ -36,9 +36,9 @@ public class Order : BaseEntity, IAggregateRoot
     {
         foreach (var item in basket.BasketItems)
         {
-            decimal totalPrice = item.Price * item.Qt;
+            decimal totalPrice = item.Product!.Price * item.Qt;
             _orderItems.Add(
-              new OrderItem(Id, item.ProductId, item.ProductName, item.Qt, item.Price)
+              new OrderItem(Id, item.ProductId, item.Product!.Name, item.Qt, item.Product!.Price)
               );
 
 

@@ -11,19 +11,26 @@ public class BasketItem : BaseEntity
   public int BasketId { get; private set; }
   public int ProductId { get; private set; }
   public Product? Product { get; set; }
-  public string ProductName { get; private set; }
   public int Qt { get; private set; }
-  public decimal Price { get; private set; }
+  
+ 
 
   //todo guards
-  public BasketItem(int basketId, int productId, string productName, int qt, decimal price)
+  public BasketItem(int basketId, int productId, int qt, Product? product=null)
+  {
+    BasketId = basketId;
+    ProductId = productId;    
+    SetQt(qt);
+    Product = product ?? null;
+
+  }
+
+  private BasketItem(int basketId, int productId, int qt)
   {
     BasketId = basketId;
     ProductId = productId;
-    ProductName = productName;
-    SetQt(qt);
-    Price = price;
-
+    
+    Qt = qt;
   }
 
   public void SetQt(int qt)
@@ -34,7 +41,7 @@ public class BasketItem : BaseEntity
 
   public void SetPrice(decimal price)
   {
-    Price = price.GuardZeroOrNegative();
+    //Price = price.GuardZeroOrNegative();
   }
 
 

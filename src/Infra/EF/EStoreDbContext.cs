@@ -36,9 +36,8 @@ namespace EStore.Infra.EF
       //builder.HasSequence("seq_prod_id").StartsAt(1000).IncrementsBy(1);
       base.OnModelCreating(builder);
       builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); //mc get entity db configs from classes with IEntityTypeConfiguration. 
-      builder.Entity<BasketItem>().Property(b => b.ProductName)
-        .HasColumnType("nvarchar(90)")
-        .IsRequired();
+      //builder.Entity<BasketItem>().Property(b => b.ProductName).HasColumnType("nvarchar(90)");
+        
     }
   }//eo class
 }

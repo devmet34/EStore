@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using Estore.Core.Entities.BasketAggregate;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ public class RedisService
     var jsonData = await _redisCache.GetStringAsync(key);
 
     if (jsonData == null)
-      return default;
+      return default(T);
 
     return JsonSerializer.Deserialize<T>(jsonData);
   }
@@ -41,12 +42,24 @@ public class RedisService
     await _redisCache.SetStringAsync(key, jsonData, options);
   }
 
-  public void RemoveCachedData(string key)
+  public async Task RemoveCachedDataAsync(string key)
   {
-    _redisCache.Remove(key);
+    
+    await _redisCache.RemoveAsync(key);
   }
 
+  public T? GetCachedData<T>(string key) { 
+    var jsonData= _redisCache.GetString(key);
+    if (jsonData == null)
+      return default;
+    return JsonSerializer.Deserialize<T>(jsonData);
+  }
 
+  public void SetCacheData<T>(string key,T data)
+  {
+    var jsonData= JsonSerializer.Serialize(data);
+    _redisCache.SetString(key, jsonData);
+  }
 
 
 }

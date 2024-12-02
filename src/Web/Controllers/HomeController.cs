@@ -2,6 +2,7 @@
 using AutoMapper;
 using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Extensions;
+using Estore.Core.Interfaces;
 using Estore.Core.Models;
 using Estore.Core.Services;
 using EStore.Infra.EF.Identity;
@@ -27,15 +28,15 @@ namespace EStore.Web.Controllers
   {
     private readonly ILogger<HomeController> _logger;
     private readonly ProductService _productService;
-    private readonly BasketService _basketService;
+    private readonly IBasketService _basketService;
     private readonly RedisService _redisService;
     private readonly IMapper _mapper;
     private readonly SignInManager<AppUser> _signInManager;
     private const string DEFAULT_SORT = "id";
-    private readonly string cacheProducts = ":Products";
+    private readonly string cacheProductsKey = ":Products";
     
     //mc; separate controllers or razor pages would be better to mitigate di overhead. not using for brevity 
-    public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager,  ProductService productService,BasketService basketService, RedisService redisService, IMapper mapper)
+    public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager,  ProductService productService, IBasketService basketService, RedisService redisService, IMapper mapper)
     {
       _logger = logger;
       _signInManager = signInManager;
@@ -58,7 +59,8 @@ namespace EStore.Web.Controllers
     {
       return _signInManager.IsSignedIn(HttpContext.User);
     }
-    
+
+    //mc For home page; get 20 products from redis cache if cached otherwise fetch from db
     public async Task<IActionResult> Index( int page = 1, string sortBy = DEFAULT_SORT, bool? isSuccess=null)
     {
       if (!ModelState.IsValid)
@@ -72,27 +74,29 @@ namespace EStore.Web.Controllers
       HomeVM? homeVM=null;
       IEnumerable<ProductVM>? cachedProducts=null;
       if (RedisHealthCheckService.IsRedisConnected)
+      
       {
         try
         {
-          cachedProducts = await _redisService.GetCachedDataAsync<IEnumerable<ProductVM>>(cacheProducts);
+          cachedProducts = await _redisService.GetCachedDataAsync<IEnumerable<ProductVM>>(cacheProductsKey);
         }
         catch (Exception ex)
         {
           _logger.LogError(ex.ToString());
         }
       }
+     
 
       if (cachedProducts != null)
         {
-          _logger.LogDebug("Fetched products from cache");
+          _logger.LogDebug("Fetched products from redis cache");
           homeVM = new HomeVM() { Basket = basket, Products = cachedProducts };
           return View(homeVM);
 
         }            
 
       IEnumerable<ProductVM>? productVM = null;
-      var products = await _productService.GetProductsAsync(sortBy);
+      var products = await _productService.GetProductsPagedAsync(sortBy);
       if (products != null)
       {
         productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
@@ -100,7 +104,7 @@ namespace EStore.Web.Controllers
         {
           try
           {
-            await _redisService.SetCacheDataAsync<IEnumerable<ProductVM>>(cacheProducts, productVM, TimeSpan.FromMinutes(30));
+            await _redisService.SetCacheDataAsync<IEnumerable<ProductVM>>(cacheProductsKey, productVM, TimeSpan.FromMinutes(30));
           }
           catch (Exception ex)
           {
@@ -131,7 +135,7 @@ namespace EStore.Web.Controllers
     [Route("sortproducts")]
     public async Task<IActionResult> SortProducts(string sortBy)
     {
-      var products = await _productService.GetProductsAsync( sortBy:sortBy);     
+      var products = await _productService.GetProductsPagedAsync( sortBy:sortBy);     
       var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);      
 
       return PartialView("_productcards", productVM);

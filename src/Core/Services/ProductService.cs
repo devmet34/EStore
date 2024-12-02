@@ -26,7 +26,7 @@ public class ProductService
     _logger = logger;
   }
 
-  public async Task<IEnumerable<Product>?> GetProductsAsync( string sortBy="name")
+  public async Task<IEnumerable<Product>?> GetProductsPagedAsync( string sortBy="name")
   {
     
     query = _repo.Query();
@@ -36,16 +36,12 @@ public class ProductService
     SetSort(sortBy);
 
     query =query.AsNoTracking().Take(pageSize);
-    var q=query.Include(p=>p.Category).AsNoTracking().Take(pageSize);
-    var l = await q.ToListAsync();      
-          
-
+    
     //Helper.LogObjectHash(query);
 
     //var products = await query.AsNoTracking().Take(20).ToListAsync();
     var products= await _repo.ListByQueryAsync(query);
     //var products = _repo.GetProducts();
-    
 
     return products;
     //return await _repo.GetAllAsync();
@@ -100,6 +96,16 @@ public class ProductService
   public async Task<Product?> GetProductAsync(int productId)
   {
     return await _repo.GetByIdAsync(productId);
+  }
+
+  public async Task<Product?> GetProductForBasketAsync(int productId)
+  {
+    query=_repo.Query();
+     
+    Product pp = new Product("sdsd", 0,0, 5, 5);
+    return await _repo.Query().Where(p => p.Id == productId)
+      .Select(p => new Product ( p.Name,0,0, p.Price, p.Qt,null,p.PictureUri )).FirstOrDefaultAsync();
+    //return await _repo.GetByIdAsync(productId);
   }
 
   public async Task<decimal> GetProductPriceAsync(int productId)

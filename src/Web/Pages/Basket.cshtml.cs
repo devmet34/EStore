@@ -1,5 +1,6 @@
 using AutoMapper;
 using Estore.Core.Extensions;
+using Estore.Core.Interfaces;
 using Estore.Core.Services;
 using EStore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -16,11 +17,11 @@ namespace EStore.Web.Pages
   public class BasketModel : PageModel
   {
     private readonly ProductService _productService;
-    private readonly BasketService _basketService;
+    private readonly IBasketService _basketService;
     private readonly ILogger<BasketModel> _logger;
     private readonly IMapper _mapper;
-    internal BasketVM BasketVM { get; set; }
-    public BasketModel(ProductService productService, BasketService basketService, IMapper mapper, ILogger<BasketModel> logger)
+    internal BasketVM? BasketVM { get; set; }
+    public BasketModel(ProductService productService, IBasketService basketService, IMapper mapper, ILogger<BasketModel> logger)
     {
       _productService = productService;
       _basketService = basketService;
@@ -39,7 +40,8 @@ namespace EStore.Web.Pages
       var buyerId = GetBuyerId();
       buyerId.GuardNullOrEmpty();
 
-      var basket = await _basketService.GetBasketAsync(buyerId!, false, true);
+      //var basket = await _basketService.GetBasketAsync(buyerId!, false, true);
+      var basket = await _basketService.GetBasketAsync(buyerId!);
       BasketVM = _mapper.Map<BasketVM>(basket);
      
       return Partial("_basket", BasketVM);
@@ -53,7 +55,8 @@ namespace EStore.Web.Pages
       var buyerId = GetBuyerId();
       buyerId.GuardNullOrEmpty();
 
-      var basket = await _basketService.GetBasketAsync(buyerId!, true);
+      //var basket = await _basketService.GetBasketAsync(buyerId!, true);
+      var basket = await _basketService.GetBasketAsync(buyerId!);
       basket.GuardNull();
       return Content( basket!.BasketItems.Count.ToString());
     }
@@ -75,6 +78,8 @@ namespace EStore.Web.Pages
       return new OkResult();
       //return RedirectToAction("Index");
     }
+
+
 
     public async Task<IActionResult> OnPostRemoveBasketItem([FromBody] int productId)
     {

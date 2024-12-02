@@ -1,4 +1,5 @@
-﻿using Estore.Core.Services;
+﻿using Estore.Core.Interfaces;
+using Estore.Core.Services;
 using EStore.Infra.EF;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ public class BasketServiceTest:ProgramFactory
     var app = ProgramFactory.webApplicationFactory;
     using (var scope = app.Services.CreateScope())
     {
-      var basketService = scope.ServiceProvider.GetRequiredService<BasketService>();
+      var basketService = scope.ServiceProvider.GetRequiredService<IBasketService>();
       var client = app.CreateClient();
       var url = "home/AddProductAsync";
       

@@ -18,9 +18,9 @@
     
     @foreach(var item in Model.BasketItems){
     <div class="row align-items-center">
-      <img class="col-2" src="@item.Product?.PictureUri" />
-      <i class="col-3 overflow-auto">@item.Product?.Name</i>
-      <i class="col">@item.Price</i>
+        <img class="col-2" src="@item.Product?.PictureUri" />
+        <i class="col-3 overflow-auto">@item.Product?.Name</i>
+        <i class="col">@item.Product?.Price</i>
       <input class="col" id="@item.ProductId" min="0" type="number" value="@item.Qt" title="Quantity" />
         <a href="#" class="col fa fa-shopping-basket" title="Update" onclick="estore_site.setBasketItem(@item.ProductId,true)"></a>
         <a href="#" class="col fa fa-remove" title="Remove" onclick="estore_site.removeBasketItem(@item.ProductId)"></a>

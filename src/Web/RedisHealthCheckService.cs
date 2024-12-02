@@ -8,7 +8,7 @@ namespace EStore.Web;
 public class RedisHealthCheckService : BackgroundService
 {
   private readonly int connectTimeoutMs = 2000; 
-  private readonly int healthCheckTimeoutMs = 60000;
+  private readonly int healthCheckTimeoutSec = 60;
   private string? connectionString = null;
   private readonly ILogger<RedisHealthCheckService> logger;
   private readonly IConfiguration configuration;
@@ -30,11 +30,13 @@ public class RedisHealthCheckService : BackgroundService
       if (redis == null || !redis.IsConnected)
         {
           isRedisConnected = false;
-          logger.LogCritical("Redis not connected");
+          logger.LogWarning("Redis not connected");
         }
-      else { isRedisConnected = true; }
+      else { 
+        isRedisConnected = true;              
+      }
 
-       await Task.Delay(healthCheckTimeoutMs, stoppingToken);
+       await Task.Delay(TimeSpan.FromSeconds(healthCheckTimeoutSec), stoppingToken);
         
       }
     //}
@@ -56,7 +58,7 @@ public class RedisHealthCheckService : BackgroundService
     }
     catch (Exception ex)
     {
-      logger.LogCritical("Redis error: " + ex.ToString());
+      logger.LogWarning("Redis error: " + ex.ToString());
       return null;
     }
 

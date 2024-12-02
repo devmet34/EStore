@@ -11,27 +11,39 @@ using Xunit;
 using Xunit.Abstractions;
 using NuGet.Protocol;
 using StackExchange.Redis;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Estore.Core.Entities.BasketAggregate;
+using Estore.Core.Interfaces;
+using Assert = Xunit.Assert;
 
 namespace WebApi_Integration;
 public class RedisTest
 {
+  private WebApplicationFactory<Program> app= ProgramFactory.webApplicationFactory;
+  private  IServiceScope scope;
+  private  RedisService redisService;
   ITestOutputHelper output;
 
-  public RedisTest(ITestOutputHelper output) { this.output = output; }
+  public RedisTest(ITestOutputHelper output) {
+    this.output = output;
+    scope= app.Services.CreateScope();
+    scope.ServiceProvider.GetRequiredService<RedisService>();
+  }
 
   [Fact]
   public async void Test()
   {
-    var app = ProgramFactory.webApplicationFactory;
-    using var scope = app.Services.CreateScope();
+    
+    
+
     //var redisCache = scope.ServiceProvider.GetRequiredService<IDistributedCache>();
     //redisCache.SetString("key1", "value1");
     //redisCache.SetString("key2", "value2");
-    
-    var redisService = scope.ServiceProvider.GetRequiredService<RedisService>();
+
+
     //var redisMux = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
     //var redis=redisMux.GetDatabase();
-    
+
     string str = "test";
     var testDto = new TestDto(12, "myname");    
 
@@ -41,10 +53,43 @@ public class RedisTest
     var strCache = await redisService.GetCachedDataAsync<string>("str");
     var testDtoCache = await redisService.GetCachedDataAsync<TestDto>("dto1");
 
-   output.WriteLine(strCache + "/" +testDtoCache.ToJson()); 
+   //output.WriteLine(strCache + "/" +testDtoCache.ToJson()); 
     
      
   
+
+  }
+
+  [Fact]
+  public async Task BasketTests()
+  {
+    string buyerId = "myBuyerID";  
+    
+    var basketService = scope.ServiceProvider.GetRequiredService<IBasketService>();
+
+    while (true)
+    {
+      output.WriteLine("starting");
+      var basket = await basketService.GetOrCreateBasketAsync(buyerId);
+      if (basket == null)
+      {
+        output.WriteLine("basket cache null");
+        return;
+      }
+      if (basket.BasketItems.Count == 0)
+      {
+        await basketService.SetBasketItemAsync(buyerId,2,3);
+        await basketService.SetBasketItemAsync(buyerId, 1, 3);
+      }
+      Thread.Sleep(1000);
+      var basketFromRedis = await basketService.GetOrCreateBasketAsync(buyerId);
+      Assert.True(basketFromRedis.BasketItems.Count == 2);
+      await basketService.RemoveBasketItemAsync(buyerId, 1);
+      basketFromRedis = await basketService.GetBasketAsync(buyerId);
+      Assert.True(basketFromRedis.BasketItems.Count == 1);
+      await basketService.RemoveBasketAsync(basketFromRedis);
+      int t = 1;
+    }
 
   }
 
