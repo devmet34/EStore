@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Security.Claims;
 using System.Text.Json;
+using Web;
 
 namespace EStore.Web.Controllers
 {
@@ -32,8 +33,8 @@ namespace EStore.Web.Controllers
     private readonly RedisService _redisService;
     private readonly IMapper _mapper;
     private readonly SignInManager<AppUser> _signInManager;
-    private const string DEFAULT_SORT = "id";
-    private readonly string cacheProductsKey = ":Products";
+    private const string DEFAULT_SORT = Constants.DEFAULT_SORT;
+    private readonly string cacheProductsKey = Constants.cacheProductsKey;
     
     //mc; separate controllers or razor pages would be better to mitigate di overhead. not using for brevity 
     public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager,  ProductService productService, IBasketService basketService, RedisService redisService, IMapper mapper)
@@ -48,9 +49,9 @@ namespace EStore.Web.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> test(string id)
+    public async Task<IActionResult> Test(string id)
     {
-      _logger.LogError("*********" + id);
+      await Task.Delay(1000);
       Thread.Sleep(5000);
       return Ok("test ok");
     }
@@ -234,7 +235,7 @@ namespace EStore.Web.Controllers
     {
       var exceptionHandlerPathFeature =
            HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-      _logger.LogCritical("#################:"+exceptionHandlerPathFeature.Error.Message);
+      _logger.LogCritical("#################:"+exceptionHandlerPathFeature?.Error.Message);
       return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 

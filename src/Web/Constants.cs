@@ -20,11 +20,13 @@ namespace Web
     public const string DEFAULT_ADMIN = "admin@estore.com";
 
     public const string ADMIN_ROLE = "Administrators";
-
     
     public const int JWT_EXP_DAYS = 7;
 
+    public const string DEFAULT_SORT = "id";
 
-    
+    public const string cacheProductsKey = ":Products";
+
+
   }
 }

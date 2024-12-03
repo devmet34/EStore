@@ -20,18 +20,18 @@ using System.Threading.Tasks;
 
 
 namespace Estore.Core.Services;
-public class BasketService:IBasketService 
+public class BasketService : IBasketService
 {
   private readonly IRepo<Basket> _repo;
   private readonly ILogger<BasketService> _logger;
   private readonly ProductService _productService;
   //private readonly Basket basket;
-  public BasketService(IRepo<Basket> repo, ILogger<BasketService> logger,ProductService productService )
+  public BasketService(IRepo<Basket> repo, ILogger<BasketService> logger, ProductService productService)
   {
     _repo = repo;
     _logger = logger;
     _productService = productService;
-    
+
     //_logger = loggerFactory.CreateLogger<BasketService>();
 
 
@@ -40,12 +40,13 @@ public class BasketService:IBasketService
   public async Task<Basket?> GetOrCreateBasketAsync(string buyerId)
   {
     buyerId.GuardNullOrEmpty();
-    
-    
-    
+
+
+
     //var basketSpec=new BasketSpec(buyerId);
-    var basket=await GetBasketAsync(buyerId);
-    if (basket!=null) {
+    var basket = await GetBasketAsync(buyerId);
+    if (basket != null)
+    {
       _logger.LogDebug("basket already exist");
       return basket;
     }
@@ -54,18 +55,12 @@ public class BasketService:IBasketService
     await _repo.AddAsync(basket);
     return await GetBasketAsync(buyerId);
   }
-  /*
-  public async Task<Basket?> TestQuery()
-  {
+  
 
-
-  }
-  */
-
-  public async Task<Basket?> GetBasketAsync(string buyerId, bool includeBasketItems=true, bool includeAll=false)
+  public async Task<Basket?> GetBasketAsync(string buyerId, bool includeBasketItems = true, bool includeAll = false)
   {
     buyerId.GuardNullOrEmpty();
-    var query=_repo.Query();
+    var query = _repo.Query();
     query = query.Where(b => b.BuyerId == buyerId);
 
 
@@ -82,7 +77,13 @@ public class BasketService:IBasketService
     return await _repo.GetByQuery(query);
   }
 
-  public async Task SetBasketItemAsync(string buyerId, int productId,int qt)
+  public async Task<Basket?> GetBasketAsync(string buyerId)
+  {
+    return await GetBasketAsync(buyerId, includeAll: true);
+    //throw new NotImplementedException();
+  }
+
+  public async Task SetBasketItemAsync(string buyerId, int productId, int qt)
   {
     //var basketSpec = new BasketSpec(buyerId);
     var basket = await GetBasketAsync(buyerId);
@@ -91,7 +92,7 @@ public class BasketService:IBasketService
     var product = await _productService.GetProductForBasketAsync(productId);
     product.GuardNull();
 
-    basket!.SetBasketItem(productId, qt,product!.Price);
+    basket!.SetBasketItem(productId, qt, product!.Price);
     await _repo.UpdateAsync(basket);
 
 
@@ -117,7 +118,7 @@ public class BasketService:IBasketService
   public async Task RemoveBasketItemAsync(string buyerId, int productId)
   {
     _logger.LogDebug("cus_log: Removing basket item for userId: " + buyerId);
-    var basket=await GetBasketAsync(buyerId);
+    var basket = await GetBasketAsync(buyerId);
     basket.GuardNull();
 
     basket!.RemoveBasketItem(productId);
@@ -129,7 +130,7 @@ public class BasketService:IBasketService
     basketItem.GuardNull();
     */
     //await _repo.DeleteAsync(basketItem!);
-    
+
   }
 
   public async Task RemoveBasketAsync(Basket basket)
@@ -147,7 +148,7 @@ public class BasketService:IBasketService
     product.GuardNull();
 
     //basket!.SubtractItem(productId);
-    await _repo.UpdateAsync(basket);
+    await _repo.UpdateAsync(basket!);
 
   }
 
@@ -162,8 +163,5 @@ public class BasketService:IBasketService
     throw new NotImplementedException();
   }
 
-  public Task<Basket?> GetBasketAsync(string buyerId)
-  {
-    throw new NotImplementedException();
-  }
+
 }

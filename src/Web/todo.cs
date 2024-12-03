@@ -14,7 +14,7 @@
 //todo confirmations for order/basket +
 //todo check GetProductPriceAsync for db perf +
 //todo prevent making empty order +
-//todo caching for basket
+//todo caching for basket +
 //todo move constants on home controller 
 //todo basket count should change when removing/adding items
 //todo db app account/trigger/view

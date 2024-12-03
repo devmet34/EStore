@@ -37,14 +37,16 @@ public class OrderController : Controller
   [HttpPost]
   [Route("OrderController/MakeOrder")]
   public async Task<IActionResult> MakeOrder([FromServices] OrderService orderService, [FromServices] ProductService productService)
-  {    
+  {
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
 
     try { await orderService.CreateOrderAsync(buyerId); }
-    catch (Exception ex) {
-      throw ex;
+    catch (Exception ex)
+    {
+      _logger.LogError(ex.Message);
+      throw new Exception(ex.Message);
     }
-    
+
     return RedirectToAction("index", "home", new { isSuccess = true });
   }
 
@@ -55,12 +57,8 @@ public class OrderController : Controller
   public async Task<IActionResult> Orders([FromServices] OrderService orderService)
   {
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
-    var orders=await orderService.GetAllOrders(buyerId);
-    //debug test
-    var order=orders.ElementAt(10);
-    Helper.LogCritical($"****orderitem:{order.Id} count:"+order.OrderItems.Count);
-    
-   
+    var orders = await orderService.GetAllOrders(buyerId);
+
     return View(orders);
 
 
