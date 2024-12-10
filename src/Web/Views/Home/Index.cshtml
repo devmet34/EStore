@@ -11,7 +11,9 @@
 
 @if (isAuthenticated)
 {
-  <a id="basketBtn" href="#" title="Basket" class="top-basket-toggle fa fa-shopping-basket" onclick="estore_site.getBasket()"> @basketCount </a>
+  
+  <partial name="_ModalBasket" />
+  <a id="basketBtn" href="#" title="Basket" class="top-basket-toggle fa fa-shopping-basket" data-bs-toggle="modal" data-bs-target="#modalBasket" onclick="estore_site.getBasket()" > @basketCount </a>
 }
 else{
   <a id="basketBtn" title="Basket" class="top-basket-toggle fa fa-shopping-basket" href="identity/account/login"> @basketCount </a>
@@ -20,9 +22,7 @@ else{
   
 
 
-<div id="basket" class="top-basket-container">
 
-</div>
 <br />
 
 <partial name="_Filter" />

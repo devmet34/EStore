@@ -17,7 +17,7 @@
     <div class="row-cols-3"> 
      @if(isAuth){
     <input id="@Model.Id-qt" min="1" value="1" type="number" title="Quantity" />
-      <a href="#" class="fa fa-cart-plus" title="Add to basket" onclick="estore_site.setBasketItem(@Model.Id)"></a>
+        <a data-id="@Model.Id" data-qt="@Model.Id-qt" href="#" class="fa fa-cart-plus" title="Add to basket" onclick="estore_site.setBasketItemFrom(this)"></a>
      }
     </div>
     <!--

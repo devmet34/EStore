@@ -25,12 +25,16 @@ html {
   min-height: 100%;
 }
 
+.nav-bar{
+  height:8vw;
+}
+
 body {
   margin-bottom: 60px;
 }
 
 .body-container{
-  padding-top:6%;
+  padding-top:10vw;
 }
 
 show {
@@ -51,13 +55,18 @@ show {
 }
 
 .basket {
-  width: 75%;
+  
   background-color:aliceblue;
   white-space:nowrap;
 }
 
 .basket-close{
   float:right;
+}
+
+.basket-modal{
+  width:55vw;
+  max-width:fit-content;
 }
 
 .filter-container {

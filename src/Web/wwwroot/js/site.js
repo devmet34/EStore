@@ -225,22 +225,20 @@ const estore_site = function () {
   });
   */
   function getBasket() {
-
+    //todo fail condition
     const uri = "basket/getbasket"
     fetch(uri, {})
       .then(res => res.text())
-      .then(r => {
+      .then(r => {    
+        //$('#basket').attr("hidden", false);
         $('#basket').html(r);
-        $('#basket').show();
+        
+        
 
       }
 
       );
 
-  }
-
-  function closeBasket() {
-    $('#basket').hide();
   }
 
   function updateBasketCount() {
@@ -257,40 +255,126 @@ const estore_site = function () {
 
   }
 
-  function setBasketItem(productId, isFromBasket) {
+  function closeBasket() {
+    $('#basket').hide();
+  }
+  
+  let basketItemId;
+  let basketItemQtEl;
+  let basketItemQt;
+  let basketItemPrice;
+  let basketTotalPriceEl;
+  let basketTotalPrice;
+
+  function getBasketArgsFromBasketQt() {
+    basketItemId = basketItemQtEl.id.split('-')[0]
+    basketItemQt = basketItemQtEl.value;
+    basketItemPrice = parseFloat( $('#' + basketItemId + "-basketItemPrice")[0].innerText);
+    basketTotalPriceEl = $("#basketTotalPrice")[0];
+    basketTotalPrice = parseFloat(basketTotalPriceEl.innerText);
+  }
+  function decrementBasketItem(el) {
+    let a = 1;  
+    basketItemQtEl = el.nextElementSibling;
+    getBasketArgsFromBasketQt();
+    //const input = e.nextElementSibling;
+    const currentVal = parseInt(basketItemQt);
+    //basketItemQtEl = input;
+
+    if (currentVal == 1) {
+      //alert("Cant be 0");
+      //return;
+    }
+
+    const val = currentVal - 1;
+
+    setBasketItem(basketItemId, val, decrementBasketItemCB);
+      //input.value = val;
+    
+  }
+
+  function decrementBasketItemCB(isSuccess, qt) {
+    if (isSuccess === true) {
+      basketItemQtEl.value = qt;
+      basketTotalPriceEl.innerText = basketTotalPrice - basketItemPrice;
+    }
+  }
+
+  function incrementBasketItem(el) {
+    let a = 1;
+    basketItemQtEl = el.previousElementSibling;
+    getBasketArgsFromBasketQt();
+    //const input = el.previousElementSibling;
+    const currentVal = parseInt(basketItemQt);
+    //basketItemQtEl = input;
+
+    if (currentVal > 98) {
+      //alert("Cant be 0");
+      //return;
+    }
+    const val = currentVal + 1;
+
+    setBasketItem(basketItemId, val, incrementBasketItemCB);
+  }
+
+  function incrementBasketItemCB(isSuccess, qt) {
+    if (isSuccess === true) {
+      basketItemQtEl.value = qt;
+      basketTotalPriceEl.innerText = basketTotalPrice+basketItemPrice;
+    }
+  }
+
+  function setBasketItemFrom(el) {
+    const id = el.dataset.id;
+    const qtSelector ='#'+id+"-qt";
+    const qt = $(qtSelector).val();
+    setBasketItem(id, qt,setBasketItemFromCB);
+    
+  }
+
+  function setBasketItemFromCB(isSuccess){
+    if (isSuccess===true)
+      updateBasketCount();
+  }
+  function setBasketItem(itemId, qt, callback) {
 
 
-    const qt = !isFromBasket ? document.getElementById(productId + "-qt").value
-      : document.getElementById(productId).value;
+    //const qt = !isFromBasket ? document.getElementById(productId + "-qt").value
+     // : document.getElementById(productId).value;
     const forgeryToken = getForgeryToken();
     const baseUrl = document.URL;
     const uri = "basket/setbasketitem"
     //const url = baseUrl + "addproduct";
-    console.debug("test:{id}" + productId);
-
+    console.debug("test:{id}" + itemId);
+    
     $.ajax(uri, {
 
       method: "post",
       headers: { RequestVerificationToken: forgeryToken },
-      data: { productId: productId, qt: qt }
+      data: { productId: itemId, qt: qt }
 
     }
-    ).done(() => {
-      updateBasketCount();
-      if (isFromBasket)
-        getBasket();
-      showToast("Item added to basket",false);
+    ).done(() => {   
+      if (callback === undefined)
+        return;
+      callback(true,qt);
 
+      //showToast("Item added to basket",false);
+      
     }).fail(() => {
       showToastFail()
     });
 
-
+    
 
     //post(url, id);
 
   }
 
+  function RefreshBasketIfOpen() {
+    const basket = $('#basket');
+
+  }
 
   async function removeBasketItem(productId) {
     const uri = "basket/removebasketitem";
@@ -365,7 +449,7 @@ const estore_site = function () {
     toast.querySelector("#toastBody").textContent = str;
 
     if (alert === false)
-      toast.className = "toast alert-success";
+      toast.className = " toast alert-success";
       
 
       
@@ -384,6 +468,10 @@ const estore_site = function () {
     let bsToast = bootstrap.Toast.getOrCreateInstance(toast);
     bsToast.show();
   }
+
+  function showToastBasket(msg,alert) {
+    const toast=document.querySelector("#")
+  }
   /*
 function showToast(n) {
   
@@ -401,10 +489,10 @@ function showToast(n) {
 
 
   function decreaseBasketCount() {
-    let basketToggle = $('#basketToggle');
-    let basketCount = basketToggle.text();
+    let basketBtn = $('#basketBtn');
+    let basketCount = basketBtn.text();
     const newCount = parseInt(basketCount) - 1;
-    basketToggle.text(' ' + newCount);
+    basketBtn.text(' ' + newCount);
     //$('#basketToggle').text(' ' + basketCount)
   }
 
@@ -476,8 +564,10 @@ function showToast(n) {
   */
 
   return {
-    getBasket: getBasket, closeBasket: closeBasket, setBasketItem: setBasketItem, removeBasketItem: removeBasketItem, setBasketItem: setBasketItem, resetFilterForm: resetFilterForm, showToast:showToast, getOrderDetails:getOrderDetails
+    getBasket: getBasket, closeBasket: closeBasket, decrementBasketItem: decrementBasketItem, incrementBasketItem:incrementBasketItem, setBasketItemFrom: setBasketItemFrom, setBasketItem:setBasketItem, removeBasketItem: removeBasketItem,  resetFilterForm: resetFilterForm, showToast:showToast, getOrderDetails:getOrderDetails
   }
 }();
 
-//estore_site();
+
+
+

@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Shared\_bsAlert.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_ModalBasket.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +47,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\_ModalBasket.cshtml" />
   </ItemGroup>
 
 	
