@@ -9,29 +9,30 @@
   <span class="fa fa-basket-shopping"></span>
   
   <div class="mt-3">
-    <div class="row">
-      <div class="col-2"></div>
-      <div class="col-4 fw-bold">Name</div>
-      <div class="col fw-bold">Price</div>
-    </div>
+    
     
     
     @foreach(var item in Model.BasketItems){
       var productId = item.ProductId;
-      <div class="row justify-content-around align-items-center">
-        <img class="col-2" src="@item.Product?.PictureUri" />
-        <i class="col-4 overflow-auto">@item.Product?.Name</i>
-        <i id="@productId-basketItemPrice" class="col-2">@item.Product?.Price</i>
-        <div class="col-1 fa fa-circle-minus" onclick="estore_site.decrementBasketItem(this)"></div>
-      <input class="col-1" id="@productId-basketItemQt" min="1" max="99" type="number" value="@item.Qt" title="Quantity" />
-        <div class="col-1 fa fa-circle-plus" onclick="estore_site.incrementBasketItem(this)"></div>
+      <div class="basket-item row align-items-center justify-content-around mt-3">
         
-        <a href="#" class="col fa fa-remove" title="Remove" onclick="estore_site.removeBasketItem(@productId)"></a>
-
+        <img class="col-3 basket-item-img" src="@item.Product?.PictureUri" />
+        <i class="col-3 overflow-auto basket-item-name">@item.Product?.Name</i>       
+        <i id="@productId-basketItemPrice" class="col">@item.Product?.Price</i>
+        
+        <div class="col-3 basket-item-div-qt">
+        <div class="col fa fa-circle-minus" onclick="estore_site.decrementBasketItem(this)"></div>
+        <input class="col basket-item-qt" id="@productId-basketItemQt" min="1" max="99" type="number" value="@item.Qt" title="Quantity" />
+        <div class="col  fa fa-circle-plus" onclick="estore_site.incrementBasketItem(this)"></div>
+        </div>
+        
+        <a href="#" class="col flex-grow-0 fa fa-remove" title="Remove" onclick="estore_site.removeBasketItem(@productId)"></a>
+    
     </div>
+      <div class="h-25 bg-dark"> </div>
       
     }
-    <div class="bg-info">Total Price
+    <div class="bg-info mt-2">Total Price
       <span id="basketTotalPrice">@Model.TotalPrice</span>
     </div>
     

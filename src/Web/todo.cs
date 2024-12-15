@@ -16,12 +16,12 @@
 //todo prevent making empty order +
 //todo caching for basket +
 //todo move constants on home controller +
-//todo update basket with +- items 
-//todo basket count should change when removing/adding items
+//todo update basket with +- items +
+//todo responsive ui, basket +
+//todo basket count should change when removing/adding items +
 //todo db app account/trigger/view
 //todo error handle for production
 //todo orders
 //todo ts errors
 //todo helper js
 //todo response compression
-//todo responsive ui
