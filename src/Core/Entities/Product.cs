@@ -20,6 +20,8 @@ public class Product : BaseEntity, IAggregateRoot
   public decimal Price { get; private set; }
   public int Qt { get; private set; }
   public string? PictureUri { get; private set; }
+  
+  public byte[] Version { get; set; }   
 
 
   public Product(string name, int? categoryId, int? brandId, decimal price, int qt, string? description = null, string? pictureUri=null)
@@ -40,11 +42,12 @@ public class Product : BaseEntity, IAggregateRoot
   }
 
   /// <summary>
-  /// Passing negative number will decrease total quantity, positive will increase it. 
+  /// Passing negative number will decrease total quantity, positive will increase it. e.g:  UpdateQt(-2) will change qt 10 to 8.
   /// </summary>
   /// <param name="qt"></param>
   public void UpdateQt(int qt)
-  {    
+  {
+    (Qt + qt).GuardNegative();
     Qt += qt;
   }
 

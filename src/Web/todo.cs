@@ -20,6 +20,7 @@
 //todo responsive ui, basket +
 //todo basket count should change when removing/adding items +
 //todo db app account/trigger/view
+//todo basketitem migration pending
 //todo error handle for production
 //todo orders
 //todo ts errors

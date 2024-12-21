@@ -25,10 +25,14 @@ public class EfRepo<T>:IRepo<T> where T : class, IAggregateRoot
 
   }
 
-  public EStoreDbContext DbContext => _dbContext;
+  //mc test debug
+  public EStoreDbContext Context => _dbContext;
+
+  public DbSet<T> DbSet => _dbContext.Set<T>();
 
   public IQueryable<T> EvaluateSpec(IQueryable<T> query, ISpec<T> spec)
   {
+    
     return SpecEvaluator.SetQuery(query, spec);
   }
 
@@ -100,15 +104,10 @@ public class EfRepo<T>:IRepo<T> where T : class, IAggregateRoot
   {
     throw new NotImplementedException();
   }
-
-  public async Task<IEnumerable<T>?> GetAllNoTrackingAsync(CancellationToken cancellationToken = default)
-  {
-    return await _dbContext.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
-
-  }
+  
   public async Task<IEnumerable<T>?> GetAllAsync(CancellationToken cancellationToken = default)
   {
-    return await _dbContext.Set<T>().ToListAsync(cancellationToken);
+    return await _dbContext.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
     
   }
 
@@ -135,6 +134,18 @@ public class EfRepo<T>:IRepo<T> where T : class, IAggregateRoot
     await SaveChangesAsync(cancellationToken);
   }
 
+  public Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+  {
+    throw new NotImplementedException();
+  }
 
-  
+  public Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+  {
+    throw new NotImplementedException();
+  }
+
+  Task<int> IRepoBase<T>.SaveChangesAsync(CancellationToken cancellationToken)
+  {
+    throw new NotImplementedException();
+  }
 }

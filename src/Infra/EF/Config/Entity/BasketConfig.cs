@@ -12,6 +12,9 @@ public class BasketConfig : IEntityTypeConfiguration<Basket>
 {
   public void Configure(EntityTypeBuilder<Basket> builder)
   {
+    builder.Property(b => b.TotalPrice)
+      .HasColumnType("decimal(18, 2)");
+
     builder.HasMany(b => b.BasketItems)
       .WithOne()      
       .IsRequired();

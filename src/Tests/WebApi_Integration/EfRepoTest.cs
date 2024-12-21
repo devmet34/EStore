@@ -5,6 +5,7 @@ using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 using Estore.Core.Entities;
 using Estore.Core.Entities.BasketAggregate;
+using Estore.Core.Entities.OrderAggregate;
 using Estore.Core.Interfaces;
 using Estore.Core.Services;
 using EStore.Core.Query;
@@ -31,10 +32,11 @@ public class EfRepoTest
   IRepo<Basket> repo;
   IRepo<Product> repoProd;
   string buyerId = "fefefd7e-d506-45ad-aa9d-7dc80cd15dc1";
+  
   public EfRepoTest(ITestOutputHelper output)
   {
     this.output = output;
-   
+    
   }
 
   
@@ -43,26 +45,46 @@ public class EfRepoTest
   public async void Test()
   {
     //IRepo<Basket> repo;
-    //var app = ProgramFactory.webApplicationFactory;
+    var app = ProgramFactory.webApplicationFactory;
     
-    var config = Config.GetConfig();
-    var res = BenchmarkRunner.Run<BenchEfRepo>(config);
-    return;
-    /*
+
+    var config = Config.GetConfig(); //for benchmark.net
+    //var res = BenchmarkRunner.Run<BenchEfRepo>(config);
+   
+    
     using (var scope = app.Services.CreateScope())
     {
       repo = scope.ServiceProvider.GetRequiredService<IRepo<Basket>>();
       repoProd=scope.ServiceProvider.GetRequiredService<IRepo<Product>>();
-      TestProductRepo();
-      return;
-      var query = repoProd.Query();
-      query = query.Where(p => p.CategoryId > 1);
-       
-      //var res=BenchmarkRunner.Run<BenchmarkClass>(config);
-      output.WriteLine(res.Table.ToString());
-      //output.WriteLine(res.ToJson());
-      
-      int ii = 2;
+      var context= scope.ServiceProvider.GetRequiredService<EStoreDbContext>();
+      var prod=context.Products.Where(p => p.Id == 1).FirstOrDefault();
+      //var prod= repoProd.Query().Where(p=>p.Id==1).FirstOrDefault();
+      if (prod == null)
+        return;
+      while (true)
+      {
+        prod = context.Products.Where(p => p.Id == 1).FirstOrDefault();
+        var orderItem = new OrderItem(1, prod.Id, prod.Name,1, prod.Price);
+        prod.UpdateQt(-1);
+        context.OrderItem.Add(orderItem);
+
+        try
+        {
+          context.SaveChanges();
+        }
+
+        catch (DbUpdateConcurrencyException ex) {
+          int aa = 1;
+        }
+        //Thread.Sleep(1000);
+        //context.SaveChanges();
+        //repoProd.con 
+        //var res=BenchmarkRunner.Run<BenchmarkClass>(config);
+        //output.WriteLine(res.Table.ToString());
+        //output.WriteLine(res.ToJson());
+
+        int ii = 2;
+      }
       return;
       await TestProductRepo();
       return;
@@ -91,7 +113,7 @@ public class EfRepoTest
       
     }
     
-    */
+    
   }
 
   private async Task TestProductRepo()

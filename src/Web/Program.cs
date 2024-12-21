@@ -31,13 +31,12 @@ using Microsoft.AspNetCore.Authorization;
 var builder = WebApplication.CreateBuilder(args);
 
 
-//Helper.SetSeriLog();
-//builder.Logging.AddSerilog();
+Helper.SetSeriLog();
+builder.Logging.AddSerilog();
 
 builder.Services.AddAntiforgery();
 
-builder.Logging.AddMCLogger(builder.Configuration)
- .AddFileSink();
+//builder.Logging.AddMCLogger(builder.Configuration).AddFileSink(); //mc custom logger
 //builder.Services.Configure<MCLoggerOptions>(builder.Configuration.GetSection("MCLoggerOptions"));
 /*builder.Logging.AddMCLogger(options => { 
   options.Delimeter = "||||";options.LogLevel = LogLevel.Information; });

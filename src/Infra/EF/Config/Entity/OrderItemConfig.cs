@@ -16,6 +16,8 @@ public class OrderItemConfig : IEntityTypeConfiguration<OrderItem>
     builder.Property<string>(o => o.ProductName)
       .HasColumnType("nvarchar(90)")
       .IsRequired();
+    builder.Property(o => o.Price)
+      .HasColumnType("decimal(18, 2)");
     /*
     builder.HasOne(o => o.Product)
       .WithMany()

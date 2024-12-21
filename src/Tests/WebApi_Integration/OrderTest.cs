@@ -28,7 +28,7 @@ public class OrderTest
     //var basket= await basketService.GetBasketAsync(userId);
     await orderService.CreateOrderAsync(userId);
 
-    var order = await orderService.GetAllOrders(userId);
+    var order = await orderService.GetAllOrdersAsync(userId);
     //Xunit.Assert.True(order.FirstOrDefault().OrderItems.Count > 1);
   }
 }

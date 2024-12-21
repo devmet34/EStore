@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WebApi_Integration": {
+      "commandName": "Project",
+      "sqlDebugging": true
+    }
+  }
+}

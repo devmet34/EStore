@@ -26,7 +26,7 @@ public class OrderService
     return await _repo.Query().Where(o => o.Id == orderId).FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<Order?>> GetAllOrders(string buyerId)
+  public async Task<IEnumerable<Order?>> GetAllOrdersAsync(string buyerId)
   {
     return await _repo.Query().Where(o => o.BuyerId == buyerId)
       .Include(o=>o.OrderItems).AsNoTracking().ToListAsync();

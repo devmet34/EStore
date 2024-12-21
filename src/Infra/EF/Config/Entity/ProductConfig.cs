@@ -18,24 +18,21 @@ namespace EStore.Infra.EF.Config.Entity
       //builder.ToTable("Products");
 
 
-
-      
-
-
       builder.Property(p => p.Name)
         .IsRequired()
         .HasMaxLength(30);
-
 
       builder.Property(p => p.Price)
         .IsRequired()
         .HasColumnType("decimal(18,2)");
 
+      builder.Property(p => p.Version)
+        .IsRowVersion();
+
       builder.HasOne(p => p.Brand)
         .WithMany()
         .HasForeignKey(p => p.BrandId);
-        
-
+              
 
       builder.HasOne(p => p.Category)
         .WithMany()

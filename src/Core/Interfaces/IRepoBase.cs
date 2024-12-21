@@ -8,6 +8,7 @@ namespace Estore.Core.Interfaces
 {
   public interface IRepoBase<T> where T : class
   {
+    public Task<IEnumerable<T>?> GetAllAsync(CancellationToken cancellationToken = default);
     Task AddAsync(T entity, CancellationToken cancellationToken = default);
 
     Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);

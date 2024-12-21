@@ -57,7 +57,7 @@ public class OrderController : Controller
   public async Task<IActionResult> Orders([FromServices] OrderService orderService)
   {
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
-    var orders = await orderService.GetAllOrders(buyerId);
+    var orders = await orderService.GetAllOrdersAsync(buyerId);
 
     return View(orders);
 

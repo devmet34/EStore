@@ -26,9 +26,9 @@ namespace EStore.Infra.EF
     public DbSet<CustomerAddress> CustomerAddresses { get; set; }
 
     public DbSet<Order> Orders { get; set; }
-
-   
   
+    public DbSet<OrderItem> OrderItem { get; set; }   //mc debug test
+
 
 
     protected override void OnModelCreating(ModelBuilder builder)
