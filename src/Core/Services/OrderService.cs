@@ -12,10 +12,11 @@ public class OrderService
   private readonly ILogger<OrderService> _logger;
   private readonly IBasketService _basketService;
   private readonly ProductService _productService;
-
-  public OrderService(IRepo<Order> repo, ILogger<OrderService> logger, Interfaces.IBasketService basketService, ProductService productService)
+  private readonly IRepoOrder _repoOrder;
+  public OrderService(IRepo<Order> repo, IRepoOrder repoOrder, ILogger<OrderService> logger, Interfaces.IBasketService basketService, ProductService productService)
   {
     _repo = repo;
+    _repoOrder = repoOrder;
     _logger = logger;
     _basketService = basketService;
     _productService = productService;
@@ -55,6 +56,19 @@ public class OrderService
 
     if (basket!.BasketItems.Count == 0)
       throw new Exception("Basket empty");
+
+    try
+    {
+      await _repoOrder.CreateOrderAsync(basket);
+      await _basketService.RemoveBasketAsync(basket!);
+      return;
+    }
+    catch (Exception ex) {
+      _logger.LogError(ex.Message);
+      throw;
+     }
+    
+    
 
     foreach (var item in basket!.BasketItems)
     {

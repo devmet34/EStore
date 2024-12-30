@@ -13,7 +13,8 @@ public static class ConfigureCoreServices
     services.AddScoped<ProductService>();
     services.AddScoped<OrderService>();
     services.AddScoped<FilterService>();
-    services.AddScoped<RedisService>();    
+    services.AddScoped<RedisService>();
+    services.AddScoped<IRepoOrder, RepoOrder>();
     return services;
 
   }
