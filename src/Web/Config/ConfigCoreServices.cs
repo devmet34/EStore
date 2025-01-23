@@ -10,6 +10,7 @@ public static class ConfigureCoreServices
   {
     services.AddScoped(typeof(IRepo<>),typeof( EfRepo<>));
     services.AddScoped<IBasketService, BasketCacheService>();
+    services.AddScoped<BasketService>(); //mc for tests
     services.AddScoped<ProductService>();
     services.AddScoped<OrderService>();
     services.AddScoped<FilterService>();

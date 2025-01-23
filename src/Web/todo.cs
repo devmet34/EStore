@@ -19,7 +19,7 @@
 //todo update basket with +- items +
 //todo responsive ui, basket +
 //todo basket count should change when removing/adding items +
-//todo db app account/trigger/view
+//todo db app account/trigger/view/constraints
 //todo basketitem migration pending
 //todo error handle for production
 //todo orders

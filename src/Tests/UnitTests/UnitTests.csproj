@@ -28,7 +28,7 @@
     <ProjectReference Include="..\..\Core\Core.csproj" />
     <ProjectReference Include="..\..\Infra\Infra.csproj" />
     <ProjectReference Include="..\..\Web\Web.csproj" />
-    <ProjectReference Include="..\WebApi_Integration\WebApi_Integration.csproj" />
+    <ProjectReference Include="..\WebApi_Integration\WebApi_IntegrationTests.csproj" />
   </ItemGroup>
 
   <ItemGroup>

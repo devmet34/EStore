@@ -37,6 +37,9 @@ public class BasketService : IBasketService
 
   }
 
+  //mc debug test
+  public IRepo<Basket> Repo => _repo;
+
   public async Task<Basket?> GetOrCreateBasketAsync(string buyerId)
   {
     buyerId.GuardNullOrEmpty();
