@@ -32,19 +32,30 @@ body {
 }
 
 .body-container{
-  padding-top:10vw;
+  padding-top:8vw;
 }
 
 show {
 }
 
+.nav-bar {
+  background-color:lightgrey
+}
+
+.nav-bar-links{
+  justify-content:center;
+}
+
+.navbar-brand{
+
+}
 
 
 .top-basket-toggle {
   float: right;
   font-size: xx-large;
-  text-decoration:none;
-  color:green;
+  text-decoration: none;
+  color: green;
 }
 
 .top-basket-container{
@@ -86,6 +97,8 @@ show {
   display: flex;
   margin-top: 5%;
   margin-bottom:3%;
+  padding-left:0;
+  padding-right:0;
   gap: 3%;
   align-items: center;
   justify-content: center;
