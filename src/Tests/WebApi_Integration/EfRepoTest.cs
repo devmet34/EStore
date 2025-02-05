@@ -54,6 +54,9 @@ public class EfRepoTest
     
     using (var scope = app.Services.CreateScope())
     {
+      var readRepo = scope.ServiceProvider.GetRequiredService<IRepoRead>();
+      var orders=readRepo.Query<Order>().AsNoTracking().ToList();
+      var ordersAndItems=readRepo.Query<Order>().Include(o=>o.BuyerId==buyerId).AsNoTracking().ToList();
       repo = scope.ServiceProvider.GetRequiredService<IRepo<Basket>>();
       repoProd=scope.ServiceProvider.GetRequiredService<IRepo<Product>>();
       var context= scope.ServiceProvider.GetRequiredService<EStoreDbContext>();

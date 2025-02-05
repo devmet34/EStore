@@ -11,5 +11,5 @@ public interface IRepoOrder
 {
   public Task<Order?> GetOrderAsync(int orderId);
   public Task<IEnumerable<Order?>> GetAllOrdersAsync(string buyerId);
-  public Task CreateOrderAsync(Basket basket);
+  public Task CreateOrderAsync(Basket basket, int addressId);
 }

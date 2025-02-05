@@ -20,8 +20,10 @@
 //todo responsive ui, basket +
 //todo basket count should change when removing/adding items +
 //todo highligt top navbar, change basket/filter icon locations +
-//todo db app account/trigger/view/constraints
-//todo basketitem migration pending
+//todo db app account/trigger/view/constraints +
+//todo basketitem migration pending ?
+//todo customeraddress relation with order
+//todo concurrency handling for orders 
 //todo error handle for production
 //todo orders
 //todo ts errors

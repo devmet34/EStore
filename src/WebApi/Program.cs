@@ -4,10 +4,9 @@ using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
 using Estore.Core.Services;
 using Estore.Core.Specs;
-using EStore.Infra.EF;
 using EStore.Infra.EF.Config;
 using EStore.Infra.EF.Identity;
-
+using EStore.Infra.EF.Repos;
 using EStore.Web;
 using EStore.Web.Config;
 using EStore.WebApi;
@@ -106,7 +105,7 @@ async void Debug4Scope()
 
 
 
-    var repo=(EfRepo<Product>) scopedProvider.GetRequiredService<IRepo<Product>>();
+    var repo=(GenericRepo<Product>) scopedProvider.GetRequiredService<IRepo<Product>>();
     //repo.TestSpec(p => p.Id == 1);
     //IQueryable<Product> query;
     ProductSpec spec=new ProductSpec() { ProductId=5};

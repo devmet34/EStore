@@ -12,8 +12,8 @@ namespace Estore.Core.Entities.OrderAggregate;
 public class Order : BaseEntity, IAggregateRoot
 {
     public string BuyerId { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    //public CustomerAddress Address { get; private set; }
+    public DateTime CreatedAt { get; private set; }   
+    public int CustomerAddressId { get; private set; }
     public decimal TotalPrice { get; private set; }
     private readonly List<OrderItem> _orderItems = new();
     public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
@@ -21,12 +21,12 @@ public class Order : BaseEntity, IAggregateRoot
     //mc required for ef core
     private Order() { }
 
-    public Order(Basket basket)
+    public Order(Basket basket, int addressId)
     {
         basket.BasketItems.GuardNull();
         BuyerId = basket.BuyerId;
         CreatedAt = DateTime.Now;
-        //Address = address;
+        CustomerAddressId = addressId;
         TotalPrice = basket.TotalPrice;
         SetOrderItems(basket);
 
