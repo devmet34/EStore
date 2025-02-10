@@ -4,6 +4,7 @@ using EStore.Infra.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EStore.Infra.EF.Migrations
 {
     [DbContext(typeof(EStoreDbContext))]
-    partial class EStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250209192546_AddressProductRelationUpdates")]
+    partial class AddressProductRelationUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,8 +280,7 @@ namespace EStore.Infra.EF.Migrations
                 {
                     b.HasOne("Estore.Core.Entities.CustomerAddress", null)
                         .WithMany()
-                        .HasForeignKey("CustomerAddressId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("CustomerAddressId");
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.OrderAggregate.OrderItem", b =>

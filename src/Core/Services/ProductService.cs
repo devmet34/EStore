@@ -26,11 +26,11 @@ public class ProductService
     _logger = logger;
   }
 
-  public async Task<IEnumerable<Product>?> GetProductsPagedAsync( string sortBy="name")
+  public async Task<IEnumerable<Product>?> GetProductsPagedAsync( string? sortBy)
   {
     
     query = _repo.Query();
-    sortBy = sortBy.ToLower();
+    sortBy = sortBy?.ToLower();
 
     //query=query.OrderBy(p => p.Name).Take(pageSize);
     SetSort(sortBy);
@@ -163,7 +163,7 @@ public class ProductService
     return query;
   }
 
-  private void SetSort(string sortBy)
+  private void SetSort(string? sortBy)
   {
     switch (sortBy)
     {
@@ -180,7 +180,7 @@ public class ProductService
         query=query.OrderBy(p => p.Category).ThenBy(p => p.Name);
         break;
       default:
-        query = query.OrderBy(p => p.Id);
+        query = query.OrderBy(p => p.SortOrder);
         break;
     }
     

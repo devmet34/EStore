@@ -37,6 +37,9 @@ namespace EStore.Web.Areas.Identity.Pages.Account.Manage
     {      
       var customerAddress=await GetCustomerAddress();
       Address=_mapper.Map<AddressVM>(customerAddress);
+      //mc, to prevent null reference exception 
+      if (Address==null)
+        Address=new AddressVM();
     }
 
 
@@ -52,8 +55,20 @@ namespace EStore.Web.Areas.Identity.Pages.Account.Manage
         return Page();
       }
 
-      if (Address!=null)
-        customerAddress!.Update(Address.Street!,Address.Province,Address.City!,Address.Country!,Address.ZipCode);
+      if (Address != null)
+      {
+        if (customerAddress!=null)
+          customerAddress!.Update(Address.Street!, Address.Province, Address.City!, Address.Country!, Address.ZipCode);
+        else
+        {
+          var newAddress = _mapper.Map<CustomerAddress>(Address);
+          customerAddress = newAddress;
+          //customerAddress.UserId= User.FindFirstValue(ClaimTypes.NameIdentifier);
+          await _dbcontext.AddAsync(customerAddress);
+        }
+          
+      }
+        
       
       await _dbcontext.SaveChangesAsync();
 

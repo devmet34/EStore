@@ -23,7 +23,7 @@ namespace Web
     
     public const int JWT_EXP_DAYS = 7;
 
-    public const string DEFAULT_SORT = "id";
+    public const string DEFAULT_SORT = "Order";
 
     public const string cacheProductsKey = ":Products";
 

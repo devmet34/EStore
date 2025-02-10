@@ -20,6 +20,7 @@ public class Product : BaseEntity, IAggregateRoot
   public decimal Price { get; private set; }
   public int Qt { get; private set; }
   public string? PictureUri { get; private set; }
+  public short? SortOrder {  get; private set; }
   
   public byte[] Version { get; set; }   
 

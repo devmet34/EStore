@@ -1,4 +1,5 @@
-﻿using Estore.Core.Entities.BasketAggregate;
+﻿using Estore.Core.Entities;
+using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Entities.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -15,5 +16,13 @@ public class OrderConfig: IEntityTypeConfiguration<Order>
   {
     builder.Property(o => o.TotalPrice)
      .HasColumnType("decimal(18, 2)");
+
+    builder.HasOne<CustomerAddress>()
+      .WithMany()
+      .HasForeignKey(o => o.CustomerAddressId)
+      .OnDelete(DeleteBehavior.SetNull);
+      
+    
+     
   }
 }

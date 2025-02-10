@@ -40,7 +40,8 @@ public class EstoreContextSeed
                 j = 1;
             var price = (decimal)randomN.Next(1, 100) / 2 + 1;
             var url = $"image/{j}.png";
-            var prod = new Product($"product{i}", null, null, price, 5, null, url);
+            var categoryId = 0; //mc, this can be taken from enum  
+            var prod = new Product($"product{i}", categoryId, null, price, 5, null, url);
             products.Add(prod);
             j++;
         }

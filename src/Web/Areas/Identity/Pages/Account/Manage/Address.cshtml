@@ -1,8 +1,12 @@
 ﻿@page
 @model EStore.Web.Areas.Identity.Pages.Account.Manage.AddressModel
 @{
-
- }
+  @using System.Security.Claims  
+  var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+  
+ 
+  var t = "";
+}
 
 <partial name="_status" model=@(Model.Status) />
   <h2 class="mb-5">Customer Details</h2>
@@ -34,6 +38,10 @@
     <div class="row mb-3">
       <label class="form-label text-lg" for="country">Country</label>
       <input  class="form-control" asp-for="Address!.Country" id="country" type="text" required maxlength="20" value="@Model.Address.Country" />
+    </div>
+
+    <div hidden>
+      <input hidden asp-for="Address!.UserId" value=@userId />
     </div>
 
 

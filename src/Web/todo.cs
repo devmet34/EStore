@@ -23,6 +23,8 @@
 //todo db app account/trigger/view/constraints +
 //todo basketitem migration pending ?
 //todo customeraddress relation with order
+//todo redis con exceptions when redis stopped? exception at: if (IsUserSigned()) basket = await GetOrCreateBasketAsync(). Fall back to db when cache n/a?
+//todo dereference possible nulls 
 //todo concurrency handling for orders 
 //todo error handle for production
 //todo orders

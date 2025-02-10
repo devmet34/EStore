@@ -11,6 +11,7 @@ public class AutoMapperProfile:Profile
   {
     CreateMap<Product,ProductVM>();
     CreateMap<Basket,BasketVM>();
-    CreateMap<CustomerAddress,AddressVM>();    
+    CreateMap<CustomerAddress,AddressVM>();
+    CreateMap<AddressVM, CustomerAddress>();
   }
 }

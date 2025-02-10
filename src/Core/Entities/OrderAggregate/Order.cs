@@ -13,7 +13,7 @@ public class Order : BaseEntity, IAggregateRoot
 {
     public string BuyerId { get; private set; }
     public DateTime CreatedAt { get; private set; }   
-    public int CustomerAddressId { get; private set; }
+    public int? CustomerAddressId { get; private set; }
     public decimal TotalPrice { get; private set; }
     private readonly List<OrderItem> _orderItems = new();
     public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;

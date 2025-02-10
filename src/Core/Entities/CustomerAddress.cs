@@ -20,7 +20,7 @@ public class CustomerAddress:BaseEntity
 
   public int ZipCode { get; private set; }
 
- 
+ public CustomerAddress() { }
 
   public CustomerAddress(string userId, string street, string? province, string city, string country, int zipCode)
   {

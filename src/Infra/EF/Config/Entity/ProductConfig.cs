@@ -29,6 +29,10 @@ namespace EStore.Infra.EF.Config.Entity
       builder.Property(p => p.Version)
         .IsRowVersion();
 
+      builder.Property(p => p.SortOrder)
+        .IsRequired(false)
+        .HasDefaultValue((short)999);
+
       builder.HasOne(p => p.Brand)
         .WithMany()
         .HasForeignKey(p => p.BrandId);
