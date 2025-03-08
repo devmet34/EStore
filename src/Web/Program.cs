@@ -24,12 +24,19 @@ using Web;
 using static Web.Constants;
 using Estore.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Estore.Core.Interfaces;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.AspNetCore.Mvc;
+using Estore.Core.Entities.BasketAggregate;
 
 
 // Add services to the container.
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddLogging();
 
 Helper.SetSeriLog();
 builder.Logging.AddSerilog();
@@ -42,21 +49,10 @@ builder.Services.AddAntiforgery();
   options.Delimeter = "||||";options.LogLevel = LogLevel.Information; });
 */
 
-
 //Helper.SetMCLogger();
-
-
 
 ConfigDb.AddDbContexts(builder.Configuration, builder.Services);
 //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-//var connectionString = builder.Configuration.GetConnectionString("EStore") ?? throw new InvalidOperationException("Connection string 'EStore' not found.");
-//var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
-
-//var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
-
-//builder.Services.AddDbContext<Cont>(options => options.UseSqlServer(connectionString));
-//builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppIdentityDbContext>();
-
 
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
@@ -71,14 +67,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-
+//mc, add/register redis stackexchange to di container
 ConfigRedis.AddRedis(builder);
 
-builder.Services.AddHostedService<RedisHealthCheckService>();
+//builder.Services.AddHostedService<RedisHealthCheckService>();
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddCoreServices();
-
-
+builder.Services.AddCoreServices(); //mc, registering custom services for the app.
 
 var app = builder.Build();
 app?.Logger.LogInformation("App created...");
@@ -87,7 +81,7 @@ app?.Logger.LogInformation("App created...");
 // Configure the HTTP request pipeline.
 
 
-if (app.Environment.IsDevelopment())
+if (app!.Environment.IsDevelopment())
 {
   app.UseDeveloperExceptionPage();
 
@@ -101,15 +95,10 @@ else
   app.UseHsts();
 }
 
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
-
 app.UseAuthorization();
-
 
 app.MapControllerRoute(
     name: "default",
@@ -117,34 +106,6 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-
-
-app.Use(async (context, next) => {
-  Helper.LogCritical("app.use before next");
-  if (context.Request.Path.ToString().Contains("route"))
-  {
-    Helper.LogCritical(context.Request.Path);
-    context.Response.Cookies.Append("test_cookie", "this is test cookie val");
-  }
-  /*
-  var stream=context.Request.Body;
-  var reader=new StreamReader(stream);
-  var res=await reader.ReadToEndAsync();
-  */
-  await next();
-
-  Helper.LogCritical("app.use after next");
-
-
-
-});
-
-app.MapGet("filter", async context =>
-{
-  using var scope = context.RequestServices.CreateScope();
-  var prodService = scope.ServiceProvider.GetRequiredService<ProductService>();
-  
-});
 
 //mc; map for listing all registered routes
 
@@ -158,3 +119,39 @@ app.MapGet("routes", (IEnumerable<EndpointDataSource> epSources) =>
 
 app.Run();
 
+
+
+/*
+//mc, test debug minimal api with services injected
+app.MapGet("testsp", async ( [FromServices] ILogger<Program> logger, [FromServices] IRepo<Basket> repo, HttpContext context) => {
+  logger.LogDebug("******in testsp");
+  //var q=repo.Query<Basket>();
+  var t = await repo.DbSet.FromSql($"exec dbo.test_sp").ToListAsync();
+  logger.LogDebug("******testsp end");
+  return Results.Ok(t);
+
+});
+*/
+
+/* 
+//mc, test debug cookie and body alterations
+app.Use(async (context, next) => {
+  Helper.LogCritical("app.use before next");
+  if (context.Request.Path.ToString().Contains("route"))
+  {
+    Helper.LogCritical(context.Request.Path);
+    context.Response.Cookies.Append("test_cookie", "this is test cookie val");
+  }
+  
+  var stream=context.Request.Body;
+  var reader=new StreamReader(stream);
+  var res=await reader.ReadToEndAsync();
+  
+  await next();
+
+  Helper.LogCritical("app.use after next");
+
+
+
+});
+*/

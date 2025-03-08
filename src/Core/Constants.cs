@@ -12,4 +12,9 @@ public class Constants
   public const string basketCacheKey = ":Basket";
   public const char basketCacheDelimeter = '_';
   public readonly static TimeSpan basketCacheDuration= TimeSpan.FromSeconds(180000);
+
+  public const string redisGenericException = "Redis cache error, check logs for details. ";
+  public const string redisSetErrorMsg = "Error during setting redis cache data. ";
+  public const string redisGetErrorMsg = "Error during getting redis cache data. ";
+  public const string redisRemoveErrorMsg = "Error during removing data. ";
 }

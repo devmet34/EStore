@@ -95,7 +95,7 @@ public class EfRepoTest
       var r = await repo.GetByQuery(q);
       output.WriteLine(r.ToJson());
       return;
-      var basketService=scope.ServiceProvider.GetRequiredService<BasketService>();
+      var basketService=scope.ServiceProvider.GetRequiredService<BasketDBService>();
 
       
 

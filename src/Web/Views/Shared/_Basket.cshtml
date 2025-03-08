@@ -37,7 +37,7 @@
     </div>
     
     <form  method="post">
-    <input type="submit" class="btn-sm mt-2" value="Remove Basket" asp-page-handler="removebasket" onclick="return confirm('Are you sure to remove basket?')" />
+    <input type="submit" class="btn-sm mt-2" value="Remove Basket" asp-action="removebasket" onclick="return confirm('Are you sure to remove basket?')" />
     </form>
     @if (Model.BasketItems.Count() > 0)
     {

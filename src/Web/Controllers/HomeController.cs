@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.ContentModel;
+
 //using Newtonsoft.Json;
 using NuGet.Protocol;
 using System.Collections.Generic;
@@ -36,8 +38,10 @@ namespace EStore.Web.Controllers
     private const string DEFAULT_SORT = Constants.DEFAULT_SORT;
     private readonly string cacheProductsKey = Constants.cacheProductsKey;
     
+    private bool _isRedisBroken;
+
     //mc; separate controllers or razor pages would be better to mitigate di overhead. not using for brevity 
-    public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager,  ProductService productService, IBasketService basketService, RedisService redisService, IMapper mapper)
+    public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager, ProductService productService, IBasketService basketService, RedisService redisService, IMapper mapper)
     {
       _logger = logger;
       _signInManager = signInManager;
@@ -45,6 +49,7 @@ namespace EStore.Web.Controllers
       _basketService = basketService;
       _redisService = redisService;
       _mapper = mapper;
+      
     }
 
     [HttpPost]
@@ -60,8 +65,16 @@ namespace EStore.Web.Controllers
     {
       return _signInManager.IsSignedIn(HttpContext.User);
     }
-
-    //mc For home page; get 20 products from redis cache if cached otherwise fetch from db
+    /// <summary>
+    /// mc, Home page; get paged (default 20) products from redis cache if cached otherwise fetch them from db and sync to redis if available.
+    /// isSuccess bool is used to show success toast msg. Controllers may redirect to here with success msg. 
+    /// </summary>
+    /// <param name="page"></param>
+    /// <param name="sortBy"></param>
+    /// <param name="isSuccess"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    //
     public async Task<IActionResult> Index( int page = 1, string sortBy = DEFAULT_SORT, bool? isSuccess=null)
     {
       if (!ModelState.IsValid)
@@ -69,49 +82,33 @@ namespace EStore.Web.Controllers
       
       ViewData["success"] = isSuccess;
       Basket? basket = null;
+      
       if (IsUserSigned())
+      {
         basket = await GetOrCreateBasketAsync();
-
+      }
+        
       HomeVM? homeVM=null;
       IEnumerable<ProductVM>? cachedProducts=null;
-      if (RedisHealthCheckService.IsRedisConnected)
+      try { cachedProducts = await _redisService.GetCachedDataAsync<IEnumerable<ProductVM>>(cacheProductsKey); }
+      catch { _isRedisBroken = true; }
       
-      {
-        try
-        {
-          cachedProducts = await _redisService.GetCachedDataAsync<IEnumerable<ProductVM>>(cacheProductsKey);
-        }
-        catch (Exception ex)
-        {
-          _logger.LogError(ex.ToString());
-        }
-      }
-     
-
       if (cachedProducts != null)
         {
           _logger.LogDebug("Fetched products from redis cache");
           homeVM = new HomeVM() { Basket = basket, Products = cachedProducts };
           return View(homeVM);
 
-        }            
+        }
 
       IEnumerable<ProductVM>? productVM = null;
       var products = await _productService.GetProductsPagedAsync(sortBy);
       if (products != null)
       {
         productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
-        if (RedisHealthCheckService.IsRedisConnected)
-        {
-          try
-          {
-            await _redisService.SetCacheDataAsync<IEnumerable<ProductVM>>(cacheProductsKey, productVM, TimeSpan.FromMinutes(30));
-          }
-          catch (Exception ex)
-          {
-            _logger?.LogError(ex.ToString());
-          }
-        }
+        
+        if (!_isRedisBroken)
+          await _redisService.SetCacheDataAsync<IEnumerable<ProductVM>>(cacheProductsKey, productVM, TimeSpan.FromMinutes(30));
       }        
 
       homeVM = new HomeVM() { Basket = basket, Products = productVM };
@@ -160,67 +157,6 @@ namespace EStore.Web.Controllers
     }
 
 
-
-    /*
-    [HttpPost]
-    [Authorize]
-    [Route("SetBasketItem")]
-    [ValidateAntiForgeryToken]
-    public async Task SetBasketItem(int productId, int qt)
-    {
-
-      productId.GuardZero();
-      productId.GuardNegative();
-
-      
-
-      var buyerId = GetBuyerId();
-      GuardExtensions.GuardNullOrEmpty(buyerId);
-
-
-      await _basketService.SetBasketItemAsync(buyerId!, productId,qt);
-      //return RedirectToAction("Index");
-    }
-    */
-
-    /*
-    [HttpPost]
-    [Authorize]
-    [Route("RemoveBasketItem")]
-    public async Task<IActionResult> RemoveBasketItem([FromBody] int productId)
-    {
-      productId.GuardZero();
-      productId.GuardNegative();
-
-      
-
-      var buyerId = GetBuyerId();
-      GuardExtensions.GuardNullOrEmpty(buyerId);
-
-      await _basketService.RemoveBasketItemAsync(buyerId!,productId);
-      //return RedirectToAction("getbasket");
-      return Ok("Basket item removed");
-
-    }
-    
-
-
-    [HttpGet]
-    [Authorize]
-    [Route("getbasketcount")]
-    public async Task<int> GetBasketCountAsync()
-    {
-      var buyerId = GetBuyerId();
-      buyerId.GuardNullOrEmpty();
-
-      var basket = await _basketService.GetBasketAsync(buyerId!, true);
-      basket.GuardNull();
-      return basket!.BasketItems.Count;
-    }
-
-    */
-
-
       private string? GetBuyerId()
     {
       return User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -244,9 +180,11 @@ namespace EStore.Web.Controllers
       var buyerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
       if (buyerId == null)
         return null;
-      return await _basketService.GetOrCreateBasketAsync(buyerId);
 
+      return await _basketService.GetOrCreateBasketAsync(buyerId);
         
     }
+
+    
   }//eo cls
 }

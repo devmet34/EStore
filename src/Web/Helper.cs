@@ -1,9 +1,13 @@
-﻿using EStore.Infra.EF;
+﻿using Estore.Core.Extensions;
+using Estore.Core.Interfaces;
+using Estore.Core.Services;
+using EStore.Infra.EF;
 using EStore.Infra.EF.Helpers;
 using NuGet.Protocol;
 using Serilog;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
+using System.Security.Policy;
 
 namespace EStore.Web
 {
@@ -27,7 +31,8 @@ namespace EStore.Web
         .MinimumLevel.Debug()
       //.WriteTo.Console(outputTemplate: "[{Timestamp:yyyy-dd-MM HH:mm:ss:fff}\t[{Level:u3}]\t{Message:lj}\t{NewLine}{Exception}")
       .WriteTo.File("Log.txt",
-      outputTemplate: "[{Timestamp:yyyy-dd-MM HH:mm:ss:fff}\t[{Level:u3}]\t{Message:lj}\t{NewLine}{Exception}")
+      outputTemplate: "[{Timestamp:yyyy-dd-MM HH:mm:ss:fff}\t[{Level:u3}]\t{SourceContext}\t{Message:lj}\t{NewLine}{Exception}")
+      
       
       .CreateLogger();
     }
@@ -58,6 +63,14 @@ namespace EStore.Web
 
     }
 
+    public static List<ServiceDescriptor> ListServicesByKey(WebApplicationBuilder builder, string pattern)
+    {
+      pattern.GuardNullOrEmpty();
+
+      return builder.Services.Where(s => s.ServiceType.FullName.Contains(pattern, StringComparison.OrdinalIgnoreCase)).ToList();
+
+    }
+
     internal static async Task UpdateProd(WebApplication app)
     {
       using var scope = app.Services.CreateScope();
@@ -76,6 +89,14 @@ namespace EStore.Web
     {
       return user.FindFirstValue(ClaimTypes.NameIdentifier);
     }
+
+    public static IBasketService GetBasketService(HttpContext context)
+    {
+      context.GuardNull();
+      return context.RequestServices.GetRequiredService<BasketDBService>();
+        
+    }
+    
     public static void LogD()
     {
       

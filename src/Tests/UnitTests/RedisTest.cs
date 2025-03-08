@@ -11,7 +11,7 @@ using EStore.Web.Models;
 
 
 namespace UnitTests;
-public class JsonRedisTest
+public class RedisTest
 {
   string redisConnString = "localhost:6379";
 
@@ -20,8 +20,9 @@ public class JsonRedisTest
   {
     var mux = ConnectionMultiplexer.Connect(redisConnString, options =>
     {
-      
+      options.AbortOnConnectFail = false;
     });
+    var key = "Estore:Test";
     var redisDb=mux.GetDatabase();
     var json =  redisDb.HashGet("Estore:Products","data");
     var res= JsonSerializer.Deserialize<IEnumerable<ProductVM>>(json);

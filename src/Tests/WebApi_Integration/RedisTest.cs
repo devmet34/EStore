@@ -27,7 +27,7 @@ public class RedisTest
   public RedisTest(ITestOutputHelper output) {
     this.output = output;
     scope= app.Services.CreateScope();
-    scope.ServiceProvider.GetRequiredService<RedisService>();
+    redisService=scope.ServiceProvider.GetRequiredService<RedisService>();
   }
 
   [Fact]

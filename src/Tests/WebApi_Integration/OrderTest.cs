@@ -28,7 +28,7 @@ public class OrderTest
     
     var productService= scope.ServiceProvider.GetRequiredService<ProductService>();
     var orderService = scope.ServiceProvider.GetRequiredService<OrderService>();
-    var basketService= scope.ServiceProvider.GetRequiredService<BasketService>();
+    var basketService= scope.ServiceProvider.GetRequiredService<BasketDBService>();
     
     var product = await productService.GetProductAsync(1);
     var basket = new Basket(userId);

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
 using Estore.Core.Services;
@@ -20,17 +21,20 @@ namespace EStore.Web.Pages
     private readonly IBasketService _basketService;
     private readonly ILogger<BasketModel> _logger;
     private readonly IMapper _mapper;
+    //private readonly BasketServiceFactory _basketServiceFactory;
     internal BasketVM? BasketVM { get; set; }
     public BasketModel(ProductService productService, IBasketService basketService, IMapper mapper, ILogger<BasketModel> logger)
-    {
+    {      
       _productService = productService;
       _basketService = basketService;
       _mapper = mapper;
       _logger = logger;
-    }
+      
 
+    }
+    
     private string? GetBuyerId()
-    {
+    {      
       return User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
     
@@ -39,9 +43,10 @@ namespace EStore.Web.Pages
     {
       var buyerId = GetBuyerId();
       buyerId.GuardNullOrEmpty();
-
+      var basket= await _basketService.GetBasketAsync(buyerId!);
+      
       //var basket = await _basketService.GetBasketAsync(buyerId!, false, true);
-      var basket = await _basketService.GetBasketAsync(buyerId!);
+
       BasketVM = _mapper.Map<BasketVM>(basket);
      
       return Partial("_basket", BasketVM);

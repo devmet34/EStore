@@ -2,13 +2,14 @@
 using EStore.Web.Config;
 using StackExchange.Redis;
 using System.Threading.Tasks;
+using Web;
 
 namespace EStore.Web;
 
 public class RedisHealthCheckService : BackgroundService
 {
-  private readonly int connectTimeoutMs = 2000; 
-  private readonly int healthCheckTimeoutSec = 60;
+  private readonly int connectTimeoutMs = Constants.connectTimeoutMs; 
+  private readonly int healthCheckTimeoutSec = Constants.healthCheckTimeoutSec;
   private string? connectionString = null;
   private readonly ILogger<RedisHealthCheckService> logger;
   private readonly IConfiguration configuration;
@@ -51,8 +52,9 @@ public class RedisHealthCheckService : BackgroundService
     {
       return await ConnectionMultiplexer.ConnectAsync(connectionString, options =>
       {
-        options.SyncTimeout = connectTimeoutMs;
-        options.ConnectTimeout = connectTimeoutMs;
+        //options.SyncTimeout = connectTimeoutMs;
+        //options.ConnectTimeout = connectTimeoutMs;
+        
       });
       //redis = services.GetRequiredService<IConnectionMultiplexer>();
     }

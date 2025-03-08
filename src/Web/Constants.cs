@@ -25,7 +25,10 @@ namespace Web
 
     public const string DEFAULT_SORT = "Order";
 
+    //redis cache
     public const string cacheProductsKey = ":Products";
+    public const int connectTimeoutMs = 2000;
+    public const int healthCheckTimeoutSec = 5;
 
 
   }
