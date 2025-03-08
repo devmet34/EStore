@@ -1,6 +1,7 @@
-﻿@model IEnumerable<EStore.Web.Models.ProductVM>
+﻿@inject IConfiguration config
+@model IEnumerable<EStore.Web.Models.ProductVM>
 @{
-  var pageSize = Estore.Core.Constants.pageSize;
+  var pageSize = int.Parse(config["DefaultPageSize"]!);
 }
 
 <div id="divProductCards">

@@ -31,14 +31,14 @@ namespace EStore.Web.Controllers
   {
     private readonly ILogger<HomeController> _logger;
     private readonly ProductService _productService;
-    private readonly IBasketService _basketService;
-    private readonly RedisService _redisService;
+    private readonly IBasketService _basketService;   
     private readonly IMapper _mapper;
     private readonly SignInManager<AppUser> _signInManager;
     private const string DEFAULT_SORT = Constants.DEFAULT_SORT;
     private readonly string cacheProductsKey = Constants.cacheProductsKey;
     
-    private bool _isRedisBroken;
+    
+    
 
     //mc; separate controllers or razor pages would be better to mitigate di overhead. not using for brevity 
     public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager, ProductService productService, IBasketService basketService, RedisService redisService, IMapper mapper)
@@ -47,9 +47,8 @@ namespace EStore.Web.Controllers
       _signInManager = signInManager;
       _productService = productService;
       _basketService = basketService;
-      _redisService = redisService;
-      _mapper = mapper;
-      
+      _mapper = mapper;     
+
     }
 
     [HttpPost]
@@ -66,7 +65,7 @@ namespace EStore.Web.Controllers
       return _signInManager.IsSignedIn(HttpContext.User);
     }
     /// <summary>
-    /// mc, Home page; get paged (default 20) products from redis cache if cached otherwise fetch them from db and sync to redis if available.
+    /// mc, Home page; get paged (default 20) products from db.
     /// isSuccess bool is used to show success toast msg. Controllers may redirect to here with success msg. 
     /// </summary>
     /// <param name="page"></param>
@@ -75,12 +74,12 @@ namespace EStore.Web.Controllers
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
     //
-    public async Task<IActionResult> Index( int page = 1, string sortBy = DEFAULT_SORT, bool? isSuccess=null)
+    public async Task<IActionResult> Index(int page = 1, string sortBy = DEFAULT_SORT, bool? isSuccess=null)
     {
       if (!ModelState.IsValid)
         throw new ArgumentException();
       
-      ViewData["success"] = isSuccess;
+      ViewData["success"] = isSuccess;     
       Basket? basket = null;
       
       if (IsUserSigned())
@@ -88,30 +87,12 @@ namespace EStore.Web.Controllers
         basket = await GetOrCreateBasketAsync();
       }
         
-      HomeVM? homeVM=null;
-      IEnumerable<ProductVM>? cachedProducts=null;
-      try { cachedProducts = await _redisService.GetCachedDataAsync<IEnumerable<ProductVM>>(cacheProductsKey); }
-      catch { _isRedisBroken = true; }
-      
-      if (cachedProducts != null)
-        {
-          _logger.LogDebug("Fetched products from redis cache");
-          homeVM = new HomeVM() { Basket = basket, Products = cachedProducts };
-          return View(homeVM);
-
-        }
-
       IEnumerable<ProductVM>? productVM = null;
       var products = await _productService.GetProductsPagedAsync(sortBy);
-      if (products != null)
-      {
-        productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
-        
-        if (!_isRedisBroken)
-          await _redisService.SetCacheDataAsync<IEnumerable<ProductVM>>(cacheProductsKey, productVM, TimeSpan.FromMinutes(30));
-      }        
+      if (products != null)      
+        productVM = _mapper.Map<IEnumerable<ProductVM>>(products);         
 
-      homeVM = new HomeVM() { Basket = basket, Products = productVM };
+      var homeVM = new HomeVM() { Basket = basket, Products = productVM };
       
       return View(homeVM);
     }

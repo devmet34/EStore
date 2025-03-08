@@ -14,13 +14,14 @@ public static class ConfigRedis
   public static void AddRedis(WebApplicationBuilder builder)
   {
      connectionString = builder.Configuration["Redis:ConnectionString"] ?? throw new InvalidOperationException("Connection string 'redis' not found.");
-        
+    var timeout = builder.Configuration.GetValue<int>("redis:timeoutMs");   
+
     builder.Services.AddStackExchangeRedisCache(options =>
     {
       var config = new ConfigurationOptions();            
       config= ConfigurationOptions.Parse(connectionString);
       //config.AbortOnConnectFail = false;
-      config.SyncTimeout = 200;
+      config.SyncTimeout = timeout; //mc, this timeout value also applies to other timeouts automatically by redis impl.
       //config.ConnectTimeout=connectTimeout;      
       options.ConfigurationOptions = config;      
       options.InstanceName = "Estore";

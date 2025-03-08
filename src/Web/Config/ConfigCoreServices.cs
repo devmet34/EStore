@@ -41,7 +41,7 @@ public static class ConfigureCoreServices
       if (!(redisService.GetCachedData<string>(key)).IsNullOrEmpty())
     {
       logger.LogInformation("******configcoreservices redis connected");
-      return new BasketCacheService( sp.GetRequiredService<ILogger<BasketCacheService>>(), productService, redisService);
+      return new BasketCacheService( sp.GetRequiredService<ILogger<BasketCacheService>>(), productService, redisService,sp.GetRequiredService<IConfiguration>());
     }
     logger.LogInformation("******configcoreservices redis not connected");
     return new BasketDBService(repo, sp.GetRequiredService<ILogger<BasketDBService>>(), productService);

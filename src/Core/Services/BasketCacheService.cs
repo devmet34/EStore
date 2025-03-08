@@ -2,6 +2,7 @@
 using Estore.Core.Exceptions;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,19 @@ public class BasketCacheService: IBasketCacheService
   private readonly ProductService _productService;
   private readonly RedisService _redisService;
   private readonly TimeSpan cacheDuration= Constants.basketCacheDuration;
+  private readonly IConfiguration _config;
 
-  public BasketCacheService( ILogger<BasketCacheService> logger, ProductService productService, RedisService redisService)
+  public BasketCacheService(ILogger<BasketCacheService> logger, ProductService productService, RedisService redisService, IConfiguration config)
   {
-    
+
     _logger = logger;
     _productService = productService;
     _redisService = redisService;
+    _config = config;
+    var cacheDurationHours = int.Parse(_config.GetSection("redis:basketCacheDurationHours").Value!);
+    cacheDuration = TimeSpan.FromHours(cacheDurationHours);
   }
-  
+
 
   private string GetBasketCacheKey(string buyerId) { 
     return Constants.basketCacheKey + Constants.basketCacheDelimeter+ buyerId;

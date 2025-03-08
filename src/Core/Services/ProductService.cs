@@ -4,6 +4,7 @@ using Estore.Core.Interfaces;
 using Estore.Core.Models;
 using EStore.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,16 @@ public class ProductService
 {
   private readonly IRepo<Product> _repo;
   private readonly ILogger<ProductService> _logger;
-  private readonly int pageSize = Constants.pageSize;
+  private readonly int pageSize;
   private IQueryable<Product>? query;
+  private readonly IConfiguration _config;
 
-  public ProductService(IRepo<Product> repo, ILogger<ProductService> logger)
+  public ProductService(IRepo<Product> repo, ILogger<ProductService> logger, IConfiguration config)
   {
     _repo = repo;
     _logger = logger;
+    _config = config;
+    int.TryParse(config["DefaultPageSize"], out pageSize);
   }
 
   public async Task<IEnumerable<Product>?> GetProductsPagedAsync( string? sortBy)

@@ -23,9 +23,9 @@
 //todo db app account/trigger/view/constraints +
 //todo basketitem migration pending ?
 //todo customeraddress relation with order +
-//todo redis con exceptions when redis stopped? exception at: if (IsUserSigned()) basket = await GetOrCreateBasketAsync(). Fall back to db when cache n/a?
+//todo fall back to db when cache n/a +
 //todo improve ef/db queries for vm's i.e; product>productvm 
-//todo optimize basket interface/services i.e; home/index get basket count only instead of basket for performance, getbasket calls with no tracking and always include all items? 
+//todo optimize basket interface/services i.e; home/index get basket count only instead of whole basket for performance, getbasket calls with no tracking and always include all items? 
 //todo can home controller be thinner i.e moving logic from index method to product service?
 //todo add category to log output +
 //todo concurrency handling for orders 
@@ -34,6 +34,6 @@
 //todo dbcontext pool for performance?
 //todo orders
 //todo dereference possible nulls 
-//todo ts errors
+//todo ts warnings?
 //todo helper js
 //todo response compression
