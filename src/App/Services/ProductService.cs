@@ -1,4 +1,5 @@
-﻿using Estore.Core.Entities;
+﻿using Estore.App.WebModels;
+using Estore.Core.Entities;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
 using Estore.Core.Models;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +18,7 @@ using System.Threading.Tasks;
 namespace Estore.App.Services;
 public class ProductService
 {
-  private readonly IRepoRead<Product> _repo;
+  private readonly IRepoRead<Product> _readRepo;
   private readonly ILogger<ProductService> _logger;
   private readonly int pageSize;
   private IQueryable<Product>? query;
@@ -24,35 +26,36 @@ public class ProductService
 
   public ProductService(IRepoRead<Product> repo, ILogger<ProductService> logger, IConfiguration config)
   {
-    _repo = repo;
+    _readRepo = repo;
     _logger = logger;
     _config = config;
     int.TryParse(config["DefaultPageSize"], out pageSize);
   }
 
-  public async Task<IEnumerable<Product>?> GetProductsPagedAsync(string? sortBy)
+  public async Task<IEnumerable<ProductVM>?> GetProductsPagedAsync(string? sortBy)
   {
 
-    query = _repo.Query;
+    query = _readRepo.Query;
     sortBy = sortBy?.ToLower();
 
     //query=query.OrderBy(p => p.Name).Take(pageSize);
-    SetSort(sortBy);
+    SetSortForQuery(sortBy);
 
-    query = query.AsNoTracking().Take(pageSize);
+    var productVm = await query.Take(pageSize).Select(Projections.ProductToProductVM()).ToListAsync();
 
     //Helper.LogObjectHash(query);
 
     //var products = await query.AsNoTracking().Take(20).ToListAsync();
-    var products = await _repo.ListByQueryAsync(query);
+    //var products = await _repo.ListByQueryAsync(query);
     //var products = _repo.GetProducts();
 
-    return products;
+    return productVm;
     //return await _repo.GetAllAsync();
 
   }
+ 
 
-  public async Task<IEnumerable<Product>?> GetProductsOnPageAsync(int page, string sortBy, string? find = null, FilterModel? filterModel = null)
+  public async Task<IEnumerable<ProductVM>?> GetProductsOnPageAsync(int page, string sortBy, string? find = null, FilterModel? filterModel = null)
   {
     page.GuardZero();
     page.GuardNegative();
@@ -60,49 +63,47 @@ public class ProductService
     if (filterModel != null)
       query = SetFilterQuery(filterModel);
     else
-      query = _repo.Query;
+      query = _readRepo.Query;
 
-
-    SetSort(sortBy);
-
+    SetSortForQuery(sortBy);
+    
 
     if (find == null)
     {
 
-      query = query.Skip((page - 1) * pageSize);
-      query = query.AsNoTracking().Take(pageSize);
-      return await _repo.ListByQueryAsync(query);
+      return await query.Skip((page - 1) * pageSize)
+     .Take(pageSize).Select(Projections.ProductToProductVM()).ToListAsync();
+      //return await _readRepo.ListByQueryAsync(query);
     }
 
-    query = query.Where(p => p.Name.Contains(find));
-    query = query.Skip((page - 1) * pageSize);
-    query = query.AsNoTracking().Take(pageSize);
-    return await _repo.ListByQueryAsync(query);
+    return await query.Where(p => p.Name.Contains(find))
+    .Skip((page - 1) * pageSize).Take(pageSize).Select(Projections.ProductToProductVM()).ToListAsync();
+    //return await _readRepo.ListByQueryAsync(query);
 
   }
 
 
-  public async Task<IEnumerable<Product>?> FindProductsAsync(string productName)
+  public async Task<IEnumerable<ProductVM>?> FindProductsAsync(string productName)
   {
     productName.GuardNullOrEmpty();
-    query = _repo.Query;
-    query = query.Where(p => p.Name.Contains(productName));
-    query = query.AsNoTracking().Take(pageSize);
-    return await _repo.ListByQueryAsync(query);
+    return await _readRepo.Query
+    .Where(p => p.Name.Contains(productName))
+    .Take(pageSize).Select(Projections.ProductToProductVM()).ToListAsync();
+    
   }
 
 
   public async Task<Product?> GetProductAsync(int productId)
   {
-    return await _repo.GetByIdAsync(productId);
+    return await _readRepo.GetByIdAsync(productId);
   }
 
   public async Task<Product?> GetProductForBasketAsync(int productId)
   {
-    query = _repo.Query;
+    query = _readRepo.Query;
 
     Product pp = new Product("sdsd", 0, 0, 5, 5);
-    return await _repo.Query.Where(p => p.Id == productId)
+    return await _readRepo.Query.Where(p => p.Id == productId)
       .Select(p => new Product(p.Name, 0, 0, p.Price, p.Qt, null, p.PictureUri)).FirstOrDefaultAsync();
     //return await _repo.GetByIdAsync(productId);
   }
@@ -110,10 +111,10 @@ public class ProductService
   public async Task<decimal> GetProductPriceAsync(int productId)
   {
 
-    return await _repo.Query.Where(p => p.Id == productId).Select(p => p.Price).FirstOrDefaultAsync();
+    return await _readRepo.Query.Where(p => p.Id == productId).Select(p => p.Price).FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<Product>?> FilterProductsAsync(FilterModel filterModel)
+  public async Task<IEnumerable<ProductVM>?> FilterProductsAsync(FilterModel filterModel)
   {
     query = SetFilterQuery(filterModel);
     /*
@@ -136,13 +137,13 @@ public class ProductService
       query=query.Where(p => p.Category.SubCat == filterModel.SubCat);
     */
 
-    return await query.Include(p => p.Category).AsNoTracking().Take(pageSize).ToListAsync();
+    return await query.Include(p => p.Category).Take(pageSize).Select(Projections.ProductToProductVM()).ToListAsync();
 
   }
 
   private IQueryable<Product> SetFilterQuery(FilterModel filterModel)
   {
-    query = _repo.Query;
+    query = _readRepo.Query;
     int minPrice = filterModel.PriceMin;
     int maxPrice = filterModel.PriceMax;
 
@@ -163,7 +164,7 @@ public class ProductService
     return query;
   }
 
-  private void SetSort(string? sortBy)
+  private void SetSortForQuery(string? sortBy)
   {
     switch (sortBy)
     {

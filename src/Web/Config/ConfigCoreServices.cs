@@ -21,7 +21,7 @@ public static class ConfigureCoreServices
     services.AddScoped<IBasketService, BasketService>();
     services.AddScoped<ProductService>();
     services.AddScoped<OrderService>();
-    //services.AddScoped<FilterService>();
+    services.AddScoped<FilterService>();
     services.AddScoped<RedisService>();
     
     //services.AddScoped<IBasketService>( BasketServiceFactory);

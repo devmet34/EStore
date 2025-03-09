@@ -38,9 +38,9 @@ public class FilterController : Controller
       throw new ArgumentException();
 
     var products = await _filterService.FilterAsync(filterModel);
-    var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
+    //var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
 
-    return PartialView("_productcards", productVM);
+    return PartialView("_productcards", products);
     
   }
 

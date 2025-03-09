@@ -1,4 +1,5 @@
-﻿using Estore.Core.Entities;
+﻿using Estore.App.WebModels;
+using Estore.Core.Entities;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
 using Estore.Core.Models;
@@ -59,7 +60,7 @@ public class FilterService
 
   }
 
-  public async Task<IEnumerable<Product>?> FilterAsync(FilterModel filterModel)
+  public async Task<IEnumerable<ProductVM>?> FilterAsync(FilterModel filterModel)
   {
     filterModel.GuardNull();
     return await _productService.FilterProductsAsync(filterModel);

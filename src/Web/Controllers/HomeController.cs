@@ -89,10 +89,10 @@ namespace EStore.Web.Controllers
         
       IEnumerable<ProductVM>? productVM = null;
       var products = await _productService.GetProductsPagedAsync(sortBy);
-      if (products != null)      
-        productVM = _mapper.Map<IEnumerable<ProductVM>>(products);         
+      //if (products != null)      
+       // productVM = _mapper.Map<IEnumerable<ProductVM>>(products);         
 
-      var homeVM = new HomeVM() { Basket = basket, Products = productVM };
+      var homeVM = new HomeVM() { Basket = basket, Products = products };
       
       return View(homeVM);
     }
@@ -104,9 +104,9 @@ namespace EStore.Web.Controllers
     public async Task<IActionResult> FindProducts(string productName)
     {
       var products = await _productService.FindProductsAsync(productName);
-      var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
+      
 
-      return PartialView("_productcards", productVM);
+      return PartialView("_productcards", products);
     }
 
 
@@ -115,9 +115,9 @@ namespace EStore.Web.Controllers
     public async Task<IActionResult> SortProducts(string sortBy)
     {
       var products = await _productService.GetProductsPagedAsync( sortBy:sortBy);     
-      var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);      
+           
 
-      return PartialView("_productcards", productVM);
+      return PartialView("_productcards", products);
 
     }
 
@@ -131,9 +131,9 @@ namespace EStore.Web.Controllers
 
       
       var products= await _productService.GetProductsOnPageAsync(page, sortBy, find,filterModel);
-      var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
-      if (productVM.Count()>=1)
-        return PartialView("_productcards", productVM);
+      
+      if (products?.Count()>=1)
+        return PartialView("_productcards", products);
       throw new Exception("No more products for page:"+page);
     }
 
