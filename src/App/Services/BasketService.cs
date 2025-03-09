@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Services;
+namespace Estore.App.Services;
 /// <summary>
 /// mc, First preference of service is cache then db. 
 /// </summary>
@@ -68,7 +68,7 @@ public class BasketService : IBasketService
   public async Task<Basket?> GetOrCreateBasketAsync(string buyerId)
   {
     try { return await _basketCacheSrv.GetOrCreateBasketAsync(buyerId); }
-    catch {return await _basketDBSrv.GetOrCreateBasketAsync(buyerId); }
+    catch { return await _basketDBSrv.GetOrCreateBasketAsync(buyerId); }
   }
 
   /// <summary>
@@ -86,7 +86,7 @@ public class BasketService : IBasketService
     }
     catch
     {
-      await _basketDBSrv.SetBasketItemAsync(buyerId, productId, qt); 
+      await _basketDBSrv.SetBasketItemAsync(buyerId, productId, qt);
     }
   }
 
@@ -102,5 +102,5 @@ public class BasketService : IBasketService
     catch { await _basketDBSrv.RemoveBasketItemAsync(buyerId, productId); }
   }
 
-  
+
 }

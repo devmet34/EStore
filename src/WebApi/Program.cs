@@ -2,7 +2,7 @@ using Estore.Core.Entities;
 using Estore.Core.Entities.ValueObjects;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
-using Estore.Core.Services;
+using Estore.App.Services;
 using Estore.Core.Specs;
 using EStore.Infra.EF.Config;
 using EStore.Infra.EF.Identity;

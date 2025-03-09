@@ -15,11 +15,7 @@ using System.Threading.Tasks;
 
 
 
-
-
-
-
-namespace Estore.Core.Services;
+namespace Estore.App.Services;
 public class BasketDBService : IBasketDBService
 {
   private readonly IRepo<Basket> _repo;
@@ -65,7 +61,7 @@ public class BasketDBService : IBasketDBService
     var query = _repo.Query;
     query = query.Where(b => b.BuyerId == buyerId);
     query = query.Include(b => b.BasketItems).ThenInclude(i => i.Product);
-    
+
     return await _repo.GetByQuery(query);
   }
 
@@ -90,7 +86,7 @@ public class BasketDBService : IBasketDBService
     return await _repo.GetByQuery(query);
   }
 
- 
+
 
   public async Task SetBasketItemAsync(string buyerId, int productId, int qt)
   {

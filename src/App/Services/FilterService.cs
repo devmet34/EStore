@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Services;
+namespace Estore.App.Services;
 public class FilterService
 {
   private readonly ILogger<FilterService> _logger;
@@ -27,20 +27,20 @@ public class FilterService
   public async Task<IEnumerable<Category>?> GetCatsAsync()
   {
     return await _repo.GetAllAsync();
-    
+
   }
 
-  public async Task<Dictionary<string,List<string>>?> GetCatsAsDictAsync()
+  public async Task<Dictionary<string, List<string>>?> GetCatsAsDictAsync()
   {
     var cats = await _repo.GetAllAsync();
     if (cats == null)
       return null;
-    var dict= new Dictionary<string,List<string>>();
-    
+    var dict = new Dictionary<string, List<string>>();
+
     foreach (var cat in cats)
     {
-      string mainCat=cat.MainCat;
-      var subCat=cat.SubCat; 
+      string mainCat = cat.MainCat;
+      var subCat = cat.SubCat;
       //dict already has the key 
       if (dict.ContainsKey(mainCat))
       {
@@ -53,19 +53,19 @@ public class FilterService
       if (subCat != null)
         dict.Add(mainCat, new List<string>() { subCat });
       else { dict.Add(mainCat, new List<string>()); }
-      
+
     }
     return dict;
 
   }
 
-  public async Task<IEnumerable<Product>?>  FilterAsync(FilterModel filterModel)
+  public async Task<IEnumerable<Product>?> FilterAsync(FilterModel filterModel)
   {
-    filterModel.GuardNull();    
+    filterModel.GuardNull();
     return await _productService.FilterProductsAsync(filterModel);
-   
+
   }
 
-  
+
 
 }

@@ -1,4 +1,4 @@
-﻿using Estore.Core.Services;
+﻿using Estore.App.Services;
 using Microsoft.Extensions.DependencyInjection;
 using NuGet.Protocol;
 using System;

@@ -1,8 +1,8 @@
 using AutoMapper;
+using Estore.App.Services;
 using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
-using Estore.Core.Services;
 using EStore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;

@@ -14,7 +14,6 @@ using EStore.Web.Config;
 using AutoMapper;
 using EStore.Infra.EF.Helpers;
 using NuGet.Protocol;
-using Estore.Core.Services;
 using MC.Logger;
 using Microsoft.VisualBasic;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

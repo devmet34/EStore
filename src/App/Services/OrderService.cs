@@ -6,7 +6,7 @@ using Estore.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Estore.Core.Services;
+namespace Estore.App.Services;
 public class OrderService
 {
   private readonly IRepoRead<CustomerAddress> _repoRead;
@@ -14,7 +14,7 @@ public class OrderService
   private readonly IBasketService _basketService;
   private readonly ProductService _productService;
   private readonly IRepoOrder _repoOrder;
-  public OrderService(IRepoOrder repoOrder,IRepoRead<CustomerAddress> repoRead , ILogger<OrderService> logger, Interfaces.IBasketService basketService, ProductService productService)
+  public OrderService(IRepoOrder repoOrder, IRepoRead<CustomerAddress> repoRead, ILogger<OrderService> logger, IBasketService basketService, ProductService productService)
   {
     _repoRead = repoRead;
     _repoOrder = repoOrder;
@@ -23,17 +23,17 @@ public class OrderService
     _productService = productService;
   }
 
-  public async Task<Order?> GetOrderAsync(int orderId )
+  public async Task<Order?> GetOrderAsync(int orderId)
   {
     ;
-    return await _repoOrder.GetOrderAsync( orderId );
+    return await _repoOrder.GetOrderAsync(orderId);
   }
 
   public async Task<IEnumerable<Order?>> GetAllOrdersAsync(string buyerId)
   {
     return await _repoOrder.GetAllOrdersAsync(buyerId);
     //return await _repo.Query().Where(o => o.BuyerId == buyerId)
-      //.Include(o=>o.OrderItems).AsNoTracking().ToListAsync();
+    //.Include(o=>o.OrderItems).AsNoTracking().ToListAsync();
   }
 
   /*
@@ -54,9 +54,9 @@ public class OrderService
   }
   */
 
-  public async Task CreateOrderAsync(string buyerId )
+  public async Task CreateOrderAsync(string buyerId)
   {
-    var basket= await _basketService.GetBasketAsync(buyerId);
+    var basket = await _basketService.GetBasketAsync(buyerId);
     basket.GuardNull();
 
     if (basket!.BasketItems.Count == 0)
@@ -64,18 +64,19 @@ public class OrderService
 
     try
     {
-      var addressId=(await _repoRead.Query.Where(a=>a.UserId==buyerId).FirstOrDefaultAsync())!.Id;
+      var addressId = (await _repoRead.Query.Where(a => a.UserId == buyerId).FirstOrDefaultAsync())!.Id;
       addressId.GuardZero();
-      await _repoOrder.CreateOrderAsync(basket,addressId);
+      await _repoOrder.CreateOrderAsync(basket, addressId);
       await _basketService.RemoveBasketAsync(basket!);
       return;
     }
-    catch (Exception ex) {
+    catch (Exception ex)
+    {
       _logger.LogError(ex.Message);
       throw;
-     }
-    
-    
+    }
+
+
     /*
     foreach (var item in basket!.BasketItems)
     {

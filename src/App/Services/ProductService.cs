@@ -13,7 +13,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Services;
+namespace Estore.App.Services;
 public class ProductService
 {
   private readonly IRepoRead<Product> _repo;
@@ -30,35 +30,35 @@ public class ProductService
     int.TryParse(config["DefaultPageSize"], out pageSize);
   }
 
-  public async Task<IEnumerable<Product>?> GetProductsPagedAsync( string? sortBy)
+  public async Task<IEnumerable<Product>?> GetProductsPagedAsync(string? sortBy)
   {
-    
+
     query = _repo.Query;
     sortBy = sortBy?.ToLower();
 
     //query=query.OrderBy(p => p.Name).Take(pageSize);
     SetSort(sortBy);
 
-    query =query.AsNoTracking().Take(pageSize);
-    
+    query = query.AsNoTracking().Take(pageSize);
+
     //Helper.LogObjectHash(query);
 
     //var products = await query.AsNoTracking().Take(20).ToListAsync();
-    var products= await _repo.ListByQueryAsync(query);
+    var products = await _repo.ListByQueryAsync(query);
     //var products = _repo.GetProducts();
 
     return products;
     //return await _repo.GetAllAsync();
-    
+
   }
 
-  public async Task<IEnumerable<Product>?> GetProductsOnPageAsync(int page, string sortBy, string? find = null,FilterModel? filterModel=null)
+  public async Task<IEnumerable<Product>?> GetProductsOnPageAsync(int page, string sortBy, string? find = null, FilterModel? filterModel = null)
   {
     page.GuardZero();
     page.GuardNegative();
 
     if (filterModel != null)
-      query=SetFilterQuery(filterModel);
+      query = SetFilterQuery(filterModel);
     else
       query = _repo.Query;
 
@@ -66,14 +66,14 @@ public class ProductService
     SetSort(sortBy);
 
 
-    if ( find == null)
+    if (find == null)
     {
-      
-      query = query.Skip((page-1)*pageSize);
-      query = query.AsNoTracking().Take(pageSize);      
+
+      query = query.Skip((page - 1) * pageSize);
+      query = query.AsNoTracking().Take(pageSize);
       return await _repo.ListByQueryAsync(query);
     }
-    
+
     query = query.Where(p => p.Name.Contains(find));
     query = query.Skip((page - 1) * pageSize);
     query = query.AsNoTracking().Take(pageSize);
@@ -87,10 +87,10 @@ public class ProductService
     productName.GuardNullOrEmpty();
     query = _repo.Query;
     query = query.Where(p => p.Name.Contains(productName));
-    query=  query.AsNoTracking().Take(pageSize);
+    query = query.AsNoTracking().Take(pageSize);
     return await _repo.ListByQueryAsync(query);
   }
-  
+
 
   public async Task<Product?> GetProductAsync(int productId)
   {
@@ -99,23 +99,23 @@ public class ProductService
 
   public async Task<Product?> GetProductForBasketAsync(int productId)
   {
-    query=_repo.Query;
-     
-    Product pp = new Product("sdsd", 0,0, 5, 5);
+    query = _repo.Query;
+
+    Product pp = new Product("sdsd", 0, 0, 5, 5);
     return await _repo.Query.Where(p => p.Id == productId)
-      .Select(p => new Product ( p.Name,0,0, p.Price, p.Qt,null,p.PictureUri )).FirstOrDefaultAsync();
+      .Select(p => new Product(p.Name, 0, 0, p.Price, p.Qt, null, p.PictureUri)).FirstOrDefaultAsync();
     //return await _repo.GetByIdAsync(productId);
   }
 
   public async Task<decimal> GetProductPriceAsync(int productId)
   {
-    
+
     return await _repo.Query.Where(p => p.Id == productId).Select(p => p.Price).FirstOrDefaultAsync();
   }
 
   public async Task<IEnumerable<Product>?> FilterProductsAsync(FilterModel filterModel)
   {
-    query= SetFilterQuery(filterModel);
+    query = SetFilterQuery(filterModel);
     /*
     int minPrice=filterModel.MinPrice;
     int maxPrice=filterModel.MaxPrice;
@@ -136,12 +136,13 @@ public class ProductService
       query=query.Where(p => p.Category.SubCat == filterModel.SubCat);
     */
 
-    return await query.Include(p=>p.Category).AsNoTracking().Take(pageSize).ToListAsync();
+    return await query.Include(p => p.Category).AsNoTracking().Take(pageSize).ToListAsync();
 
   }
 
-  private IQueryable<Product> SetFilterQuery(FilterModel filterModel) {
-    query=_repo.Query;
+  private IQueryable<Product> SetFilterQuery(FilterModel filterModel)
+  {
+    query = _repo.Query;
     int minPrice = filterModel.PriceMin;
     int maxPrice = filterModel.PriceMax;
 
@@ -170,21 +171,21 @@ public class ProductService
         query = query!.OrderBy(p => p.Name);
         break;
       case "price":
-        query = query!.OrderBy(p => p.Price).ThenBy(p=>p.Name);
+        query = query!.OrderBy(p => p.Price).ThenBy(p => p.Name);
         break;
       case "price_desc":
         query = query!.OrderByDescending(p => p.Price).ThenBy(p => p.Name);
         break;
       case "category":
-        query=query!.OrderBy(p => p.Category).ThenBy(p => p.Name);
+        query = query!.OrderBy(p => p.Category).ThenBy(p => p.Name);
         break;
       default:
         query = query!.OrderBy(p => p.SortOrder);
         break;
     }
-    
+
   }
-  
+
 
 }//eo class
 

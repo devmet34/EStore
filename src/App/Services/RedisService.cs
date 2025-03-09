@@ -1,4 +1,5 @@
-﻿using Estore.Core.Entities.BasketAggregate;
+﻿using Estore.Core;
+using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Exceptions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Services;
+namespace Estore.App.Services;
 public class RedisService
 {
 
@@ -56,9 +57,10 @@ public class RedisService
 
       return JsonSerializer.Deserialize<T>(jsonData);
     }
-    catch (Exception ex) {
-      _logger.LogError(Constants.redisGetErrorMsg+ex.ToString());
-      IsRedisBroken=true;
+    catch (Exception ex)
+    {
+      _logger.LogError(Constants.redisGetErrorMsg + ex.ToString());
+      IsRedisBroken = true;
       throw;
     }
   }
@@ -85,9 +87,9 @@ public class RedisService
       var jsonData = JsonSerializer.Serialize(data);
       await _redisCache.SetStringAsync(key, jsonData, options);
     }
-    catch(Exception ex)
+    catch (Exception ex)
     {
-      _logger.LogError(Constants.redisSetErrorMsg+ex.ToString());
+      _logger.LogError(Constants.redisSetErrorMsg + ex.ToString());
       IsRedisBroken = true;
       throw;
     }
@@ -105,10 +107,10 @@ public class RedisService
     {
       await _redisCache.RemoveAsync(key);
     }
-    catch(Exception ex)
+    catch (Exception ex)
     {
       IsRedisBroken = true;
-      _logger.LogError(Constants.redisRemoveErrorMsg+ex.ToString());
+      _logger.LogError(Constants.redisRemoveErrorMsg + ex.ToString());
       throw;
     }
   }
@@ -131,9 +133,9 @@ public class RedisService
     }
   }
 
-  public void SetCacheData<T>(string key,T data)
+  public void SetCacheData<T>(string key, T data)
   {
-    var jsonData= JsonSerializer.Serialize(data);
+    var jsonData = JsonSerializer.Serialize(data);
     _redisCache.SetString(key, jsonData);
   }
 

@@ -7,7 +7,7 @@ using Estore.Core.Entities;
 using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Entities.OrderAggregate;
 using Estore.Core.Interfaces;
-using Estore.Core.Services;
+using Estore.App.Services;
 using EStore.Core.Query;
 using EStore.Infra.EF;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -54,9 +54,9 @@ public class EfRepoTest
     
     using (var scope = app.Services.CreateScope())
     {
-      var readRepo = scope.ServiceProvider.GetRequiredService<IRepoRead>();
-      var orders=readRepo.Query<Order>().AsNoTracking().ToList();
-      var ordersAndItems=readRepo.Query<Order>().Include(o=>o.BuyerId==buyerId).AsNoTracking().ToList();
+      var readRepoOrder = scope.ServiceProvider.GetRequiredService<IRepoRead<Order>>();
+      var orders=readRepoOrder.Query.AsNoTracking().ToList();
+      var ordersAndItems=readRepoOrder.Query.Include(o=>o.BuyerId==buyerId).AsNoTracking().ToList();
       repo = scope.ServiceProvider.GetRequiredService<IRepo<Basket>>();
       repoProd=scope.ServiceProvider.GetRequiredService<IRepo<Product>>();
       var context= scope.ServiceProvider.GetRequiredService<EStoreDbContext>();
@@ -88,29 +88,6 @@ public class EfRepoTest
 
         int ii = 2;
       }
-      return;
-      await TestProductRepo();
-      return;
-      var q = new BasketQuery(buyerId).GetQuery();
-      var r = await repo.GetByQuery(q);
-      output.WriteLine(r.ToJson());
-      return;
-      var basketService=scope.ServiceProvider.GetRequiredService<BasketDBService>();
-
-      
-
-
-      var a= await basketService.GetBasketAsync(buyerId);
-      var b=await basketService.GetBasketAsync(buyerId,true);
-      output.WriteLine(a.ToJson());
-      output.WriteLine(b.ToJson());
-      output.WriteLine(b.BasketItems.ToJson());
-      return;
-      repo =scope.ServiceProvider.GetRequiredService<IRepo<Basket>>();
-      var x = repo.Query().Where(b => b.BuyerId == buyerId).Include(b => b.BasketItems);
-      //x =x.Where(b => b.BuyerId == buyerId).Include(b => b.BasketItems);
-      var t = await repo.GetByQuery(x);
-
       
 
       
@@ -124,7 +101,7 @@ public class EfRepoTest
   
     int waitMs = 100;
     int batch = 3;
-    var query=repoProd.Query();
+    var query=repoProd.Query;
     query=query.Where(p => p.CategoryId > 1);
     var res = query.AsNoTracking().ToList();
     return;
@@ -168,7 +145,7 @@ public class BenchmarkClass
     using var scope = app.Services.CreateScope();
     repo = scope.ServiceProvider.GetRequiredService<IRepo<Product>>();
 
-    query = repo.Query();
+    query = repo.Query;
     query = query.Where(p => p.CategoryId > 1);
     var t=query.AsNoTracking().ToList();
     //await repo.ListByQueryAsync(query);

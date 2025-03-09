@@ -1,5 +1,4 @@
-﻿using Estore.Core.Services;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Interfaces;
 using Assert = Xunit.Assert;
+using Estore.App.Services;
 
 namespace WebApi_Integration;
 public class RedisTest

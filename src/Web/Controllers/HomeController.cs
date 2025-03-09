@@ -1,10 +1,10 @@
 //using AspNetCore;
 using AutoMapper;
+using Estore.App.Services;
 using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
 using Estore.Core.Models;
-using Estore.Core.Services;
 using EStore.Infra.EF.Identity;
 using EStore.Web.Config;
 using EStore.Web.Models;
@@ -27,7 +27,7 @@ using Web;
 namespace EStore.Web.Controllers
 {
 
-    public class HomeController : Controller
+  public class HomeController : Controller
   {
     private readonly ILogger<HomeController> _logger;
     private readonly ProductService _productService;

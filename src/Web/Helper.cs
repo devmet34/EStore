@@ -1,6 +1,6 @@
-﻿using Estore.Core.Extensions;
+﻿using Estore.App.Services;
+using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
-using Estore.Core.Services;
 using EStore.Infra.EF;
 using EStore.Infra.EF.Helpers;
 using NuGet.Protocol;
@@ -11,7 +11,7 @@ using System.Security.Policy;
 
 namespace EStore.Web
 {
-    public sealed class Helper
+  public sealed class Helper
   {
     public const string TEST_NAME = "TEST_NAME";
 

@@ -1,5 +1,5 @@
-﻿using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Services;
+﻿using Estore.App.Services;
+using Estore.Core.Entities.BasketAggregate;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;

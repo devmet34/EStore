@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Estore.Core.Extensions;
 using Estore.Core.Interfaces;
-using Estore.Core.Services;
 using EStore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

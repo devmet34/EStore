@@ -1,5 +1,5 @@
 ﻿using Estore.Core.Interfaces;
-using Estore.Core.Services;
+using Estore.App.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

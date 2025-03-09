@@ -1,5 +1,5 @@
 ﻿using Estore.Core.Interfaces;
-using Estore.Core.Services;
+using Estore.App.Services;
 using EStore.Infra.EF;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
