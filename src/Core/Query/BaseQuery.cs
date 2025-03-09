@@ -15,7 +15,7 @@ public abstract class BaseQuery<T> where T : class
   private BaseQuery(IRepo<T> repo) 
   {
     _repo = repo;
-    Query = repo.Query();
+    Query = repo.Query;
   
   }
 }

@@ -62,7 +62,7 @@ public class BasketDBService : IBasketDBService
   public async Task<Basket?> GetBasketAsync(string buyerId)
   {
     buyerId.GuardNullOrEmpty();
-    var query = _repo.Query();
+    var query = _repo.Query;
     query = query.Where(b => b.BuyerId == buyerId);
     query = query.Include(b => b.BasketItems).ThenInclude(i => i.Product);
     
@@ -73,7 +73,7 @@ public class BasketDBService : IBasketDBService
   public async Task<Basket?> GetBasketAsync(string buyerId, bool includeBasketItems = true, bool includeAll = false)
   {
     buyerId.GuardNullOrEmpty();
-    var query = _repo.Query();
+    var query = _repo.Query;
     query = query.Where(b => b.BuyerId == buyerId);
 
 

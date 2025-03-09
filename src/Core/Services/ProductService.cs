@@ -33,7 +33,7 @@ public class ProductService
   public async Task<IEnumerable<Product>?> GetProductsPagedAsync( string? sortBy)
   {
     
-    query = _repo.Query();
+    query = _repo.Query;
     sortBy = sortBy?.ToLower();
 
     //query=query.OrderBy(p => p.Name).Take(pageSize);
@@ -60,7 +60,7 @@ public class ProductService
     if (filterModel != null)
       query=SetFilterQuery(filterModel);
     else
-      query = _repo.Query();
+      query = _repo.Query;
 
 
     SetSort(sortBy);
@@ -73,24 +73,19 @@ public class ProductService
       query = query.AsNoTracking().Take(pageSize);      
       return await _repo.ListByQueryAsync(query);
     }
-
     
     query = query.Where(p => p.Name.Contains(find));
     query = query.Skip((page - 1) * pageSize);
     query = query.AsNoTracking().Take(pageSize);
     return await _repo.ListByQueryAsync(query);
 
-
-
-    
-   
   }
 
 
   public async Task<IEnumerable<Product>?> FindProductsAsync(string productName)
   {
     productName.GuardNullOrEmpty();
-    query = _repo.Query();
+    query = _repo.Query;
     query = query.Where(p => p.Name.Contains(productName));
     query=  query.AsNoTracking().Take(pageSize);
     return await _repo.ListByQueryAsync(query);
@@ -104,10 +99,10 @@ public class ProductService
 
   public async Task<Product?> GetProductForBasketAsync(int productId)
   {
-    query=_repo.Query();
+    query=_repo.Query;
      
     Product pp = new Product("sdsd", 0,0, 5, 5);
-    return await _repo.Query().Where(p => p.Id == productId)
+    return await _repo.Query.Where(p => p.Id == productId)
       .Select(p => new Product ( p.Name,0,0, p.Price, p.Qt,null,p.PictureUri )).FirstOrDefaultAsync();
     //return await _repo.GetByIdAsync(productId);
   }
@@ -115,7 +110,7 @@ public class ProductService
   public async Task<decimal> GetProductPriceAsync(int productId)
   {
     
-    return await _repo.Query().Where(p => p.Id == productId).Select(p => p.Price).FirstOrDefaultAsync();
+    return await _repo.Query.Where(p => p.Id == productId).Select(p => p.Price).FirstOrDefaultAsync();
   }
 
   public async Task<IEnumerable<Product>?> FilterProductsAsync(FilterModel filterModel)
@@ -146,7 +141,7 @@ public class ProductService
   }
 
   private IQueryable<Product> SetFilterQuery(FilterModel filterModel) {
-    query=_repo.Query();
+    query=_repo.Query;
     int minPrice = filterModel.PriceMin;
     int maxPrice = filterModel.PriceMax;
 
@@ -161,9 +156,9 @@ public class ProductService
     }
 
     if (!string.IsNullOrEmpty(filterModel.MainCat))
-      query = query.Where(p => p.Category.MainCat == filterModel.MainCat);
+      query = query.Where(p => p.Category!.MainCat == filterModel.MainCat);
     else if (!string.IsNullOrEmpty(filterModel.SubCat))
-      query = query.Where(p => p.Category.SubCat == filterModel.SubCat);
+      query = query.Where(p => p.Category!.SubCat == filterModel.SubCat);
     return query;
   }
 
@@ -172,28 +167,24 @@ public class ProductService
     switch (sortBy)
     {
       case "name":
-        query = query.OrderBy(p => p.Name);
+        query = query!.OrderBy(p => p.Name);
         break;
       case "price":
-        query = query.OrderBy(p => p.Price).ThenBy(p=>p.Name);
+        query = query!.OrderBy(p => p.Price).ThenBy(p=>p.Name);
         break;
       case "price_desc":
-        query = query.OrderByDescending(p => p.Price).ThenBy(p => p.Name);
+        query = query!.OrderByDescending(p => p.Price).ThenBy(p => p.Name);
         break;
       case "category":
-        query=query.OrderBy(p => p.Category).ThenBy(p => p.Name);
+        query=query!.OrderBy(p => p.Category).ThenBy(p => p.Name);
         break;
       default:
-        query = query.OrderBy(p => p.SortOrder);
+        query = query!.OrderBy(p => p.SortOrder);
         break;
     }
     
   }
-
-  public async Task UpdateProductsBatch()
-  {
-     
-  }
+  
 
 }//eo class
 

@@ -25,12 +25,12 @@ public class GenericRepo<TEntity> : IRepo<TEntity> where TEntity : class, IAggre
 
     }
 
-    //mc test debug
-    public EStoreDbContext Context => _dbContext;
+  
 
     public DbSet<TEntity> DbSet => _dbContext.Set<TEntity>();
+    public IQueryable<TEntity> Query => _dbContext.Set<TEntity>().AsQueryable();
 
-    public IQueryable<TEntity> EvaluateSpec(IQueryable<TEntity> query, ISpec<TEntity> spec)
+  public IQueryable<TEntity> EvaluateSpec(IQueryable<TEntity> query, ISpec<TEntity> spec)
     {
 
         return SpecEvaluator.SetQuery(query, spec);
@@ -51,13 +51,7 @@ public class GenericRepo<TEntity> : IRepo<TEntity> where TEntity : class, IAggre
     /// mc return dbContext.Set<T> as queryable 
     /// </summary>
     /// <returns></returns>
-    public IQueryable<TEntity> Query() { return _dbContext.Set<TEntity>().AsQueryable(); }
-
-    public IEnumerable<Product> GetProducts()
-    {
-        throw new NotImplementedException();
-        //return _dbContext.Products.OrderBy(p=>p.Name).Take(20).AsAsyncEnumerable();
-    }
+      
 
     public async Task<TEntity?> GetByQuery(IQueryable<TEntity> query, CancellationToken cancellationToken = default)
     {
@@ -79,21 +73,7 @@ public class GenericRepo<TEntity> : IRepo<TEntity> where TEntity : class, IAggre
         _dbContext.Remove(entity);
         await _dbContext.SaveChangesAsync();
     }
-
-    public async Task Test()
-    {
-
-        var query = _dbContext.Set<Basket>().AsQueryable();
-        query.Include(x => x.BasketItems).ThenInclude(y => y.Product);
-
-        var q = _dbContext.Set<TEntity>().AsQueryable();
-
-
-
-        //query=spec.Includes.Aggregate()
-
-
-    }
+    
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -117,11 +97,7 @@ public class GenericRepo<TEntity> : IRepo<TEntity> where TEntity : class, IAggre
         _dbContext.Set<TEntity>().Add(entity);
         await SaveChangesAsync(cancellationToken);
     }
-
-    public async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
@@ -135,18 +111,18 @@ public class GenericRepo<TEntity> : IRepo<TEntity> where TEntity : class, IAggre
         await SaveChangesAsync(cancellationToken);
     }
 
-    public Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+  public Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+  {
+    throw new NotImplementedException();
+  }
 
-    public Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+  public Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+  {
+    throw new NotImplementedException();
+  }
 
-    Task<int> IRepoBase<TEntity>.SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+  public Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+  {
+    throw new NotImplementedException();
+  }
 }

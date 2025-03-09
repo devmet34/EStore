@@ -21,6 +21,6 @@ namespace Estore.Core.Interfaces
 
     Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    
   }
 }
