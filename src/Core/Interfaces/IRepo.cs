@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Estore.Core.Interfaces
 {
-  public interface IRepo<T>:IRepoBase<T> where T : class
+  public interface IRepo<TEntity>:IRepoBase<TEntity> where TEntity : class
   {
-    public IQueryable<T> Query { get; }
-    public DbSet<T> DbSet { get; }
+    public IQueryable<TEntity> Query { get; }
+    public DbSet<TEntity> DbSet { get; }
     
-    public Task<T?> GetByQuery(IQueryable<T> query, CancellationToken cancellationToken = default);
-    public Task<IEnumerable<T>?> ListByQueryAsync(IQueryable<T> query, CancellationToken cancellationToken = default);
-    public  Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
-    public  Task<T?> GetBySpecAsync(ISpec<T> spec, CancellationToken cancellationToken = default);
+    public Task<TEntity?> GetByQuery(IQueryable<TEntity> query, CancellationToken cancellationToken = default);
+    public Task<IEnumerable<TEntity>?> ListByQueryAsync(IQueryable<TEntity> query, CancellationToken cancellationToken = default);
+    public  Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+    public  Task<TEntity?> GetBySpecAsync(ISpec<TEntity> spec, CancellationToken cancellationToken = default);
    
-    public  Task<IEnumerable<T>?> ListBySpecAsync(CancellationToken cancellationToken = default);    
+    public  Task<IEnumerable<TEntity>?> ListBySpecAsync(CancellationToken cancellationToken = default);    
     //public Task DeleteAsync(BaseEntity entity, CancellationToken cancellationToken = default);
 
 

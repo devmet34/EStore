@@ -34,7 +34,7 @@ public class BasketTest
 
  
     var date=DateTime.Parse("03/12/2024").Date;
-    var q = basketService.Repo.Query();
+    var q = basketService.Repo.Query;
     var t = q.Where(b => b.BasketCreatedAt.Date == date).FirstOrDefault();
     int c = 1;
     /*

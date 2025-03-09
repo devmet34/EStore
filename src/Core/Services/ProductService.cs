@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 namespace Estore.Core.Services;
 public class ProductService
 {
-  private readonly IRepo<Product> _repo;
+  private readonly IRepoRead<Product> _repo;
   private readonly ILogger<ProductService> _logger;
   private readonly int pageSize;
   private IQueryable<Product>? query;
   private readonly IConfiguration _config;
 
-  public ProductService(IRepo<Product> repo, ILogger<ProductService> logger, IConfiguration config)
+  public ProductService(IRepoRead<Product> repo, ILogger<ProductService> logger, IConfiguration config)
   {
     _repo = repo;
     _logger = logger;

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EStore.Infra.EF.Repos;
-public class GenericReadRepo:IRepoRead
+public class GenericReadRepo<TEntity> :IRepoRead<TEntity> where TEntity : class
 {
   private readonly EStoreDbContext _dbContext;
 
@@ -17,13 +17,16 @@ public class GenericReadRepo:IRepoRead
     _dbContext = dbContext;
   }
 
-  /// <summary>
-  /// mc, Get queryable dbcontext with asnotracking. 
-  /// </summary>
-  /// <typeparam name="TEntity"></typeparam>
-  /// <returns></returns>
-  public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+  IQueryable<TEntity> IRepoRead<TEntity>.Query => _dbContext.Set<TEntity>().AsNoTracking();
+
+  public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
   {
-    return _dbContext.Set<TEntity>().AsNoTracking();
+    return await _dbContext.Set<TEntity>().FindAsync(id, cancellationToken);
   }
+
+  public async Task<IEnumerable<TEntity>?> ListByQueryAsync(IQueryable<TEntity> query, CancellationToken cancellationToken = default)
+  {
+    return await query.ToListAsync();
+  }
+
 }

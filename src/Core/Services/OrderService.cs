@@ -9,12 +9,12 @@ using Microsoft.Extensions.Logging;
 namespace Estore.Core.Services;
 public class OrderService
 {
-  private readonly IRepoRead _repoRead;
+  private readonly IRepoRead<CustomerAddress> _repoRead;
   private readonly ILogger<OrderService> _logger;
   private readonly IBasketService _basketService;
   private readonly ProductService _productService;
   private readonly IRepoOrder _repoOrder;
-  public OrderService(IRepoOrder repoOrder,IRepoRead repoRead , ILogger<OrderService> logger, Interfaces.IBasketService basketService, ProductService productService)
+  public OrderService(IRepoOrder repoOrder,IRepoRead<CustomerAddress> repoRead , ILogger<OrderService> logger, Interfaces.IBasketService basketService, ProductService productService)
   {
     _repoRead = repoRead;
     _repoOrder = repoOrder;
@@ -64,7 +64,7 @@ public class OrderService
 
     try
     {
-      var addressId=(await _repoRead.Query<CustomerAddress>().Where(a=>a.UserId==buyerId).AsNoTracking().FirstOrDefaultAsync())!.Id;
+      var addressId=(await _repoRead.Query.Where(a=>a.UserId==buyerId).FirstOrDefaultAsync())!.Id;
       addressId.GuardZero();
       await _repoOrder.CreateOrderAsync(basket,addressId);
       await _basketService.RemoveBasketAsync(basket!);

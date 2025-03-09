@@ -2,6 +2,7 @@
 using Estore.Core.Interfaces;
 using Estore.Core.Services;
 using EStore.Infra.EF.Repos;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +14,7 @@ public static class ConfigureCoreServices
   public static IServiceCollection AddCoreServices(this IServiceCollection services)
   {
     services.AddScoped(typeof(IRepo<>),typeof( GenericRepo<>));
-    services.AddScoped<IRepoRead, GenericReadRepo>();
+    services.AddScoped(typeof(IRepoRead<>), typeof(GenericReadRepo<>));
     services.AddScoped<IRepoOrder, OrderRepo>();
     services.AddScoped<IBasketCacheService, BasketCacheService>();
     services.AddScoped<IBasketDBService, BasketDBService>();
