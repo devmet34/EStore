@@ -1,9 +1,9 @@
 ﻿namespace EStore.Web.Middlewares.Custom;
 
-public static class UseResponse
+public static class UseResponseTest
 {
   /// <summary>
-  /// Custom middleware, its used to get responsebody for debugging purposes.
+  /// mc, Custom middleware, its used to get/test responsebody for debugging.
   /// </summary>
   /// <param name="app"></param>
   /// <returns></returns>
@@ -11,12 +11,12 @@ public static class UseResponse
   {
     app.Use(async (context, next) =>
     {
-      string str = "reset";
+      //string str = "reset";
       var originalBody = context.Response.Body;
       var memStream = new MemoryStream();
       context.Response.Body = memStream;
       Helper.LogCritical("useresponse before next");
-      throw new Exception("exception from useresponse");
+      //throw new Exception("exception from useresponse");
       await next();
 
       

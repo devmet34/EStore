@@ -9,7 +9,7 @@ namespace EStore.Web.Config;
 
 public static class ConfigRedis
 {
-  private readonly static int connectTimeout = Constants.connectTimeoutMs;
+  //private readonly static int connectTimeout = Constants.connectTimeoutMs;
   private static string? connectionString=null;
   public static void AddRedis(WebApplicationBuilder builder)
   {

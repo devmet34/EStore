@@ -8,7 +8,6 @@ using Estore.Core.Entities.BasketAggregate;
 using Estore.Core.Entities.OrderAggregate;
 using Estore.Core.Interfaces;
 using Estore.App.Services;
-using EStore.Core.Query;
 using EStore.Infra.EF;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;

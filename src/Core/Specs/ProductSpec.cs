@@ -20,8 +20,8 @@ public class ProductSpec : BaseSpec<Product>
   {
 
     base.AddWhere(x => x.Id == ProductId)
-      .AddInclude(x => x.Brand)
-      .AddInclude(x => x.Category);
+      .AddInclude(x => x.Brand!)
+      .AddInclude(x => x.Category!);
       
     /*
     Query.Where(Where)

@@ -9,7 +9,7 @@ public class OrderItem : BaseEntity
 {
     public int OrderId { get; private set; }
     public int ProductId { get; private set; }
-    public string ProductName { get; private set; }    
+    public string ProductName { get; private set; } = null!;
     public int Qt { get; private set; }
     public decimal Price { get; private set; }
 

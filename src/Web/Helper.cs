@@ -67,7 +67,7 @@ namespace EStore.Web
     {
       pattern.GuardNullOrEmpty();
 
-      return builder.Services.Where(s => s.ServiceType.FullName.Contains(pattern, StringComparison.OrdinalIgnoreCase)).ToList();
+      return builder.Services.Where(s => s.ServiceType.FullName!.Contains(pattern, StringComparison.OrdinalIgnoreCase)).ToList();
 
     }
 

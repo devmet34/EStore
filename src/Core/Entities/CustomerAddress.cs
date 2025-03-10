@@ -9,14 +9,14 @@ using System.Threading.Tasks.Dataflow;
 namespace Estore.Core.Entities;
 public class CustomerAddress:BaseEntity
 {
-  public string UserId {  get; private set; }
+  public string UserId { get; private set; } = null!;
   
-  public string Street { get; private set; }
-  public string? Province {  get; private set; }
+  public string Street { get; private set; } = null!;
+  public string? Province {  get; private set; } = null!;
 
-  public string City { get; private set; }
+  public string City { get; private set; } = null!;
 
-  public string Country { get; private set; }
+  public string Country { get; private set; } = null!;
 
   public int ZipCode { get; private set; }
 

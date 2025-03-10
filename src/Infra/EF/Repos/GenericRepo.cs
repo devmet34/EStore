@@ -81,7 +81,7 @@ public class GenericRepo<TEntity> : IRepo<TEntity> where TEntity : class, IAggre
     }
 
 
-    public async Task<IEnumerable<TEntity>?> ListBySpecAsync(CancellationToken cancellationToken = default)
+    public Task<IEnumerable<TEntity>?> ListBySpecAsync(CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

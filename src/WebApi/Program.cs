@@ -89,42 +89,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//Debug4Scope();
-
-/// <summary>
-/// Create scope for resolving services.
-/// </summary>
-async void Debug4Scope()
-{
-  
-  using (var scope = app.Services.CreateScope())
-  {
-    var scopedProvider= scope.ServiceProvider;
-
-    var service = scopedProvider.GetRequiredService<IBasketService>();
-
-
-
-    var repo=(GenericRepo<Product>) scopedProvider.GetRequiredService<IRepo<Product>>();
-    //repo.TestSpec(p => p.Id == 1);
-    //IQueryable<Product> query;
-    ProductSpec spec=new ProductSpec() { ProductId=5};
-    var x = await repo.GetBySpecAsync(spec);
-    //repo.TestSpec(spec);
-    //var t=query.Where(p => p.Id == 1).Include(p => p.Brand);
-
-    //var dbContext = scopedProvider.GetRequiredService<EStoreDbContext>();
-    //repo.GetBySpecAsync(t);
-    //EstoreContextSeed.Seed(dbContext);
-
-
-    // example: var service = scopedProvider.GetRequiredService<IMyService>();
-
-  }
-
-}
-
-
 
 app.Run();
 

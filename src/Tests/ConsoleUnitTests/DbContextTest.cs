@@ -20,13 +20,13 @@ public class DbContextTest
     using var context = new EStoreDbContext(options.Options);
 
     await UpdateProducts.UpdateProductsBatch(context);
-    return;
+    
 
-    var prods =  context.Products.AsNoTracking().Include(p => p.Category).Where(p => p.Category.MainCat.StartsWith("tennis shoes")).ToList();
+    var prods =  context.Products.AsNoTracking().Include(p => p.Category).Where(p => p.Category!.MainCat.StartsWith("tennis shoes")).ToList();
 
     var prodsByName=  context.Products.AsNoTracking().Include(p => p.Category).Where(p=>p.Name.Contains("racket2")).ToList();
 
-    var enumerable = context.Products.AsNoTracking().Include(p => p.Category).Where(p => p.Category.MainCat.StartsWith("tennis shoes")).AsEnumerable();
+    var enumerable = context.Products.AsNoTracking().Include(p => p.Category).Where(p => p.Category!.MainCat.StartsWith("tennis shoes")).AsEnumerable();
     var t = enumerable.ToList();
     foreach (var e in enumerable)
       e.ToString();
@@ -35,7 +35,7 @@ public class DbContextTest
 
     
 
-    int g = 1;
+   
   }
 
 

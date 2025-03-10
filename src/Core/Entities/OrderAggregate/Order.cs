@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace Estore.Core.Entities.OrderAggregate;
 public class Order : BaseEntity, IAggregateRoot
 {
-    public string BuyerId { get; private set; }
-    public DateTime CreatedAt { get; private set; }   
+    public string BuyerId { get; private set; } = null!;
+  public DateTime CreatedAt { get; private set; }   
     public int? CustomerAddressId { get; private set; }
     public decimal TotalPrice { get; private set; }
     private readonly List<OrderItem> _orderItems = new();

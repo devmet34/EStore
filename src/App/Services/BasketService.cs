@@ -34,7 +34,7 @@ public class BasketService : IBasketService
   private readonly IBasketCacheService _basketCacheSrv;
   private readonly IBasketDBService _basketDBSrv;
   private readonly ILogger<BasketService> _logger;
-  private Basket? _basket;
+ 
 
   public BasketService(IBasketCacheService basketCacheSrv, IBasketDBService basketDBSrv, ILogger<BasketService> logger)
   {

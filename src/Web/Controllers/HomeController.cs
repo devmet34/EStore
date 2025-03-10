@@ -87,7 +87,7 @@ namespace EStore.Web.Controllers
         basket = await GetOrCreateBasketAsync();
       }
         
-      IEnumerable<ProductVM>? productVM = null;
+      //IEnumerable<ProductVM>? productVM = null;
       var products = await _productService.GetProductsPagedAsync(sortBy);
       //if (products != null)      
        // productVM = _mapper.Map<IEnumerable<ProductVM>>(products);         

@@ -11,7 +11,7 @@ namespace Estore.Core.Entities;
 public class Product : BaseEntity, IAggregateRoot
 {
 
-  public string Name { get; private set; }
+  public string Name { get; private set; } = null!;
   public string? Description { get; private set; }
   public Category? Category { get; private set; }
   public int? CategoryId { get; private set; }
@@ -22,7 +22,7 @@ public class Product : BaseEntity, IAggregateRoot
   public string? PictureUri { get; private set; }
   public short? SortOrder {  get; private set; }
   
-  public byte[] Version { get; set; }   
+  public byte[] Version { get; set; } = null!;
 
 
   public Product(string name, int? categoryId, int? brandId, decimal price, int qt, string? description = null, string? pictureUri=null)

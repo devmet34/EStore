@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace EStore.Infra.EF.Helpers;
 public class UpdateProducts
-{
+{  
+  //mc, This was used for testing dummy product updates
   public static async Task UpdateProductsBatch(EStoreDbContext context)
   {
     int startIndex = 43;
@@ -26,6 +27,7 @@ public class UpdateProducts
     }
     return;
 
+    /*
     int i = 1;
     int j = 10;
     int pageSize = 36;
@@ -39,7 +41,7 @@ public class UpdateProducts
       i++;
     }
 
-
+    */
 
     
   }

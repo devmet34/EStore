@@ -113,15 +113,5 @@ public class BasketController:Controller
   }
 
 
-  [Route("baskettest")]
-  public async Task<IActionResult> Test()
-  {
-    return Ok();
-    //var basketService= Helper.GetBasketService(HttpContext);
-    //var basket = await _basketService.GetOrCreateBasketAsync(Helper.GetUserId(User)!);
-    //return Ok(basket?.BasketCreatedAt.ToString());
-
-  }
-
 
 }//eo class
