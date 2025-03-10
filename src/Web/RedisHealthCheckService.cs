@@ -10,7 +10,7 @@ public class RedisHealthCheckService : BackgroundService
 {
   private readonly int connectTimeoutMs = Constants.connectTimeoutMs; 
   private readonly int healthCheckTimeoutSec = Constants.healthCheckTimeoutSec;
-  private string? connectionString = null;
+  private string? connectionString;
   private readonly ILogger<RedisHealthCheckService> logger;
   private readonly IConfiguration configuration;
   private static bool isRedisConnected = false;

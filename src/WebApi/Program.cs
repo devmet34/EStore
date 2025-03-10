@@ -126,8 +126,6 @@ async void Debug4Scope()
 
 
 
-int i = 2;
-
 app.Run();
 
 

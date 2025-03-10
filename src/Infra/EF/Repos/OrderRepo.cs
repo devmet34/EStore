@@ -48,14 +48,15 @@ public class OrderRepo : IRepoOrder
         bool hasOrderCached = false;
         bool saved = false;
         bool concurrencyException = false;
+        //mc, Saved flag will be false until order created/saved to db. When there is a change in related data, loop will start again. Within the loop, items (product) will be checked for price/qt etc. constraints. 
         while (!saved)
         {
-            //mc, check each item (product) for price, qt changes and db concurrency issues then update related product's qt within foreach before creating order.   
+              
             foreach (var item in basket.BasketItems)
             {
                 var dbItem = await _context.Products.Where(p => p.Id == item.ProductId).FirstOrDefaultAsync();
                 dbItem.GuardNull();
-                //mc if concurrencyException was thrown and item state modified, reload ef tracked/cached entity from db. It looks like even rows/items not changed seem changed probably because it belongs to entity type that changed, bug? or expected behaviour?  
+                //mc, if concurrencyException was thrown and item state modified, reload ef tracked/cached entity from db. It looks like even rows/items not changed seem changed probably because it belongs to entity type that changed, bug? or expected behaviour?  
                 if (concurrencyException)
                 {
                     var entry = _context.Entry(dbItem!);
@@ -65,8 +66,6 @@ public class OrderRepo : IRepoOrder
                         continue;
                 }
 
-
-
                 if (item.Product?.Price != dbItem!.Price)
                     throw new Exception($"Price of product {item.Product?.Name} changed");
                 if (dbItem!.Qt < item.Qt)
@@ -75,7 +74,7 @@ public class OrderRepo : IRepoOrder
                 dbItem.UpdateQt(-item.Qt);
             }
 
-            //mc to prevent creating duplicate orders in case of concurrency exception loops
+            //mc, to prevent creating duplicate orders
             if (!hasOrderCached)
             {
                 var order = new Order(basket, addressId);
@@ -88,10 +87,10 @@ public class OrderRepo : IRepoOrder
                 await _context.SaveChangesAsync();
                 saved = true;
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 concurrencyException = true;
-                //foreach (var entry in ex.Entries) //mc this only returns single entry, a bug?
+                //foreach (var entry in ex.Entries) //mc, this only returns single entry, a bug?
                 //entry.Reload();
 
             }

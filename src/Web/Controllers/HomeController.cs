@@ -35,7 +35,7 @@ namespace EStore.Web.Controllers
     private readonly IMapper _mapper;
     private readonly SignInManager<AppUser> _signInManager;
     private const string DEFAULT_SORT = Constants.DEFAULT_SORT;
-    private readonly string cacheProductsKey = Constants.cacheProductsKey;
+    //private readonly string cacheProductsKey = Constants.cacheProductsKey;
     
     
     
