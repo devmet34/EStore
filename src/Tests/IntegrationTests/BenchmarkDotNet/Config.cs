@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApi_Integration.BenchmarkDotNet;
+namespace IntegrationTests.BenchmarkDotNet;
 public class Config
 {
 

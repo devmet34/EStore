@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 
 
-namespace WebApi_Integration;
+namespace IntegrationTests;
 
 
 public class ProgramFactory

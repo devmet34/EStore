@@ -16,7 +16,7 @@ using Estore.Core.Interfaces;
 using Assert = Xunit.Assert;
 using Estore.App.Services;
 
-namespace WebApi_Integration;
+namespace IntegrationTests;
 public class RedisTest
 {
   private WebApplicationFactory<Program> app= ProgramFactory.webApplicationFactory;

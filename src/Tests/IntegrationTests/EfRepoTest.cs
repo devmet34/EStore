@@ -19,12 +19,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebApi_Integration.BenchmarkDotNet;
+using IntegrationTests.BenchmarkDotNet;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace WebApi_Integration;
+namespace IntegrationTests;
 public class EfRepoTest
 {
   ITestOutputHelper output;

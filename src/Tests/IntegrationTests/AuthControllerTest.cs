@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace WebApi_Integration;
+namespace IntegrationTests;
 [TestClass]
 public class AuthControllerTest
 {

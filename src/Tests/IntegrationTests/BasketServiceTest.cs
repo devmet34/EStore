@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace WebApi_Integration;
+namespace IntegrationTests;
 public class BasketServiceTest:ProgramFactory
 {
   ITestOutputHelper output;

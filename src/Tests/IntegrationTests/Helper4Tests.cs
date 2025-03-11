@@ -7,7 +7,7 @@ using System.Text.Json;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace WebApi_Integration;
+namespace IntegrationTests;
 public class Helper4Tests
 {
   public static StringContent GetJsonContent(string content,Encoding? encoding,string? type)

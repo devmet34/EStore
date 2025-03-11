@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApi_Integration.BenchmarkDotNet;
+namespace IntegrationTests.BenchmarkDotNet;
 
 //mc; benchmark.net needs a class with test method to run.  
 public class BenchEfRepo
