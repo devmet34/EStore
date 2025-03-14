@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.App;
+namespace EStore.App;
 public class Query
 {
 

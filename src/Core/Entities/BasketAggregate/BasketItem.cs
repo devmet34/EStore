@@ -1,11 +1,11 @@
-﻿using Estore.Core.Extensions;
+﻿using EStore.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Entities.BasketAggregate;
+namespace EStore.Core.Entities.BasketAggregate;
 public class BasketItem : BaseEntity
 {
   public int BasketId { get; private set; }

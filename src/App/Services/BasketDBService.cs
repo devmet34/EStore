@@ -1,7 +1,7 @@
-﻿using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
-using Estore.Core.Specs;
+﻿using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
+using EStore.Core.Specs;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 
 
-namespace Estore.App.Services;
+namespace EStore.App.Services;
 public class BasketDBService : IBasketDBService
 {
   private readonly IRepo<Basket> _repo;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Estore.Core.Entities.BasketAggregate;
+using EStore.Core.Entities.BasketAggregate;
 
 namespace EStore.Infra.EF.Config.Entity;
 public class BasketConfig : IEntityTypeConfiguration<Basket>

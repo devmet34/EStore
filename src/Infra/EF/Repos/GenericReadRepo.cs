@@ -1,4 +1,4 @@
-﻿using Estore.Core.Interfaces;
+﻿using EStore.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

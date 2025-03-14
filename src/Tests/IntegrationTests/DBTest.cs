@@ -1,5 +1,5 @@
-﻿using Estore.Core.Entities;
-using Estore.Core.Specs;
+﻿using EStore.Core.Entities;
+using EStore.Core.Specs;
 using EStore.Infra.EF;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;

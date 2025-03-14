@@ -1,4 +1,4 @@
-﻿using Estore.Core.Entities;
+﻿using EStore.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Estore.Core.Interfaces
+namespace EStore.Core.Interfaces
 {
   public interface IRepo<TEntity>:IRepoBase<TEntity> where TEntity : class
   {

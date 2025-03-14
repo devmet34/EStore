@@ -1,5 +1,5 @@
-﻿using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Interfaces;
+﻿using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EStore.Infra.EF;

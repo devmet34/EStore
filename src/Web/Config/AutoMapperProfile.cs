@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Estore.Core.Entities;
-using Estore.Core.Entities.BasketAggregate;
+using EStore.Core.Entities;
+using EStore.Core.Entities.BasketAggregate;
 using EStore.Web.Models;
 
 namespace EStore.Web.Config;

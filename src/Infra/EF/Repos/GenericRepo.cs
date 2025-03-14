@@ -1,6 +1,6 @@
-﻿using Estore.Core.Entities;
-using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Interfaces;
+﻿using EStore.Core.Entities;
+using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Interfaces;
 using EStore.Infra.EF.Identity;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;

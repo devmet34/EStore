@@ -1,9 +1,9 @@
-using Estore.Core.Entities;
-using Estore.Core.Entities.ValueObjects;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
-using Estore.App.Services;
-using Estore.Core.Specs;
+using EStore.Core.Entities;
+using EStore.Core.Entities.ValueObjects;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
+using EStore.App.Services;
+using EStore.Core.Specs;
 using EStore.Infra.EF.Config;
 using EStore.Infra.EF.Identity;
 using EStore.Infra.EF.Repos;

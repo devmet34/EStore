@@ -1,4 +1,4 @@
-﻿using Estore.Core.Entities;
+﻿using EStore.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;

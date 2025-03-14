@@ -1,5 +1,5 @@
-﻿using Estore.Core;
-using Estore.Core.Interfaces;
+﻿using EStore.Core;
+using EStore.Core.Interfaces;
 namespace EStore.Web.Models;
 
 public class AddressVM

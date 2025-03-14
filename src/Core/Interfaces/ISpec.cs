@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Interfaces;
+namespace EStore.Core.Interfaces;
 public interface ISpec<T> where T : class
 {
 

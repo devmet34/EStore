@@ -1,7 +1,7 @@
-﻿using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Entities.OrderAggregate;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
+﻿using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Entities.OrderAggregate;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

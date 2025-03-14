@@ -1,4 +1,4 @@
-﻿using Estore.Core.Entities.BasketAggregate;
+﻿using EStore.Core.Entities.BasketAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

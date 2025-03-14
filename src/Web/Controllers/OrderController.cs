@@ -1,9 +1,9 @@
-﻿using Estore.Core.Interfaces;
-using Estore.Core.Extensions;
+﻿using EStore.Core.Interfaces;
+using EStore.Core.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using EStore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
-using Estore.App.Services;
+using EStore.App.Services;
 
 namespace EStore.Web.Controllers;
 

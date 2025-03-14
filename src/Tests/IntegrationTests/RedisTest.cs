@@ -11,10 +11,10 @@ using Xunit.Abstractions;
 using NuGet.Protocol;
 using StackExchange.Redis;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Interfaces;
+using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Interfaces;
 using Assert = Xunit.Assert;
-using Estore.App.Services;
+using EStore.App.Services;
 
 namespace IntegrationTests;
 public class RedisTest

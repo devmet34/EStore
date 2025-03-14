@@ -1,5 +1,5 @@
-﻿using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Interfaces;
+﻿using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.App.Services;
+namespace EStore.App.Services;
 /// <summary>
 /// mc, First preference of service is cache then db. 
 /// </summary>

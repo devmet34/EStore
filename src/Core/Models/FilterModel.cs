@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Models;
+namespace EStore.Core.Models;
 public class FilterModel
 {
   

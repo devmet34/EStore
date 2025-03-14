@@ -1,4 +1,4 @@
-﻿using Estore.Core.Interfaces;
+﻿using EStore.Core.Interfaces;
 using EStore.Infra.EF.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

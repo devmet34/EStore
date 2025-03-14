@@ -1,8 +1,8 @@
-﻿using Estore.Core;
-using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Exceptions;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
+﻿using EStore.Core;
+using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Exceptions;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.App.Services;
+namespace EStore.App.Services;
 public class BasketCacheService : IBasketCacheService
 {
 

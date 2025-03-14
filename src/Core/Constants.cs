@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core;
+namespace EStore.Core;
 public class Constants
 {
   public const int pageSize = 20;

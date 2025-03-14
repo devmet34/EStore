@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Interfaces;
+namespace EStore.Core.Interfaces;
 public interface IRepoRead<TEntity> where TEntity : class
 {
   /// <summary>

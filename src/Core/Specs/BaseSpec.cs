@@ -1,4 +1,4 @@
-﻿using Estore.Core.Interfaces;
+﻿using EStore.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Specs;
+namespace EStore.Core.Specs;
 public abstract class BaseSpec<T> : ISpec<T> where T : class
 { 
   public Expression<Func<T, bool>>? WhereExp { get; private set; }

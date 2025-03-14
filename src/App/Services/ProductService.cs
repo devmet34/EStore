@@ -1,8 +1,8 @@
-﻿using Estore.App.WebModels;
-using Estore.Core.Entities;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
-using Estore.Core.Models;
+﻿using EStore.App.WebModels;
+using EStore.Core.Entities;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
+using EStore.Core.Models;
 using EStore.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +15,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.App.Services;
+namespace EStore.App.Services;
 public class ProductService
 {
   private readonly IRepoRead<Product> _readRepo;

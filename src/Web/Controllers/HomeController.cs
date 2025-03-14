@@ -1,10 +1,10 @@
 //using AspNetCore;
 using AutoMapper;
-using Estore.App.Services;
-using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
-using Estore.Core.Models;
+using EStore.App.Services;
+using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
+using EStore.Core.Models;
 using EStore.Infra.EF.Identity;
 using EStore.Web.Config;
 using EStore.Web.Models;

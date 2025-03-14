@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Estore.Core.Extensions;
+namespace EStore.Core.Extensions;
 public static class GuardExtensions
 {
   /// <summary>

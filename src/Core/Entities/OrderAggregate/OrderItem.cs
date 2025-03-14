@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Entities.OrderAggregate;
+namespace EStore.Core.Entities.OrderAggregate;
 public class OrderItem : BaseEntity
 {
     public int OrderId { get; private set; }

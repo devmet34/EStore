@@ -1,5 +1,5 @@
-﻿using Estore.Core.Entities;
-using Estore.Core.Interfaces;
+﻿using EStore.Core.Entities;
+using EStore.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Specs;
+namespace EStore.Core.Specs;
 public class ProductSpec : BaseSpec<Product>
 {
   //public Expression<Func<Product, bool>> Where { get; set; }= x => x.Id == 1; 

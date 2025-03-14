@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Estore.App.Services;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
-using Estore.Core.Models;
+using EStore.App.Services;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
+using EStore.Core.Models;
 using EStore.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;

@@ -1,5 +1,5 @@
-﻿using Estore.Core.Entities;
-using Estore.Core.Entities.ValueObjects;
+﻿using EStore.Core.Entities;
+using EStore.Core.Entities.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

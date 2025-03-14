@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Estore.Core.Entities;
-using Estore.Core.Interfaces;
+using EStore.Core.Entities;
+using EStore.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

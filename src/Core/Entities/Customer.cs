@@ -1,12 +1,12 @@
-﻿using Estore.Core.Entities.ValueObjects;
-using Estore.Core.Extensions;
+﻿using EStore.Core.Entities.ValueObjects;
+using EStore.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Entities;
+namespace EStore.Core.Entities;
 public class Customer:BaseEntity
 {
   public string CustomerId { get; private set; }

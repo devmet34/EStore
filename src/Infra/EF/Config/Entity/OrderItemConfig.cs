@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Estore.Core.Entities.OrderAggregate;
+using EStore.Core.Entities.OrderAggregate;
 
 namespace EStore.Infra.EF.Config.Entity;
 public class OrderItemConfig : IEntityTypeConfiguration<OrderItem>

@@ -1,6 +1,6 @@
-﻿using Estore.Core;
-using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Exceptions;
+﻿using EStore.Core;
+using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Exceptions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Estore.App.Services;
+namespace EStore.App.Services;
 public class RedisService
 {
 

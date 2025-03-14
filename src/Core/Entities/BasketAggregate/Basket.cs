@@ -1,5 +1,5 @@
-﻿using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
+﻿using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Entities.BasketAggregate
+namespace EStore.Core.Entities.BasketAggregate
 {
   public class Basket : BaseEntity, IAggregateRoot
   {

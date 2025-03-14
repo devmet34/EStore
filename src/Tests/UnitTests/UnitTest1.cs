@@ -1,4 +1,4 @@
-using Estore.Core.Extensions;
+using EStore.Core.Extensions;
 using EStore.Infra.EF;
 using Xunit.Abstractions;
 using static System.Net.Mime.MediaTypeNames;

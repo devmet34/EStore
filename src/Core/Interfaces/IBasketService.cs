@@ -1,11 +1,11 @@
-﻿using Estore.Core.Entities.BasketAggregate;
+﻿using EStore.Core.Entities.BasketAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Interfaces;
+namespace EStore.Core.Interfaces;
 public interface IBasketService
 {
   public Task<Basket?> GetOrCreateBasketAsync(string buyerId);

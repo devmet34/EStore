@@ -1,4 +1,4 @@
-﻿using Estore.Core.Interfaces;
+﻿using EStore.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-namespace Estore.Core.Entities;
+namespace EStore.Core.Entities;
 public class CustomerAddress:BaseEntity
 {
   public string UserId { get; private set; } = null!;

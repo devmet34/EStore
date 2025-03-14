@@ -1,4 +1,4 @@
-﻿using Estore.App.Services;
+﻿using EStore.App.Services;
 using Microsoft.Extensions.DependencyInjection;
 using NuGet.Protocol;
 using System;
@@ -26,10 +26,10 @@ public class ProductServiceTest
 
     using var scope = app.Services.CreateScope();
     var productService=scope.ServiceProvider.GetRequiredService<ProductService>();
-    var res = await productService.FilterProductsAsync(new Estore.Core.Models.FilterModel() { MainCat="balls" } );
-    var res2 = await productService.FilterProductsAsync(new Estore.Core.Models.FilterModel() { MainCat = "balls",PriceMax=2 });
-    var res3= await productService.FilterProductsAsync(new Estore.Core.Models.FilterModel() { SubCat = "basketball" });
-    var res4= await productService.FilterProductsAsync(new Estore.Core.Models.FilterModel() { PriceMin=2,PriceMax=10 });
+    var res = await productService.FilterProductsAsync(new EStore.Core.Models.FilterModel() { MainCat="balls" } );
+    var res2 = await productService.FilterProductsAsync(new EStore.Core.Models.FilterModel() { MainCat = "balls",PriceMax=2 });
+    var res3= await productService.FilterProductsAsync(new EStore.Core.Models.FilterModel() { SubCat = "basketball" });
+    var res4= await productService.FilterProductsAsync(new EStore.Core.Models.FilterModel() { PriceMin=2,PriceMax=10 });
 
    
 

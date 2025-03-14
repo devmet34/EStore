@@ -1,4 +1,4 @@
-﻿using Estore.Core.Entities.BasketAggregate;
+﻿using EStore.Core.Entities.BasketAggregate;
 
 namespace EStore.Web.Models;
 

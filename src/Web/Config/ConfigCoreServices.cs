@@ -1,6 +1,6 @@
-﻿using Estore.App.Services;
-using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Interfaces;
+﻿using EStore.App.Services;
+using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Interfaces;
 using EStore.Infra.EF.Repos;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Caching.Distributed;

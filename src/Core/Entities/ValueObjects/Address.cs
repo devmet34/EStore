@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Entities.ValueObjects;
+namespace EStore.Core.Entities.ValueObjects;
 public class Address // ValueObject
 {
   public string Street { get; private set; }

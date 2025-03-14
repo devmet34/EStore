@@ -1,5 +1,5 @@
-﻿using Estore.App.WebModels;
-using Estore.Core.Entities;
+﻿using EStore.App.WebModels;
+using EStore.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.App;
+namespace EStore.App;
 public class Projections
 {
   public static Expression<Func<Product, ProductVM>> ProductToProductVM()

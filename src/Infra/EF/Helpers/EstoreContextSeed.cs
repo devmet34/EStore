@@ -1,4 +1,4 @@
-﻿using Estore.Core.Entities;
+﻿using EStore.Core.Entities;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System;
 using System.Collections.Generic;

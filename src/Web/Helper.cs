@@ -1,6 +1,6 @@
-﻿using Estore.App.Services;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
+﻿using EStore.App.Services;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
 using EStore.Infra.EF;
 using EStore.Infra.EF.Helpers;
 using NuGet.Protocol;

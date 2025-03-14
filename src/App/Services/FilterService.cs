@@ -1,8 +1,8 @@
-﻿using Estore.App.WebModels;
-using Estore.Core.Entities;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
-using Estore.Core.Models;
+﻿using EStore.App.WebModels;
+using EStore.Core.Entities;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
+using EStore.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.App.Services;
+namespace EStore.App.Services;
 public class FilterService
 {
   private readonly ILogger<FilterService> _logger;

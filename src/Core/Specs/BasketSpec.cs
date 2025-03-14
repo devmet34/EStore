@@ -1,11 +1,11 @@
-﻿using Estore.Core.Entities.BasketAggregate;
+﻿using EStore.Core.Entities.BasketAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Specs;
+namespace EStore.Core.Specs;
 public class BasketSpec : BaseSpec<Basket>
 {
   public string? BuyerId {  get; set; }

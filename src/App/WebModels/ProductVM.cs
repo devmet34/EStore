@@ -1,4 +1,4 @@
-﻿namespace Estore.App.WebModels;
+﻿namespace EStore.App.WebModels;
 
 public class ProductVM
 {

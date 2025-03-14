@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Specs;
+namespace EStore.Core.Specs;
 public class QueryBuilder<T> where T : class
 {
   public Expression<Func<T, bool>>? WhereExp { get; private set; }

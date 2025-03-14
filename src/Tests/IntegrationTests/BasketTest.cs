@@ -1,5 +1,5 @@
-﻿using Estore.App.Services;
-using Estore.Core.Entities.BasketAggregate;
+﻿using EStore.App.Services;
+using EStore.Core.Entities.BasketAggregate;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntegrationTests;
-using Estore.Core.Interfaces;
+using EStore.Core.Interfaces;
 using Xunit;
 
 namespace IntegrationTests;

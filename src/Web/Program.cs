@@ -21,14 +21,14 @@ using System.Drawing.Text;
 using EStore.Web.Middlewares.Custom;
 using Web;
 using static Web.Constants;
-using Estore.Core.Entities;
+using EStore.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Estore.Core.Interfaces;
+using EStore.Core.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.AspNetCore.Mvc;
-using Estore.Core.Entities.BasketAggregate;
+using EStore.Core.Entities.BasketAggregate;
 
 
 // Add services to the container.

@@ -1,6 +1,6 @@
-﻿using Estore.Core.Entities.BasketAggregate;
-using Estore.Core.Extensions;
-using Estore.Core.Interfaces;
+﻿using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Extensions;
+using EStore.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estore.Core.Entities.OrderAggregate;
+namespace EStore.Core.Entities.OrderAggregate;
 public class Order : BaseEntity, IAggregateRoot
 {
     public string BuyerId { get; private set; } = null!;
