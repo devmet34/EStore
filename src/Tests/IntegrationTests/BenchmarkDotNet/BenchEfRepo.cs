@@ -37,7 +37,7 @@ public class BenchEfRepo
     using var scope = app.Services.CreateScope();
     repo = scope.ServiceProvider.GetRequiredService<IRepo<Product>>();
 
-    query = repo.Query();
+    query = repo.Query;
     query = query.Where(p => p.CategoryId > 1).AsNoTracking();
     var t = await repo.ListByQueryAsync(query); 
     

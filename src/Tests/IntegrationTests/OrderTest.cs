@@ -28,15 +28,15 @@ public class OrderTest
     
     var productService= scope.ServiceProvider.GetRequiredService<ProductService>();
     var orderService = scope.ServiceProvider.GetRequiredService<OrderService>();
-    var basketService= scope.ServiceProvider.GetRequiredService<BasketDBService>();
+    var basketService= scope.ServiceProvider.GetRequiredService<IBasketService>();
     
     var product = await productService.GetProductAsync(1);
-    var basket = new Basket(userId);
-    basket.SetBasketItem(product.Id, 2, product.Price);
+    var basket = await basketService.GetOrCreateBasketAsync(userId!);
+    basket?.SetBasketItem(product!.Id, 2, product.Price);
     //var basket= await basketService.GetBasketAsync(userId);
-    await orderService.CreateOrderAsync(userId);
+    await orderService.CreateOrderAsync(userId!);
 
-    var order = await orderService.GetAllOrdersAsync(userId);
+    var order = await orderService.GetAllOrdersAsync(userId!);
     //Xunit.Assert.True(order.FirstOrDefault().OrderItems.Count > 1);
   }
 }

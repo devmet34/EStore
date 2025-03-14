@@ -79,6 +79,7 @@ app?.Logger.LogInformation("App created...");
 
 // Configure the HTTP request pipeline.
 
+//ConfigRedis.PostConfigRedisCacheOptions(app!.Services); //mc, for redis logging.
 
 if (app!.Environment.IsDevelopment())
 {
@@ -118,7 +119,7 @@ app.MapGet("routes", (IEnumerable<EndpointDataSource> epSources) =>
 
 app.Run();
 
-
+public partial class Program(); //mc, for integration tests
 
 /*
 //mc, test debug minimal api with services injected

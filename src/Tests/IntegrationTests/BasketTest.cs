@@ -8,9 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntegrationTests;
+using Estore.Core.Interfaces;
 using Xunit;
 
-namespace WebApi_IntegrationTests;
+namespace IntegrationTests;
 public class BasketTest
 {
 
@@ -27,16 +28,13 @@ public class BasketTest
 
     var productService = scope.ServiceProvider.GetRequiredService<ProductService>();
     var orderService = scope.ServiceProvider.GetRequiredService<OrderService>();
-    var basketService = scope.ServiceProvider.GetRequiredService<BasketDBService>();
+    var basketService = scope.ServiceProvider.GetRequiredService<IBasketService>();
 
     var basket = await basketService.GetOrCreateBasketAsync(userId);
     //await basketService.SetBasketItemAsync(userId, 1, 2);
 
  
-    var date=DateTime.Parse("03/12/2024").Date;
-    var q = basketService.Repo.Query;
-    var t = q.Where(b => b.BasketCreatedAt.Date == date).FirstOrDefault();
-    int c = 1;
+   
     /*
     var product = await productService.GetProductAsync(1);
     var basket = new Basket(userId);

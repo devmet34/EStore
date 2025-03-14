@@ -24,6 +24,7 @@ public class RedisTest
     });
     var key = "Estore:Test";
     var redisDb=mux.GetDatabase();
+        redisDb.StringSet("key1", "value1");
     var json =  redisDb.HashGet("Estore:Products","data");
     var res= JsonSerializer.Deserialize<IEnumerable<ProductVM>>(json);
     int a = 1;
