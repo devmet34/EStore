@@ -1,6 +1,7 @@
 ﻿using EStore.Core.Entities.BasketAggregate;
 using EStore.Core.Interfaces;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,26 +54,31 @@ public class BasketService : IBasketService
     throw new NotImplementedException();
   }
 
-  public async Task<Basket?> GetBasketAsync(string buyerId)
-  {
-    try { return await _basketCacheSrv.GetBasketAsync(buyerId) ?? await _basketDBSrv.GetBasketAsync(buyerId); }
-    catch { return await _basketDBSrv.GetBasketAsync(buyerId); }
-
-  }
-
   /// <summary>
-  /// mc, Get/create basket from redis cache or db if cache throws error.
+  /// mc, Get basket from cache, try to get it from DB if cache fails.
   /// </summary>
   /// <param name="buyerId"></param>
   /// <returns></returns>
-  public async Task<Basket?> GetOrCreateBasketAsync(string buyerId)
+  public async Task<Basket?> GetBasketAsync(string buyerId)
   {
-    try { return await _basketCacheSrv.GetOrCreateBasketAsync(buyerId); }
-    catch { return await _basketDBSrv.GetOrCreateBasketAsync(buyerId); }
+    try { return await _basketCacheSrv.GetBasketAsync(buyerId); }
+    catch (RedisConnectionException) { return await _basketDBSrv.GetBasketAsync(buyerId); }
+
   }
 
   /// <summary>
-  /// mc, Set basket firstly on redis cache then on db if cache throws error.
+  /// mc, Create basket on redis cache or db if redis throws error.
+  /// </summary>
+  /// <param name="buyerId"></param>
+  /// <returns></returns>
+  public async Task CreateBasketAsync(string buyerId)
+  {
+    try {  await _basketCacheSrv.CreateBasketAsync(buyerId); }
+    catch (RedisConnectionException) {  await _basketDBSrv.CreateBasketAsync(buyerId); }
+  }
+
+  /// <summary>
+  /// mc, Set basket on redis cache or on DB if cache throws error.
   /// </summary>
   /// <param name="buyerId"></param>
   /// <param name="productId"></param>
@@ -84,23 +90,30 @@ public class BasketService : IBasketService
     {
       await _basketCacheSrv.SetBasketItemAsync(buyerId, productId, qt);
     }
-    catch
+    catch (RedisConnectionException)
     {
       await _basketDBSrv.SetBasketItemAsync(buyerId, productId, qt);
     }
   }
 
+
+  public async Task<int> GetBasketCountAsync(string buyerId)
+  {
+    try { return await _basketCacheSrv.GetBasketCountAsync(buyerId); }
+    catch (RedisConnectionException) { return await _basketDBSrv.GetBasketCountAsync(buyerId); }
+  }
+
   public async Task RemoveBasketAsync(Basket basket)
   {
     try { await _basketCacheSrv.RemoveBasketAsync(basket); }
-    catch { await _basketDBSrv.RemoveBasketAsync(basket); }
+    catch (RedisConnectionException) { await _basketDBSrv.RemoveBasketAsync(basket); }
   }
 
   public async Task RemoveBasketItemAsync(string buyerId, int productId)
   {
     try { await _basketCacheSrv.RemoveBasketItemAsync(buyerId, productId); }
-    catch { await _basketDBSrv.RemoveBasketItemAsync(buyerId, productId); }
+    catch (RedisConnectionException) { await _basketDBSrv.RemoveBasketItemAsync(buyerId, productId); }
   }
 
-
+  
 }

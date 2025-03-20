@@ -96,6 +96,7 @@ namespace EStore.Core.Entities.BasketAggregate
 
     }
 
+    public int BasketItemCount =>BasketItems.Count;
 
   }
 }

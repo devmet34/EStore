@@ -1,7 +1,8 @@
 ﻿@model  HomeVM
 @{
   ViewData["Title"] = "Home Page";
-  var basketCount = Model?.Basket?.BasketItems != null ? Model.Basket.BasketItems.Count : 0;
+  //var basketCount = Model?.Basket?.BasketItems != null ? Model.Basket.BasketItems.Count : 0;
+  var basketCount = Model.BasketCount;
   ViewData["page"] = 1;
   var isAuthenticated= User.Identity!.IsAuthenticated;
   var success = (bool?) ViewData["success"]; //mc status alert msg passed from controller action

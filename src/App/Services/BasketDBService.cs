@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace EStore.App.Services;
 public class BasketDBService : IBasketDBService
 {
-  private readonly IRepo<Basket> _repo;
+  private readonly IRepo<Basket> _repo;  
   private readonly ILogger<BasketDBService> _logger;
   private readonly ProductService _productService;
   //private readonly Basket basket;
@@ -36,23 +36,21 @@ public class BasketDBService : IBasketDBService
   //mc debug test
   public IRepo<Basket> Repo => _repo;
 
-  public async Task<Basket?> GetOrCreateBasketAsync(string buyerId)
+  public async Task CreateBasketAsync(string buyerId)
   {
     buyerId.GuardNullOrEmpty();
 
-
-
     //var basketSpec=new BasketSpec(buyerId);
-    var basket = await GetBasketAsync(buyerId);
-    if (basket != null)
+    var hasBasketCreated = await _repo.Query.AsNoTracking().Where(b=>b.BuyerId == buyerId).AnyAsync();
+    if (hasBasketCreated)
     {
-      _logger.LogDebug("basket already exist");
-      return basket;
+      _logger.LogDebug("Basket already exist on DB");
+      return;
     }
-    _logger.LogInformation("creating basket");
-    basket = new(buyerId);
-    await _repo.AddAsync(basket);
-    return await GetBasketAsync(buyerId);
+
+    _logger.LogDebug("Creating basket on DB");
+    Basket basket = new(buyerId);
+    await _repo.AddAsync(basket);    
   }
 
   public async Task<Basket?> GetBasketAsync(string buyerId)
@@ -86,6 +84,12 @@ public class BasketDBService : IBasketDBService
     return await _repo.GetByQuery(query);
   }
 
+
+  public async Task<int> GetBasketCountAsync(string buyerId)
+  {     
+    var count= await _repo.Query.AsNoTracking().Where(b => b.BuyerId == buyerId).Include(b => b.BasketItems).Select(b => b.BasketItems.Count).FirstOrDefaultAsync();
+    return count;
+  }
 
 
   public async Task SetBasketItemAsync(string buyerId, int productId, int qt)
@@ -167,5 +171,5 @@ public class BasketDBService : IBasketDBService
     throw new NotImplementedException();
   }
 
-
+ 
 }

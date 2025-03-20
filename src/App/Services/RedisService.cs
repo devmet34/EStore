@@ -3,6 +3,7 @@ using EStore.Core.Entities.BasketAggregate;
 using EStore.Core.Exceptions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace EStore.App.Services;
 public class RedisService
@@ -31,8 +34,9 @@ public class RedisService
   /// <exception cref="RedisGenericException"></exception>
   private void ThrowIfRedisBroken()
   {
+       
     if (IsRedisBroken)
-      throw new RedisGenericException();
+      throw new RedisConnectionException(ConnectionFailureType.None,Constants.redisGenericException);
   }
 
 
@@ -47,7 +51,7 @@ public class RedisService
   {
 
     ThrowIfRedisBroken();
-
+    
     try
     {
       var jsonData = await _redisCache.GetStringAsync(key);
@@ -57,15 +61,39 @@ public class RedisService
 
       return JsonSerializer.Deserialize<T>(jsonData);
     }
-    catch (Exception ex)
+    catch ( Exception ex) 
     {
       _logger.LogError(Constants.redisGetErrorMsg + ex.ToString());
-      IsRedisBroken = true;
+      IsRedisBroken = ex is RedisConnectionException;
       throw;
     }
   }
+
   /// <summary>
-  /// mc, set/save given T data with given key to redis after serializing it to json, throws error.
+  /// mc, Get cached data string with given key from redis, throws error.
+  /// </summary>
+  /// <param name="key"></param>
+  /// <returns></returns>
+  public async Task<string?> GetCachedDataAsync(string key)
+  {
+    ThrowIfRedisBroken();
+    try
+    {
+      return await _redisCache.GetStringAsync(key) ?? default;
+
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(Constants.redisGetErrorMsg + ex.ToString());
+      IsRedisBroken = ex is RedisConnectionException;
+      throw;
+    }
+
+  }
+
+
+  /// <summary>
+  /// mc, Save given T data with given key to redis after serializing it to json, throws error.
   /// </summary>
   /// <typeparam name="T"></typeparam>
   /// <param name="key"></param>
@@ -90,10 +118,44 @@ public class RedisService
     catch (Exception ex)
     {
       _logger.LogError(Constants.redisSetErrorMsg + ex.ToString());
-      IsRedisBroken = true;
+      IsRedisBroken = ex is RedisConnectionException;
       throw;
     }
   }
+
+
+  /// <summary>
+  /// mc, Save given key/string pair to redis, throws error.
+  /// </summary>
+  /// <param name="key"></param>
+  /// <param name="val"></param>
+  /// <param name="cacheDuration"></param>
+  /// <returns></returns>
+  public async Task SetCacheDataAsync(string key, string val, TimeSpan? cacheDuration)
+  {
+    ThrowIfRedisBroken();
+   
+    try
+    {
+      var options = new DistributedCacheEntryOptions
+      {
+        AbsoluteExpirationRelativeToNow = cacheDuration ?? _defaultCacheDuration        
+      };
+      
+      await _redisCache.SetStringAsync(key, val, options);
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(Constants.redisSetErrorMsg + ex.ToString());
+      IsRedisBroken = ex is RedisConnectionException;
+      throw;
+    }
+
+  }
+
+
+
+    
 
   /// <summary>
   /// Remove cached data with given key, throws error. 
@@ -109,7 +171,7 @@ public class RedisService
     }
     catch (Exception ex)
     {
-      IsRedisBroken = true;
+      IsRedisBroken = ex is RedisConnectionException;
       _logger.LogError(Constants.redisRemoveErrorMsg + ex.ToString());
       throw;
     }

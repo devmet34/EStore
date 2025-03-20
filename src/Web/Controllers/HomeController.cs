@@ -79,12 +79,13 @@ namespace EStore.Web.Controllers
       if (!ModelState.IsValid)
         throw new ArgumentException();
       
-      ViewData["success"] = isSuccess;     
-      Basket? basket = null;
+      ViewData["success"] = isSuccess;
       
+      int basketCount=0;
       if (IsUserSigned())
       {
-        basket = await GetOrCreateBasketAsync();
+        await CreateBasketAsync();
+        basketCount = await _basketService.GetBasketCountAsync(GetBuyerId()!);
       }
         
       //IEnumerable<ProductVM>? productVM = null;
@@ -92,7 +93,7 @@ namespace EStore.Web.Controllers
       //if (products != null)      
        // productVM = _mapper.Map<IEnumerable<ProductVM>>(products);         
 
-      var homeVM = new HomeVM() { Basket = basket, Products = products };
+      var homeVM = new HomeVM() { BasketCount=basketCount, Products = products };
       
       return View(homeVM);
     }
@@ -156,13 +157,13 @@ namespace EStore.Web.Controllers
       return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    async Task<Basket?> GetOrCreateBasketAsync()
+    async Task CreateBasketAsync()
     {
       var buyerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
       if (buyerId == null)
-        return null;
+        throw new ArgumentNullException("buyerId");
 
-      return await _basketService.GetOrCreateBasketAsync(buyerId);
+      await _basketService.CreateBasketAsync(buyerId);
         
     }
 

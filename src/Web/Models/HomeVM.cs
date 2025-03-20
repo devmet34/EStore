@@ -4,7 +4,8 @@ namespace EStore.Web.Models;
 
 public class HomeVM
 {
-  public Basket? Basket { get; set; }
+  public int BasketCount {  get; set; }
+  //public Basket? Basket { get; set; }
   public IEnumerable<EStore.App.WebModels.ProductVM>? Products {  get; set; } 
 
 
