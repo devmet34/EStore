@@ -42,7 +42,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Basket");
+                    b.ToTable("Basket", (string)null);
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.BasketAggregate.BasketItem", b =>
@@ -68,7 +68,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("BasketItem");
+                    b.ToTable("BasketItem", (string)null);
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.Brand", b =>
@@ -85,7 +85,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.Category", b =>
@@ -108,7 +108,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.CustomerAddress", b =>
@@ -143,7 +143,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerAddresses");
+                    b.ToTable("CustomerAddresses", (string)null);
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.OrderAggregate.Order", b =>
@@ -171,7 +171,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasIndex("CustomerAddressId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.OrderAggregate.OrderItem", b =>
@@ -202,7 +202,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.Product", b =>
@@ -253,7 +253,7 @@ namespace EStore.Infra.EF.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Estore.Core.Entities.BasketAggregate.BasketItem", b =>

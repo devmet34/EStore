@@ -30,7 +30,7 @@ public class BasketTest
     var orderService = scope.ServiceProvider.GetRequiredService<OrderService>();
     var basketService = scope.ServiceProvider.GetRequiredService<IBasketService>();
 
-    var basket = await basketService.GetOrCreateBasketAsync(userId);
+    await basketService.CreateBasketAsync(userId);
     //await basketService.SetBasketItemAsync(userId, 1, 2);
 
  

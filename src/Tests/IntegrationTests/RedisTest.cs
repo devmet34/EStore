@@ -70,7 +70,7 @@ public class RedisTest
     while (true)
     {
       output.WriteLine("starting");
-      var basket = await basketService.GetOrCreateBasketAsync(buyerId);
+      var basket = await basketService.CreateBasketAsync(buyerId);
       if (basket == null)
       {
         output.WriteLine("basket cache null");
@@ -82,7 +82,7 @@ public class RedisTest
         await basketService.SetBasketItemAsync(buyerId, 1, 3);
       }
       Thread.Sleep(1000);
-      var basketFromRedis = await basketService.GetOrCreateBasketAsync(buyerId);
+      var basketFromRedis = await basketService.CreateBasketAsync(buyerId);
       Assert.True(basketFromRedis.BasketItems.Count == 2);
       await basketService.RemoveBasketItemAsync(buyerId, 1);
       basketFromRedis = await basketService.GetBasketAsync(buyerId);

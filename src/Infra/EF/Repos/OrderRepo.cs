@@ -52,27 +52,27 @@ public class OrderRepo : IRepoOrder
         while (!saved)
         {
               
-            foreach (var item in basket.BasketItems)
+            foreach (var basketItem in basket.BasketItems)
             {
                 //todo ef doesnt track projections thus no concurrency protection take place if used, any workaround maybe table splitting?
-                var dbItem = await _context.Products.Where(p => p.Id == item.ProductId).FirstOrDefaultAsync();
-                dbItem.GuardNull();
+                var productOnDB = await _context.Products.Where(p => p.Id == basketItem.ProductId).FirstOrDefaultAsync();
+                productOnDB.GuardNull();
                 //mc, if concurrencyException was thrown and item state modified, reload ef tracked/cached entity from db. It looks like even rows/items not changed seem changed probably because it belongs to entity type that changed, bug? or expected behaviour?  
                 if (concurrencyException)
                 {
-                    var entry = _context.Entry(dbItem!);
+                    var entry = _context.Entry(productOnDB!);
                     if (entry.State == EntityState.Modified)
                         await entry.ReloadAsync();
                     else
                         continue;
                 }
 
-                if (item.Product?.Price != dbItem!.Price)
-                    throw new Exception($"Price of product {item.Product?.Name} changed");
-                if (dbItem!.Qt < item.Qt)
-                    throw new Exception($"Product {item.Product.Name} quantity not enough");
+                if (basketItem.Product?.Price != productOnDB!.Price)
+                    throw new Exception($"Price of product {basketItem.Product?.Name} changed");
+                if (productOnDB!.Qt < basketItem.Qt)
+                    throw new Exception($"Product {basketItem.Product.Name} quantity not enough");
                 //mc, decrease product qt by basket item qt 
-                dbItem.UpdateQt(-item.Qt);
+                productOnDB.UpdateQt(-basketItem.Qt);
             }
 
             //mc, to prevent creating duplicate orders

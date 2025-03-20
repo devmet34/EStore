@@ -8,6 +8,7 @@ using StackExchange.Redis;
 using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using EStore.Web.Models;
+using StackExchange.Redis.KeyspaceIsolation;
 
 
 namespace UnitTests;
@@ -18,13 +19,16 @@ public class RedisTest
   [Fact]
   public async Task Test()
   {
-    var mux = ConnectionMultiplexer.Connect(redisConnString, options =>
+    ConfigurationOptions options = new ConfigurationOptions();
+    
+    var mux = ConnectionMultiplexer.Connect( redisConnString, options =>
     {
       options.AbortOnConnectFail = false;
+         
     });
     var key = "Estore:Test";
-    var redisDb=mux.GetDatabase();
-        redisDb.StringSet("key1", "value1");
+    var redisDb=mux.GetDatabase().WithKeyPrefix(new RedisKey("estore"));
+        
     var json =  redisDb.HashGet("Estore:Products","data");
     var res= JsonSerializer.Deserialize<IEnumerable<ProductVM>>(json);
     int a = 1;

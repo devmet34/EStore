@@ -31,7 +31,8 @@ public class OrderTest
     var basketService= scope.ServiceProvider.GetRequiredService<IBasketService>();
     
     var product = await productService.GetProductAsync(1);
-    var basket = await basketService.GetOrCreateBasketAsync(userId!);
+    await basketService.CreateBasketAsync(userId!);
+    var basket = await basketService.GetBasketAsync(userId);
     basket?.SetBasketItem(product!.Id, 2, product.Price);
     //var basket= await basketService.GetBasketAsync(userId);
     await orderService.CreateOrderAsync(userId!);
