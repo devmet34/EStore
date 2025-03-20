@@ -136,12 +136,12 @@ public class BasketCacheService : IBasketCacheService
 
   }
 
-  public async Task RemoveBasketAsync(Basket basket)
+  public async Task RemoveBasketAsync(string buyerId)
   {
-    basket.GuardNull();
-    var cacheKey = GetBasketCacheKey(basket.BuyerId);
+    buyerId.GuardNull();
+    var cacheKey = GetBasketCacheKey(buyerId);
     await _redisService.RemoveCachedDataAsync(cacheKey);
-    await _redisService.RemoveCachedDataAsync(GetBasketCountCacheKey(basket.BuyerId));
+    await _redisService.RemoveCachedDataAsync(GetBasketCountCacheKey(buyerId));
   }
 
  

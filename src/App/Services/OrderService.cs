@@ -67,7 +67,7 @@ public class OrderService
       var addressId = (await _repoRead.Query.Where(a => a.UserId == buyerId).FirstOrDefaultAsync())!.Id;
       addressId.GuardZero();
       await _repoOrder.CreateOrderAsync(basket, addressId);
-      await _basketService.RemoveBasketAsync(basket!);
+      await _basketService.RemoveBasketAsync(buyerId);
       return;
     }
     catch (Exception ex)

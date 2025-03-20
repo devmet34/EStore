@@ -103,10 +103,10 @@ public class BasketService : IBasketService
     catch (RedisConnectionException) { return await _basketDBSrv.GetBasketCountAsync(buyerId); }
   }
 
-  public async Task RemoveBasketAsync(Basket basket)
+  public async Task RemoveBasketAsync(string buyerId)
   {
-    try { await _basketCacheSrv.RemoveBasketAsync(basket); }
-    catch (RedisConnectionException) { await _basketDBSrv.RemoveBasketAsync(basket); }
+    try { await _basketCacheSrv.RemoveBasketAsync(buyerId); }
+    catch (RedisConnectionException) { await _basketDBSrv.RemoveBasketAsync(buyerId); }
   }
 
   public async Task RemoveBasketItemAsync(string buyerId, int productId)

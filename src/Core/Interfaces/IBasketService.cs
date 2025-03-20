@@ -22,7 +22,7 @@ public interface IBasketService
   public Task SetBasketItemAsync(string buyerId, int productId, int qt);
   //public Task SetBasketCountAsync(string buyerId);
   public Task RemoveBasketItemAsync(string buyerId, int productId);
-  public Task RemoveBasketAsync(Basket basket);
+  public Task RemoveBasketAsync(string buyerId);
 
 
 

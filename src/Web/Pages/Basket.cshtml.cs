@@ -12,6 +12,7 @@ using NuGet.Protocol;
 using System.Security.Claims;
 using System.Text.Json;
 
+/*
 namespace EStore.Web.Pages
 {
   [Authorize]
@@ -122,3 +123,6 @@ namespace EStore.Web.Pages
 
   }//eo class
 }
+
+
+*/

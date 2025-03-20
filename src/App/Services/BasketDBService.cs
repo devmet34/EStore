@@ -141,9 +141,9 @@ public class BasketDBService : IBasketDBService
 
   }
 
-  public async Task RemoveBasketAsync(Basket basket)
+  public async Task RemoveBasketAsync(string buyerId)
   {
-    await _repo.DeleteAsync(basket);
+    await _repo.Query.Where(b=>b.BuyerId==buyerId).ExecuteDeleteAsync();
   }
 
   public async Task SubtractProductAsync(string buyerId, int productId)

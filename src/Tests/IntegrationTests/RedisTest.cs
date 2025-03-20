@@ -31,7 +31,7 @@ public class RedisTest
   }
 
   [Fact]
-  public async void Test()
+  public async Task Test()
   {
     
     
@@ -75,11 +75,11 @@ public class RedisTest
       Thread.Sleep(1000);
       await basketService.CreateBasketAsync(buyerId);
       var basketFromRedis = await basketService.GetBasketAsync(buyerId);
-      Assert.True(basketFromRedis.BasketItems.Count == 2);
+      Assert.True(basketFromRedis?.BasketItems.Count == 2);
       await basketService.RemoveBasketItemAsync(buyerId, 1);
       basketFromRedis = await basketService.GetBasketAsync(buyerId);
-      Assert.True(basketFromRedis.BasketItems.Count == 1);
-      await basketService.RemoveBasketAsync(basketFromRedis);
+      Assert.True(basketFromRedis?.BasketItems.Count == 1);
+      await basketService.RemoveBasketAsync(buyerId);
       int t = 1;
     }
 

@@ -99,14 +99,11 @@ public class BasketController:Controller
   [HttpPost]
   public async Task<IActionResult> RemoveBasket()
   {
-    _logger.LogWarning("Removing basket");
+    _logger.LogDebug("Removing basket");
     var buyerId = GetBuyerId();
-    buyerId.GuardNullOrEmpty();
+    buyerId.GuardNullOrEmpty(); 
 
-    var basket = await _basketService.GetBasketAsync(buyerId!);
-    basket.GuardNull();
-
-    await _basketService.RemoveBasketAsync(basket!);
+    await _basketService.RemoveBasketAsync(buyerId!);
 
     return RedirectToAction("index", "home");
 
