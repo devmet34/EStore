@@ -15,7 +15,9 @@ namespace IntegrationTests
 
     public const string ADMIN_ROLE = "Administrators";
 
-    
+    public const string userId = "fefefd7e-d506-45ad-aa9d-7dc80cd15dc1";
+
+
     public const int JWT_EXP_DAYS = 7;
 
 

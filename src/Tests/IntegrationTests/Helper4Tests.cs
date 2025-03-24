@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Xunit.Abstractions;
 using Xunit.Sdk;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IntegrationTests;
 public class Helper4Tests
@@ -19,5 +20,11 @@ public class Helper4Tests
   {
     var output=new TestOutputHelper();
     output.WriteLine(msg);
+  }
+
+  public static IServiceScope GetServiceScope()
+  {
+    var app = ProgramFactory.webApplicationFactory;
+    return app.Services.CreateScope();
   }
 }

@@ -15,8 +15,7 @@ namespace IntegrationTests
     [Fact]
     public async Task Test()
     {
-      var app = ProgramFactory.webApplicationFactory;
-      using var scope = app.Services.CreateScope();
+      using var scope = Helper4Tests.GetServiceScope();
 
       var basketCacheSrv = scope.ServiceProvider.GetRequiredService<IBasketCacheService>();
       var t = await basketCacheSrv.GetBasketCountAsync("sdsdsd");

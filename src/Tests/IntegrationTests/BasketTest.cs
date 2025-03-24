@@ -19,8 +19,7 @@ public class BasketTest
   public async void Test()
   {
 
-    var app = ProgramFactory.webApplicationFactory;
-    using var scope = app.Services.CreateScope();
+    using var scope = Helper4Tests.GetServiceScope();
 
     var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
     var userId = config["userId"];//mc; getting config from secret or appsettings.json
