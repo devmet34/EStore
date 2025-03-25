@@ -31,14 +31,9 @@ public class BasketController:Controller
   {
     var buyerId = GetBuyerId();
     buyerId.GuardNullOrEmpty();
-    var basket = await _basketService.GetBasketAsync(buyerId!);
-
-    //var basket = await _basketService.GetBasketAsync(buyerId!, false, true);
-
-    BasketVM basketVM = _mapper.Map<BasketVM>(basket);
+    var basketVM = await _basketService.GetBasketVMAsync(buyerId!);
 
     return PartialView("_basket", basketVM);
-
 
   }
 
@@ -54,9 +49,9 @@ public class BasketController:Controller
     buyerId.GuardNullOrEmpty();
 
     //var basket = await _basketService.GetBasketAsync(buyerId!, true);
-    var basket = await _basketService.GetBasketAsync(buyerId!);
-    basket.GuardNull();
-    return Content(basket!.BasketItems.Count.ToString());
+    var basketCount = await _basketService.GetBasketCountAsync(buyerId!);
+    
+    return Content(basketCount.ToString());
   }
 
   [HttpPost]

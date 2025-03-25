@@ -3,6 +3,7 @@ using EStore.Core.Entities.BasketAggregate;
 using EStore.Core.Exceptions;
 using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
+using EStore.Core.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -83,6 +84,14 @@ public class BasketCacheService : IBasketCacheService
 
   }
 
+  public async Task<BasketVM?> GetBasketVMAsync(string buyerId)
+  {
+    var cacheKey = GetBasketCacheKey(buyerId);
+
+    return await _redisService.GetCachedDataAsync<BasketVM>(cacheKey);
+
+  }
+
   public async Task SetBasketItemAsync(string buyerId, int productId, int qt)
   {
 
@@ -92,9 +101,8 @@ public class BasketCacheService : IBasketCacheService
     basket.GuardNull();
 
     var product = await _productService.GetProductForBasketAsync(productId);
-    product.GuardNull();
 
-    basket!.SetBasketItem(productId, qt, product!.Price, product);
+    basket!.SetBasketItem(productId, qt,product!.Price,product);
     await _redisService.SetCacheDataAsync(GetBasketCacheKey(buyerId), basket, cacheDuration);
     await SetBasketCountAsync(buyerId, basket.BasketItemCount);
 
@@ -117,10 +125,7 @@ public class BasketCacheService : IBasketCacheService
     return _redisService.GetCachedData<Basket>(cacheKey);
   }
 
-  public Task<Basket?> GetBasketAsync(string buyerId, bool includeBasketItems = true, bool includeAll = false)
-  {
-    throw new NotImplementedException();
-  }
+  
 
   public async Task RemoveBasketItemAsync(string buyerId, int productId)
   {

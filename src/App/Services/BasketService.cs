@@ -1,5 +1,6 @@
 ﻿using EStore.Core.Entities.BasketAggregate;
 using EStore.Core.Interfaces;
+using EStore.Core.Models;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System;
@@ -43,16 +44,7 @@ public class BasketService : IBasketService
     _basketDBSrv = basketDBSrv;
     _logger = logger;
   }
-
-  public Basket? GetBasket(string buyerId)
-  {
-    throw new NotImplementedException();
-  }
-
-  public Task<Basket?> GetBasketAsync(string buyerId, bool includeBasketItems = true, bool includeAll = false)
-  {
-    throw new NotImplementedException();
-  }
+ 
 
   /// <summary>
   /// mc, Get basket from cache, try to get it from DB if cache fails.
@@ -63,6 +55,13 @@ public class BasketService : IBasketService
   {
     try { return await _basketCacheSrv.GetBasketAsync(buyerId); }
     catch (RedisConnectionException) { return await _basketDBSrv.GetBasketAsync(buyerId); }
+
+  }
+
+  public async Task<BasketVM?> GetBasketVMAsync(string buyerId)
+  {
+    try { return await _basketCacheSrv.GetBasketVMAsync(buyerId); }
+    catch (RedisConnectionException) { return await _basketDBSrv.GetBasketVMAsync(buyerId); }
 
   }
 

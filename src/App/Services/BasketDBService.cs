@@ -1,6 +1,9 @@
-﻿using EStore.Core.Entities.BasketAggregate;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using EStore.Core.Entities.BasketAggregate;
 using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
+using EStore.Core.Models;
 using EStore.Core.Specs;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
@@ -21,20 +24,17 @@ public class BasketDBService : IBasketDBService
   private readonly IRepo<Basket> _repo;  
   private readonly ILogger<BasketDBService> _logger;
   private readonly ProductService _productService;
-  //private readonly Basket basket;
-  public BasketDBService(IRepo<Basket> repo, ILogger<BasketDBService> logger, ProductService productService)
+  private readonly IMapper _mapper;
+
+  public BasketDBService(IRepo<Basket> repo, ILogger<BasketDBService> logger, ProductService productService, IMapper mapper)
   {
     _repo = repo;
     _logger = logger;
     _productService = productService;
-
-    //_logger = loggerFactory.CreateLogger<BasketService>();
-
+    _mapper = mapper;
 
   }
-
-  //mc debug test
-  public IRepo<Basket> Repo => _repo;
+ 
 
   public async Task CreateBasketAsync(string buyerId)
   {
@@ -53,35 +53,25 @@ public class BasketDBService : IBasketDBService
     await _repo.AddAsync(basket);    
   }
 
+  /// <summary>
+  /// mc, Get basket and basketitems only.
+  /// </summary>
+  /// <param name="buyerId"></param>
+  /// <returns></returns>
   public async Task<Basket?> GetBasketAsync(string buyerId)
   {
     buyerId.GuardNullOrEmpty();
-    var query = _repo.Query;
-    query = query.Where(b => b.BuyerId == buyerId);
-    query = query.Include(b => b.BasketItems).ThenInclude(i => i.Product);
-
-    return await _repo.GetByQuery(query);
+    return await _repo.Query.Where(b => b.BuyerId == buyerId)
+    .Include(b => b.BasketItems).FirstOrDefaultAsync();
+    
   }
 
-  [Obsolete]
-  public async Task<Basket?> GetBasketAsync(string buyerId, bool includeBasketItems = true, bool includeAll = false)
+  public async Task<BasketVM?> GetBasketVMAsync(string buyerId)
   {
     buyerId.GuardNullOrEmpty();
-    var query = _repo.Query;
-    query = query.Where(b => b.BuyerId == buyerId);
+    var query = _repo.Query.AsNoTracking();
+    return await query.Where(b => b.BuyerId == buyerId).Include(b => b.BasketItems).ThenInclude(i => i.Product).ProjectTo<BasketVM>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
 
-
-
-    if (includeAll)
-    {
-      query = query.Include(b => b.BasketItems).ThenInclude(i => i.Product);
-    }
-
-    else if (includeBasketItems)
-      query = query.Include(b => b.BasketItems);
-
-
-    return await _repo.GetByQuery(query);
   }
 
 
@@ -98,78 +88,30 @@ public class BasketDBService : IBasketDBService
     var basket = await GetBasketAsync(buyerId);
     basket.GuardNull();
 
-    var product = await _productService.GetProductForBasketAsync(productId);
-    product.GuardNull();
-
-    basket!.SetBasketItem(productId, qt, product!.Price);
+    var productPrice = await _productService.GetProductPriceAsync(productId);  
+    basket!.SetBasketItem(productId, qt, productPrice);
     await _repo.UpdateAsync(basket);
 
   }
-
-  /*
-  public async Task AddProductAsync( string buyerId,int productId)
-  {
-    var basketSpec = new BasketSpec(buyerId);
-    var basket = await _repo.GetBySpecAsync(basketSpec);       
-    basket.GuardNull();
-    
-    var product=await _productService.GetProductAsync(productId);
-    product.GuardNull();
-
-    basket!.AddItem(productId);
-    await _repo.UpdateAsync(basket);
-   
-
-  }
-  */
+  
 
   public async Task RemoveBasketItemAsync(string buyerId, int productId)
   {
     _logger.LogDebug("cus_log: Removing basket item for userId: " + buyerId);
     var basket = await GetBasketAsync(buyerId);
     basket.GuardNull();
-
-    basket!.RemoveBasketItem(productId);
+    var productPrice=await _productService.GetProductPriceAsync(productId);
+    basket!.RemoveBasketItem(productId,productPrice);
 
     await _repo.UpdateAsync(basket);
-
-    /*
-    var basketItem = basket?.BasketItems.Where(bi => bi.ProductId == productId).FirstOrDefault();
-    basketItem.GuardNull();
-    */
-    //await _repo.DeleteAsync(basketItem!);
-
+   
   }
 
   public async Task RemoveBasketAsync(string buyerId)
   {
     await _repo.Query.Where(b=>b.BuyerId==buyerId).ExecuteDeleteAsync();
   }
-
-  public async Task SubtractProductAsync(string buyerId, int productId)
-  {
-    var basketSpec = new BasketSpec(buyerId);
-    var basket = await _repo.GetBySpecAsync(basketSpec);
-    basket.GuardNull();
-
-    var product = await _productService.GetProductAsync(productId);
-    product.GuardNull();
-
-    //basket!.SubtractItem(productId);
-    await _repo.UpdateAsync(basket!);
-
-  }
-
-  public void Test()
-  {
-    _logger.LogInformation("test from basketservice");
-    var basket = new Basket("test");
-  }
-
-  public Basket? GetBasket(string cacheKey)
-  {
-    throw new NotImplementedException();
-  }
+  
 
  
 }

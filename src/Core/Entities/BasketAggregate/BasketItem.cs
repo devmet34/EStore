@@ -15,23 +15,23 @@ public class BasketItem : BaseEntity
   
  
 
-  //todo guards
   public BasketItem(int basketId, int productId, int qt, Product? product=null)
   {
     BasketId = basketId;
     ProductId = productId;    
     SetQt(qt);
     Product = product ?? null;
-
   }
 
+  //mc, this constructor is required for EF bound.
   private BasketItem(int basketId, int productId, int qt)
   {
     BasketId = basketId;
     ProductId = productId;
-    
+
     Qt = qt;
   }
+
 
   public void SetQt(int qt)
   {

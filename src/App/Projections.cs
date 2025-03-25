@@ -1,5 +1,5 @@
-﻿using EStore.App.WebModels;
-using EStore.Core.Entities;
+﻿using EStore.Core.Entities;
+using EStore.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ public class Projections
   public static Expression<Func<Product, ProductVM>> ProductToProductVM()
   {
     return product => new ProductVM() 
-    { Id = product.Id, Name = product.Name, PictureUri = product.PictureUri, Price = product.Price, Qt = product.Qt };
+    { Id = product.Id, Name = product.Name, PictureUri = product.PictureUri, Price = product.Price };
 
   }
 }

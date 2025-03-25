@@ -1,4 +1,4 @@
-﻿@model BasketVM
+﻿@model EStore.Core.Models.BasketVM
 @{
   //ViewData["status"] = "success";
 }
@@ -12,7 +12,7 @@
     
     
     
-    @foreach(var item in Model.BasketItems){
+    @foreach(var item in Model!.BasketItems!){
       var productId = item.ProductId;
       <div class="basket-item row align-items-center justify-content-around mt-3">
         

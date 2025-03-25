@@ -82,12 +82,12 @@ namespace EStore.Core.Entities.BasketAggregate
 
     }
 
-    public void RemoveBasketItem(int productId)
+    public void RemoveBasketItem(int productId, decimal productPrice=default)
     {
       var basketItem = BasketItems.FirstOrDefault(bi => bi.ProductId == productId);
 
       BasketItems.Remove(basketItem ?? throw new Exception("Item to remove not found"));
-      TotalPrice -= basketItem.Product!.Price * basketItem.Qt;
+      TotalPrice -= productPrice==default? basketItem.Product!.Price * basketItem.Qt : productPrice*basketItem.Qt ;
     }
 
     public bool IsItemExist(int productId)

@@ -1,5 +1,4 @@
-﻿using EStore.App.WebModels;
-using EStore.Core.Entities;
+﻿using EStore.Core.Entities;
 using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
 using EStore.Core.Models;

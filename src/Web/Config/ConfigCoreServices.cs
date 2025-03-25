@@ -31,21 +31,6 @@ public static class ConfigureCoreServices
 
   }
 
-  private static IBasketService BasketServiceFactory(IServiceProvider sp)
-  {
-    var repo = sp.GetRequiredService<IRepo<Basket>>();
-    var productService = sp.GetRequiredService<ProductService>();
-    var logger = sp.GetRequiredService<ILogger<ConfigureCoreServices_>>();    
-    var redisService = sp.GetRequiredService<RedisService>();
-    var key = ":Test";
-      //var redisCache = sp.GetRequiredService<IDistributedCache>();
-      if (!(redisService.GetCachedData<string>(key)).IsNullOrEmpty())
-    {
-      logger.LogInformation("******configcoreservices redis connected");
-      return new BasketCacheService( sp.GetRequiredService<ILogger<BasketCacheService>>(), productService, redisService,sp.GetRequiredService<IConfiguration>());
-    }
-    logger.LogInformation("******configcoreservices redis not connected");
-    return new BasketDBService(repo, sp.GetRequiredService<ILogger<BasketDBService>>(), productService);
-  }
+ 
   private class ConfigureCoreServices_ { } //mc, this is for TCategory for ilogger<T>
 }//eo class

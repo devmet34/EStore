@@ -1,5 +1,4 @@
-﻿using EStore.App.WebModels;
-using EStore.Core.Entities;
+﻿using EStore.Core.Entities;
 using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
 using EStore.Core.Models;
@@ -101,8 +100,7 @@ public class ProductService
   public async Task<Product?> GetProductForBasketAsync(int productId)
   {
     query = _readRepo.Query;
-
-    Product pp = new Product("sdsd", 0, 0, 5, 5);
+    
     return await _readRepo.Query.Where(p => p.Id == productId)
       .Select(p => new Product(p.Name, 0, 0, p.Price, p.Qt, null, p.PictureUri)).FirstOrDefaultAsync();
     //return await _repo.GetByIdAsync(productId);
@@ -141,6 +139,11 @@ public class ProductService
 
   }
 
+  /// <summary>
+  /// mc, Products get filtered based on filtermodel. Repo is readonly.
+  /// </summary>
+  /// <param name="filterModel"></param>
+  /// <returns></returns>
   private IQueryable<Product> SetFilterQuery(FilterModel filterModel)
   {
     query = _readRepo.Query;

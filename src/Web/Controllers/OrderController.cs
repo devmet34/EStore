@@ -22,12 +22,11 @@ public class OrderController : Controller
   public async Task<IActionResult> GetCheckOut([FromServices] IBasketService basketService)
   {
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
-    var basket = await basketService.GetBasketAsync(buyerId);
-    basket.GuardNull();
-    basket?.BasketItems.GuardNull();
+    var basketVM = await basketService.GetBasketVMAsync(buyerId);
+    basketVM.GuardNull();
+    basketVM?.BasketItems.GuardNull();
 
-    var basketVM = new BasketVM(basket!.BasketItems, basket.TotalPrice);
-
+  
     return View("checkout", basketVM);
 
 

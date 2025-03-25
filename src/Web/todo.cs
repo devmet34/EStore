@@ -30,6 +30,8 @@
 //todo concurrency handling for orders +
 //todo optimize basket interface/services i.e; home/index get basket count only instead of whole basket for performance, getbasket calls with no tracking and always include all items, remove basket method?+
 //todo implement projections for Getbasket calls; basketvm>basketitemvm>productvm
+//todo basketvm to order instead of basket, basketvm to ordercontroller?
+//todo sec for all post actions
 //todo show specific error msgs when setbasketitem fails e.g; same qt already set
 //todo cleanup, sort warnings like unused assigments/usings, dereference possible nulls etc. 
 //todo testing in-memory cache? 
