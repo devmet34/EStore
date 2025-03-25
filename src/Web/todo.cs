@@ -28,9 +28,10 @@
 //todo can home controller be thinner i.e moving logic from index method to product service? +
 //todo add category to log output +
 //todo concurrency handling for orders +
-//todo cleanup, sort warnings like unused assigments/usings, dereference possible nulls etc.   
-//todo optimize basket interface/services i.e; home/index get basket count only instead of whole basket for performance, getbasket calls with no tracking and always include all items, remove basket method? +
+//todo optimize basket interface/services i.e; home/index get basket count only instead of whole basket for performance, getbasket calls with no tracking and always include all items, remove basket method?+
+//todo implement projections for Getbasket calls; basketvm>basketitemvm>productvm
 //todo show specific error msgs when setbasketitem fails e.g; same qt already set
+//todo cleanup, sort warnings like unused assigments/usings, dereference possible nulls etc. 
 //todo testing in-memory cache? 
 //todo dbcontext pool for performance?
 //todo dereference possible nulls 
