@@ -9,6 +9,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using EStore.Web.Models;
 using StackExchange.Redis.KeyspaceIsolation;
+using EStore.Core.Models;
 
 
 namespace UnitTests;

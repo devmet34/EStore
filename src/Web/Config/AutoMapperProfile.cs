@@ -10,9 +10,8 @@ public class AutoMapperProfile:Profile
 {
   public AutoMapperProfile() 
   {
-    CreateMap<Product,ProductVM>();
-    CreateMap<Basket, Models.BasketVM>();
-    CreateMap<Basket, Core.Models.BasketVM>();
+    CreateMap<Product,ProductVM>();   
+    CreateMap<Basket, BasketVM>();
     CreateMap<CustomerAddress,AddressVM>();
     CreateMap<AddressVM, CustomerAddress>();
     CreateMap<BasketItem, BasketItemVM>();

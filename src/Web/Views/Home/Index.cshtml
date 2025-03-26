@@ -11,12 +11,12 @@
 
 
 @if (isAuthenticated)
-{
-  
+{  
   <partial name="_ModalBasket" />
   <a id="basketBtn" href="#" title="Basket" class="top-basket-toggle fa fa-shopping-basket" data-bs-toggle="modal" data-bs-target="#modalBasket" onclick="estore_site.getBasket()" > @basketCount </a>
 }
 else{
+  <a class="fs-4 alert-info text-decoration-none" href="identity/account/login">Please login to make orders</a>
   <a id="basketBtn" title="Basket" class="top-basket-toggle fa fa-shopping-basket" href="identity/account/login"> @basketCount </a>
 }
   
