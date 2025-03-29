@@ -35,24 +35,7 @@ public class OrderService
     //return await _repo.Query().Where(o => o.BuyerId == buyerId)
     //.Include(o=>o.OrderItems).AsNoTracking().ToListAsync();
   }
-
-  /*
-  public async Task CreateOrderAsync(Basket basket)
-  {
-    _logger.LogDebug("Creating order for user: "+basket.BuyerId);
-    try
-    {
-      var order = new Order(basket);
-      await _repo.AddAsync(order);
-    }
-    catch (Exception ex)
-    {
-      throw new Exception(ex.Message);
-    }
-    await _basketService.RemoveBasketAsync(basket!);
-
-  }
-  */
+ 
 
   public async Task CreateOrderAsync(string buyerId)
   {
@@ -75,25 +58,7 @@ public class OrderService
       _logger.LogError(ex.Message);
       throw;
     }
-
-
-    /*
-    foreach (var item in basket!.BasketItems)
-    {
-      if (await HasProductPriceUpdatedAsync(item))
-        throw new Exception($"Product:{item.Product?.Name} price has changed");      
-    }
     
-    try
-    {
-      var order = new Order(basket!);
-      await _repo.AddAsync(order);
-    }
-    catch (Exception ex) {
-      throw new Exception( ex.Message);
-    }
-    await _basketService.RemoveBasketAsync(basket!);
-    */
   }
 
   private async Task<bool> HasProductPriceUpdatedAsync(BasketItem item)

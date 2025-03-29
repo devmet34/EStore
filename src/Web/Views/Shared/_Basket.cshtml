@@ -18,7 +18,7 @@
         
         <img class="col-3 basket-item-img" src="@item.Product?.PictureUri" />
         <i class="col-3 overflow-auto basket-item-name">@item.Product?.Name</i>       
-        <i id="@productId-basketItemPrice" class="col">@item.Product?.Price</i>
+        <i id="@productId-basketItemPrice" class="col">@item.Price</i>
         
         <div class="col-3 basket-item-div-qt">
         <div class="col fa fa-circle-minus" onclick="estore_site.decrementBasketItem(this)"></div>

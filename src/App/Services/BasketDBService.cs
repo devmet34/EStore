@@ -100,8 +100,8 @@ public class BasketDBService : IBasketDBService
     _logger.LogDebug("cus_log: Removing basket item for userId: " + buyerId);
     var basket = await GetBasketAsync(buyerId);
     basket.GuardNull();
-    var productPrice=await _productService.GetProductPriceAsync(productId);
-    basket!.RemoveBasketItem(productId,productPrice);
+    //var productPrice=await _productService.GetProductPriceAsync(productId);
+    basket!.RemoveBasketItem(productId);
 
     await _repo.UpdateAsync(basket);
    

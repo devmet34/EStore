@@ -34,7 +34,7 @@ namespace IntegrationTests
 
       var basket=new Basket(buyerId);      
       var product = new Product("t", null, null, 2m, 5, null, "asdsdsd.sadsdsad");
-      basket.SetBasketItem(1, 2, 3.50m,product);
+      basket.SetBasketItem(1, 2, 3.50m);
 
       redisService.SetCacheData("b",basket);
 

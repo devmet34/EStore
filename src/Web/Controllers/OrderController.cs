@@ -35,7 +35,7 @@ public class OrderController : Controller
 
   [HttpPost]
   [Route("OrderController/MakeOrder")]
-  public async Task<IActionResult> MakeOrder([FromServices] OrderService orderService, [FromServices] ProductService productService)
+  public async Task<IActionResult> MakeOrder([FromServices] OrderService orderService)
   {
     var buyerId = Helper.GetUserId(User) ?? throw new ArgumentNullException(nameof(User));
 

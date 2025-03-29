@@ -54,7 +54,7 @@ public class OrderRepo : IRepoOrder
               
             foreach (var basketItem in basket.BasketItems)
             {
-                //todo ef doesnt track projections thus no concurrency protection take place if used, any workaround maybe table splitting?
+                //ef doesnt track projections thus no concurrency protection take place if used, any workaround maybe table splitting?
                 var productOnDB = await _context.Products.Where(p => p.Id == basketItem.ProductId).FirstOrDefaultAsync();
                 productOnDB.GuardNull();
                 //mc, if concurrencyException was thrown and item state modified, reload ef tracked/cached entity from db. It looks like even rows/items not changed seem changed probably because it belongs to entity type that changed, bug? or expected behaviour?  
@@ -67,10 +67,10 @@ public class OrderRepo : IRepoOrder
                         continue;
                 }
 
-                if (basketItem.Product?.Price != productOnDB!.Price)
+                if (basketItem.Price != productOnDB!.Price)
                     throw new Exception($"Price of product {basketItem.Product?.Name} changed");
                 if (productOnDB!.Qt < basketItem.Qt)
-                    throw new Exception($"Product {basketItem.Product.Name} quantity not enough");
+                    throw new Exception($"Product {basketItem.Product?.Name} quantity not enough");
                 //mc, decrease product qt by basket item qt 
                 productOnDB.UpdateQt(-basketItem.Qt);
             }
