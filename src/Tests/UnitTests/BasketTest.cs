@@ -19,6 +19,8 @@ public class BasketTest
   [Fact]
   public void TestBasket()
   {
+    var basket = new Basket("test");
+    basket.SetBasketItem(1, 3, 4m);    
     BasketMock basketMock = new BasketMock("buyer1", 3);
     /*
     basket.AddItem(3);
