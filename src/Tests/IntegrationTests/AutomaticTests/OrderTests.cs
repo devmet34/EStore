@@ -3,19 +3,14 @@ using EStore.Core.Entities;
 using EStore.Core.Entities.BasketAggregate;
 using EStore.Core.Entities.OrderAggregate;
 using EStore.Core.Extensions;
-using EStore.Core.Interfaces;
 using EStore.Infra.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 using Assert = Xunit.Assert;
+
 
 namespace IntegrationTests.AutomaticTests
 {
@@ -33,18 +28,18 @@ namespace IntegrationTests.AutomaticTests
 
     Basket _basket;
     Product _product;
-    
+
     public OrderTests(ITestOutputHelper output)
     {
       _output = output;
       var scope = Helper4Tests.GetServiceScope();
       _dbContext = scope.ServiceProvider.GetRequiredService<EStoreDbContext>();
-      _config= scope.ServiceProvider.GetRequiredService<IConfiguration>();
-      _productService =scope.ServiceProvider.GetRequiredService<ProductService>();
+      _config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+      _productService = scope.ServiceProvider.GetRequiredService<ProductService>();
       _userId = _config["userId"];//mc; getting config from secret or appsettings.json
-      _basket = new Basket(_userId!);      
-      _product = new Product("test", 3, null, 5.50m, 100); 
-      _basket.SetBasketItem(_productId, 2, _product.Price,_product);
+      _basket = new Basket(_userId!);
+      _product = new Product("test", 3, null, 5.50m, 100);
+      _basket.SetBasketItem(_productId, 2, _product.Price, _product);
     }
 
 
@@ -59,7 +54,7 @@ namespace IntegrationTests.AutomaticTests
 
       //var _product = new Product("test", 3, null, 5.50m, 100);
       //_product.Id = 1;
-      
+
       //var _basket=new Basket(_userId!);
       //_basket.SetBasketItem(_product.Id, 2, _product.Price);
       //var dbContext = scope.ServiceProvider.GetRequiredService<EStoreDbContext>();
@@ -77,8 +72,8 @@ namespace IntegrationTests.AutomaticTests
       }
 
       finally { SqlRollBackChangeProductPrice(_dbContext); }
-      
-      
+
+
     }
 
     [Fact]
@@ -110,19 +105,20 @@ namespace IntegrationTests.AutomaticTests
       {
         _output.WriteLine(ex.Message);
         if (ex is DbUpdateConcurrencyException)
-          return;  
+          return;
         throw;
-        
+
       }
       Assert.Fail();
     }
 
     [Fact]
-    public async Task MakeOrder() {
+    public async Task MakeOrder()
+    {
       await CreateOrderAsync(_dbContext, _basket, 1);
     }
 
-    
+
 
     private async Task CreateOrderAsync(EStoreDbContext context, Basket basket, int addressId)
     {
@@ -140,10 +136,10 @@ namespace IntegrationTests.AutomaticTests
         foreach (var basketItem in basket.BasketItems)
         {
           //todo ef doesnt track projections thus no concurrency protection take place if used, any workaround maybe table splitting?
-          var productOnDB = await context.Products.Where(p => p.Id == basketItem.ProductId).FirstOrDefaultAsync();          
+          var productOnDB = await context.Products.Where(p => p.Id == basketItem.ProductId).FirstOrDefaultAsync();
           productOnDB.GuardNull();
           if (_isConcurrencyTest)
-            _dbContext.Database.ExecuteSql($"update Products set qt={productOnDB?.Qt-1} where id={productOnDB?.Id}");
+            _dbContext.Database.ExecuteSql($"update Products set qt={productOnDB?.Qt - 1} where id={productOnDB?.Id}");
 
           //basketItem.Product = productOnDB;
 
@@ -158,12 +154,12 @@ namespace IntegrationTests.AutomaticTests
               continue;
           }
 
-          
+
           if (basketItem.Price != productOnDB!.Price)
             throw new Exception($"Price of product {basketItem.Product?.Name} changed");
           if (productOnDB!.Qt < basketItem.Qt)
             throw new Exception($"Product {basketItem.Product?.Name} quantity not enough");
-          
+
           //mc, decrease product qt by basket item qt 
           //basketItem.Product.UpdateQt(-basketItem.Qt);
           productOnDB!.UpdateQt(-basketItem.Qt);

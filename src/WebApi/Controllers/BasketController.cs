@@ -2,7 +2,7 @@
 
 namespace EStore.WebApi.Controllers;
 
-public class BasketController:ControllerBase
+public class BasketController : ControllerBase
 {
 
 }

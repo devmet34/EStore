@@ -2,6 +2,6 @@
 
 public class PagingVM
 {
-  public int Page {  get; set; }
+  public int Page { get; set; }
 
 }

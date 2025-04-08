@@ -1,31 +1,12 @@
-using EStore.Core.Entities;
-using EStore.Core.Entities.ValueObjects;
-using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
-using EStore.App.Services;
-using EStore.Core.Specs;
 using EStore.Infra.EF.Config;
 using EStore.Infra.EF.Identity;
-using EStore.Infra.EF.Repos;
 using EStore.Web;
 using EStore.Web.Config;
-using EStore.WebApi;
 using EStore.WebApi.Extensions;
 using EStore.WebApi.Middlewares;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Server.HttpSys;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging.EventLog;
-using Microsoft.Extensions.Options;
-using Microsoft.Identity.Web;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using Serilog.Extensions.Logging;
-using System.Text;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 /////////// Api
 ///////////

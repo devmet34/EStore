@@ -4,26 +4,26 @@
 
 namespace EStore.Infra.EF.Migrations
 {
+  /// <inheritdoc />
+  public partial class BasketitemPriceAdd : Migration
+  {
     /// <inheritdoc />
-    public partial class BasketitemPriceAdd : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<decimal>(
-                name: "Price",
-                table: "BasketItem",
-                type: "decimal(18,2)",
-                nullable: false,
-                defaultValue: 0m);
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "Price",
-                table: "BasketItem");
-        }
+      migrationBuilder.AddColumn<decimal>(
+          name: "Price",
+          table: "BasketItem",
+          type: "decimal(18,2)",
+          nullable: false,
+          defaultValue: 0m);
     }
+
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropColumn(
+          name: "Price",
+          table: "BasketItem");
+    }
+  }
 }

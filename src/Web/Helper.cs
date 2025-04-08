@@ -7,7 +7,6 @@ using NuGet.Protocol;
 using Serilog;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
-using System.Security.Policy;
 
 namespace EStore.Web
 {
@@ -18,7 +17,7 @@ namespace EStore.Web
     //mc; check if 2 given objects are equal by json serializing. 
     public static bool AreObjectsEqual(object obj, object obj2)
     {
-      return obj.ToJson()==obj2.ToJson();
+      return obj.ToJson() == obj2.ToJson();
     }
     public static void LogObjectHash(object obj, [CallerArgumentExpression("obj")] string? paramName = null)
     {
@@ -32,8 +31,8 @@ namespace EStore.Web
       //.WriteTo.Console(outputTemplate: "[{Timestamp:yyyy-dd-MM HH:mm:ss:fff}\t[{Level:u3}]\t{Message:lj}\t{NewLine}{Exception}")
       .WriteTo.File("Log.txt",
       outputTemplate: "[{Timestamp:yyyy-dd-MM HH:mm:ss:fff}\t[{Level:u3}]\t{SourceContext}\t{Message:lj}\t{NewLine}{Exception}")
-      
-      
+
+
       .CreateLogger();
     }
 
@@ -85,7 +84,7 @@ namespace EStore.Web
       return app.Services.CreateScope();
     }
 
-    public static string? GetUserId(ClaimsPrincipal user )
+    public static string? GetUserId(ClaimsPrincipal user)
     {
       return user.FindFirstValue(ClaimTypes.NameIdentifier);
     }
@@ -94,19 +93,19 @@ namespace EStore.Web
     {
       context.GuardNull();
       return context.RequestServices.GetRequiredService<BasketDBService>();
-        
+
     }
-    
+
     public static void LogD()
     {
-      
+
     }
 
     public static void LogCritical(string str)
     {
       Console.BackgroundColor = ConsoleColor.Red;
-      var date=DateTime.Now;
-      Console.WriteLine(date+"**********"+str);
+      var date = DateTime.Now;
+      Console.WriteLine(date + "**********" + str);
 
     }
 

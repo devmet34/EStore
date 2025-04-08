@@ -1,12 +1,4 @@
-﻿
-using EStore.Core.Entities.BasketAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EStore.Core.Models
+﻿namespace EStore.Core.Models
 {
   public class BasketVM
   {

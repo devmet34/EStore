@@ -1,16 +1,10 @@
 ﻿using EStore.Core;
 using EStore.Core.Entities.BasketAggregate;
-using EStore.Core.Exceptions;
 using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
 using EStore.Core.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.App.Services;
 public class BasketCacheService : IBasketCacheService
@@ -41,14 +35,14 @@ public class BasketCacheService : IBasketCacheService
 
   private string GetBasketCountCacheKey(string buyerId)
   {
-    return Constants.basketCountCacheKey+ Constants.basketCacheDelimeter + buyerId;
+    return Constants.basketCountCacheKey + Constants.basketCacheDelimeter + buyerId;
   }
 
   public async Task CreateBasketAsync(string buyerId)
   {
 
     buyerId.GuardNullOrEmpty();
-    var hasBasketCreated=await GetBasketCountAsync(buyerId)>=0;
+    var hasBasketCreated = await GetBasketCountAsync(buyerId) >= 0;
 
     if (hasBasketCreated)
     {
@@ -63,14 +57,14 @@ public class BasketCacheService : IBasketCacheService
     string cacheKey = GetBasketCacheKey(buyerId);
     await _redisService.SetCacheDataAsync(cacheKey, basket, cacheDuration);
     await SetBasketCountAsync(buyerId, 0);
-    
+
   }
 
   public async Task<int> GetBasketCountAsync(string buyerId)
   {
     buyerId.GuardNullOrEmpty();
     var cacheKey = GetBasketCountCacheKey(buyerId);
-    var countStr= await _redisService.GetCachedDataAsync(cacheKey);    
+    var countStr = await _redisService.GetCachedDataAsync(cacheKey);
     if (countStr != null)
       return int.Parse(countStr!);
     return -1;
@@ -102,7 +96,7 @@ public class BasketCacheService : IBasketCacheService
 
     var product = await _productService.GetProductForBasketAsync(productId);
 
-    basket!.SetBasketItem(productId, qt,product!.Price,product);
+    basket!.SetBasketItem(productId, qt, product!.Price, product);
     await _redisService.SetCacheDataAsync(GetBasketCacheKey(buyerId), basket, cacheDuration);
     await SetBasketCountAsync(buyerId, basket.BasketItemCount);
 
@@ -125,7 +119,7 @@ public class BasketCacheService : IBasketCacheService
     return _redisService.GetCachedData<Basket>(cacheKey);
   }
 
-  
+
 
   public async Task RemoveBasketItemAsync(string buyerId, int productId)
   {
@@ -137,7 +131,7 @@ public class BasketCacheService : IBasketCacheService
     basket!.RemoveBasketItem(productId);
 
     await _redisService.SetCacheDataAsync(key, basket, cacheDuration);
-    await _redisService.SetCacheDataAsync(GetBasketCountCacheKey(buyerId),basket.BasketItemCount, cacheDuration);
+    await _redisService.SetCacheDataAsync(GetBasketCountCacheKey(buyerId), basket.BasketItemCount, cacheDuration);
 
   }
 
@@ -149,5 +143,5 @@ public class BasketCacheService : IBasketCacheService
     await _redisService.RemoveCachedDataAsync(GetBasketCountCacheKey(buyerId));
   }
 
- 
+
 }//

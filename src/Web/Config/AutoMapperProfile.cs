@@ -6,15 +6,15 @@ using EStore.Web.Models;
 
 namespace EStore.Web.Config;
 
-public class AutoMapperProfile:Profile
+public class AutoMapperProfile : Profile
 {
-  public AutoMapperProfile() 
+  public AutoMapperProfile()
   {
-    CreateMap<Product,ProductVM>();   
+    CreateMap<Product, ProductVM>();
     CreateMap<Basket, BasketVM>();
-    CreateMap<CustomerAddress,AddressVM>();
+    CreateMap<CustomerAddress, AddressVM>();
     CreateMap<AddressVM, CustomerAddress>();
     CreateMap<BasketItem, BasketItemVM>();
-    
+
   }
 }

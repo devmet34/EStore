@@ -19,18 +19,18 @@ public static class UseResponseTest
       //throw new Exception("exception from useresponse");
       await next();
 
-      
+
 
       memStream.Position = 0;
       var strMem = await new StreamReader(memStream).ReadToEndAsync();
       memStream.Position = 0;
       await memStream.CopyToAsync(originalBody);
 
-      var logger=context.RequestServices.GetRequiredService<ILogger<object>>();
+      var logger = context.RequestServices.GetRequiredService<ILogger<object>>();
       Helper.LogCritical("useresponse after next");
       //var resp=await new StreamReader(context.Response.Body).ReadToEndAsync();
 
-       context.Response.Body=originalBody;
+      context.Response.Body = originalBody;
     });
     return app;
   }

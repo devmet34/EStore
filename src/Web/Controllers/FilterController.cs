@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using EStore.App.Services;
 using EStore.Core.Extensions;
-using EStore.Core.Interfaces;
 using EStore.Core.Models;
-using EStore.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 namespace EStore.Web.Controllers;
 public class FilterController : Controller
@@ -25,13 +22,13 @@ public class FilterController : Controller
   [HttpGet]
   public async Task<IActionResult> GetCats()
   {
-    var cats=await _filterService.GetCatsAsDictAsync();
+    var cats = await _filterService.GetCatsAsDictAsync();
     return Ok(cats);
   }
 
   [HttpGet]
   [Route("filterproducts")]
-  public async Task<IActionResult> FilterProducts(FilterModel filterModel )
+  public async Task<IActionResult> FilterProducts(FilterModel filterModel)
   {
     filterModel.GuardNull();
     if (!ModelState.IsValid)
@@ -41,7 +38,7 @@ public class FilterController : Controller
     //var productVM = _mapper.Map<IEnumerable<ProductVM>>(products);
 
     return PartialView("_productcards", products);
-    
+
   }
 
 }

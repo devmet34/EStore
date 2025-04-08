@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using EStore.Core.Interfaces;
+﻿using EStore.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace EStore.Infra.EF.Identity;
 
@@ -24,7 +21,7 @@ public class IdentityTokenClaimService : IIdentityTokenClaimService
 
   public async Task<string> GetTokenAsync(string userName)
   {
-    
+
     var tokenHandler = new JwtSecurityTokenHandler();
     var key = Encoding.ASCII.GetBytes(_config["JwtSignKey"] ?? throw new Exception("No signing key"));
     var user = await _userManager.FindByNameAsync(userName);

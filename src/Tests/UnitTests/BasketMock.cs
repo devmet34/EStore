@@ -1,13 +1,5 @@
-﻿using EStore.Core.Entities.BasketAggregate;
-using EStore.Core.Entities;
-using EStore.Core.Extensions;
-using EStore.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using EStore.Core.Extensions;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace UnitTests;
 public class BasketMock

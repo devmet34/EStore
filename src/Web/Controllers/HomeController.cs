@@ -1,27 +1,17 @@
 //using AspNetCore;
 using AutoMapper;
 using EStore.App.Services;
-using EStore.Core.Entities.BasketAggregate;
-using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
 using EStore.Core.Models;
 using EStore.Infra.EF.Identity;
-using EStore.Web.Config;
 using EStore.Web.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using NuGet.ContentModel;
 
 //using Newtonsoft.Json;
-using NuGet.Protocol;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Security.Claims;
-using System.Text.Json;
 using Web;
 
 namespace EStore.Web.Controllers
@@ -31,14 +21,14 @@ namespace EStore.Web.Controllers
   {
     private readonly ILogger<HomeController> _logger;
     private readonly ProductService _productService;
-    private readonly IBasketService _basketService;   
+    private readonly IBasketService _basketService;
     private readonly IMapper _mapper;
     private readonly SignInManager<AppUser> _signInManager;
     private const string DEFAULT_SORT = Constants.DEFAULT_SORT;
     //private readonly string cacheProductsKey = Constants.cacheProductsKey;
-    
-    
-    
+
+
+
 
     //mc; separate controllers or razor pages would be better to mitigate di overhead. not using for brevity 
     public HomeController(ILogger<HomeController> logger, SignInManager<AppUser> signInManager, ProductService productService, IBasketService basketService, RedisService redisService, IMapper mapper)
@@ -47,7 +37,7 @@ namespace EStore.Web.Controllers
       _signInManager = signInManager;
       _productService = productService;
       _basketService = basketService;
-      _mapper = mapper;     
+      _mapper = mapper;
 
     }
 
@@ -74,27 +64,27 @@ namespace EStore.Web.Controllers
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
     //
-    public async Task<IActionResult> Index(int page = 1, string sortBy = DEFAULT_SORT, bool? isSuccess=null)
+    public async Task<IActionResult> Index(int page = 1, string sortBy = DEFAULT_SORT, bool? isSuccess = null)
     {
       if (!ModelState.IsValid)
         throw new ArgumentException();
-      
+
       ViewData["success"] = isSuccess;
-      
-      int basketCount=0;
+
+      int basketCount = 0;
       if (IsUserSigned())
       {
         await CreateBasketAsync();
         basketCount = await _basketService.GetBasketCountAsync(GetBuyerId()!);
       }
-        
+
       //IEnumerable<ProductVM>? productVM = null;
       var products = await _productService.GetProductsPagedAsync(sortBy);
       //if (products != null)      
-       // productVM = _mapper.Map<IEnumerable<ProductVM>>(products);         
+      // productVM = _mapper.Map<IEnumerable<ProductVM>>(products);         
 
-      var homeVM = new HomeVM() { BasketCount=basketCount, Products = products };
-      
+      var homeVM = new HomeVM() { BasketCount = basketCount, Products = products };
+
       return View(homeVM);
     }
 
@@ -105,7 +95,7 @@ namespace EStore.Web.Controllers
     public async Task<IActionResult> FindProducts(string productName)
     {
       var products = await _productService.FindProductsAsync(productName);
-      
+
 
       return PartialView("_productcards", products);
     }
@@ -115,8 +105,8 @@ namespace EStore.Web.Controllers
     [Route("sortproducts")]
     public async Task<IActionResult> SortProducts(string sortBy)
     {
-      var products = await _productService.GetProductsPagedAsync( sortBy:sortBy);     
-           
+      var products = await _productService.GetProductsPagedAsync(sortBy: sortBy);
+
 
       return PartialView("_productcards", products);
 
@@ -125,21 +115,21 @@ namespace EStore.Web.Controllers
 
     [HttpGet]
     [Route("getproductsbypage")]
-    public async Task<IActionResult> GetProductsByPage( int page, string sortBy= DEFAULT_SORT,  string? find = null, FilterModel? filterModel=null)
+    public async Task<IActionResult> GetProductsByPage(int page, string sortBy = DEFAULT_SORT, string? find = null, FilterModel? filterModel = null)
     {
       if (!ModelState.IsValid)
         throw new ArgumentException();
 
-      
-      var products= await _productService.GetProductsOnPageAsync(page, sortBy, find,filterModel);
-      
-      if (products?.Count()>=1)
+
+      var products = await _productService.GetProductsOnPageAsync(page, sortBy, find, filterModel);
+
+      if (products?.Count() >= 1)
         return PartialView("_productcards", products);
-      throw new Exception("No more products for page:"+page);
+      throw new Exception("No more products for page:" + page);
     }
 
 
-      private string? GetBuyerId()
+    private string? GetBuyerId()
     {
       return User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
@@ -153,7 +143,7 @@ namespace EStore.Web.Controllers
     {
       var exceptionHandlerPathFeature =
            HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-      _logger.LogCritical("#################:"+exceptionHandlerPathFeature?.Error.Message);
+      _logger.LogCritical("#################:" + exceptionHandlerPathFeature?.Error.Message);
       return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
@@ -164,9 +154,9 @@ namespace EStore.Web.Controllers
         throw new ArgumentNullException("buyerId");
 
       await _basketService.CreateBasketAsync(buyerId);
-        
+
     }
 
-    
+
   }//eo cls
 }

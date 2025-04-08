@@ -17,17 +17,17 @@ public class SpecEvaluator
         query = query.Include(include);
       }
     }
-    
+
     return query;
   }
 
-  public static IQueryable<Basket> Query() 
+  public static IQueryable<Basket> Query()
   {
     string buyerId = "fefefd7e-d506-45ad-aa9d-7dc80cd15dc1";
-    var q = Enumerable .Empty<Basket>().AsQueryable();
+    var q = Enumerable.Empty<Basket>().AsQueryable();
     q = q.Where(b => b.BuyerId == buyerId)
       .Include(b => b.BasketItems);
     return q;
-    
+
   }
 }

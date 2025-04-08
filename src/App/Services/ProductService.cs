@@ -2,17 +2,9 @@
 using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
 using EStore.Core.Models;
-using EStore.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.App.Services;
 public class ProductService
@@ -52,7 +44,7 @@ public class ProductService
     //return await _repo.GetAllAsync();
 
   }
- 
+
 
   public async Task<IEnumerable<ProductVM>?> GetProductsOnPageAsync(int page, string sortBy, string? find = null, FilterModel? filterModel = null)
   {
@@ -65,7 +57,7 @@ public class ProductService
       query = _readRepo.Query;
 
     SetSortForQuery(sortBy);
-    
+
 
     if (find == null)
     {
@@ -88,7 +80,7 @@ public class ProductService
     return await _readRepo.Query
     .Where(p => p.Name.Contains(productName))
     .Take(pageSize).Select(Projections.ProductToProductVM()).ToListAsync();
-    
+
   }
 
 
@@ -100,7 +92,7 @@ public class ProductService
   public async Task<Product?> GetProductForBasketAsync(int productId)
   {
     query = _readRepo.Query;
-    
+
     return await _readRepo.Query.Where(p => p.Id == productId)
       .Select(p => new Product(p.Name, 0, 0, p.Price, p.Qt, null, p.PictureUri)).FirstOrDefaultAsync();
     //return await _repo.GetByIdAsync(productId);

@@ -1,24 +1,18 @@
-﻿using EStore.Infra.EF.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Serilog;
-using System.Security.Claims;
-
-
-namespace EStore.WebApi.Middlewares {
+﻿namespace EStore.WebApi.Middlewares
+{
 
   public class TestMiddleware
   {
     RequestDelegate _next;
-    
+
 
     //ILogger _logger;
-    public TestMiddleware(RequestDelegate next) {
+    public TestMiddleware(RequestDelegate next)
+    {
 
       _next = next;
-      
-      
+
+
       //_logger = logger.CreateLogger<TestMiddleware>(); 
     }
 

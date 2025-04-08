@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Web
+﻿namespace Web
 {
   public class Constants
   {
@@ -20,7 +14,7 @@ namespace Web
     public const string DEFAULT_ADMIN = "admin@estore.com";
 
     public const string ADMIN_ROLE = "Administrators";
-    
+
     public const int JWT_EXP_DAYS = 7;
 
     public const string DEFAULT_SORT = "Order";

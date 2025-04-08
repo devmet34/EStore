@@ -1,7 +1,4 @@
-﻿using EStore.Infra.EF.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Identity.Web;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 

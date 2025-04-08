@@ -1,15 +1,9 @@
 ﻿using EStore.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.Core.Specs;
 public abstract class BaseSpec<T> : ISpec<T> where T : class
-{ 
+{
   public Expression<Func<T, bool>>? WhereExp { get; private set; }
   public List<Expression<Func<T, object>>> Includes { get; private set; } = new List<Expression<Func<T, object>>>();
   public QueryBuilder<T> Query = new();
@@ -20,9 +14,9 @@ public abstract class BaseSpec<T> : ISpec<T> where T : class
   /// </summary>
   protected abstract void SetQuery();
   //public BaseSpec() {  SetQuery(); }
-  public BaseSpec<T> AddWhere(Expression<Func<T, bool>> where) 
-  { 
-    WhereExp=where;
+  public BaseSpec<T> AddWhere(Expression<Func<T, bool>> where)
+  {
+    WhereExp = where;
     return this;
   }
   public BaseSpec<T> AddInclude(Expression<Func<T, object>> include)

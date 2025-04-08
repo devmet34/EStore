@@ -1,7 +1,4 @@
-﻿
-using EStore.Web.Config;
-using StackExchange.Redis;
-using System.Threading.Tasks;
+﻿using StackExchange.Redis;
 using Web;
 
 namespace EStore.Web;
@@ -24,22 +21,23 @@ public class RedisHealthCheckService : BackgroundService
 
   public static bool IsRedisConnected { get { return isRedisConnected; } }
   protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-  {         
-      while (!stoppingToken.IsCancellationRequested)
-      {
+  {
+    while (!stoppingToken.IsCancellationRequested)
+    {
       IConnectionMultiplexer? redis = await ConnectToRedis();
       if (redis == null || !redis.IsConnected)
-        {
-          isRedisConnected = false;
-          logger.LogWarning("Redis not connected");
-        }
-      else { 
-        isRedisConnected = true;              
+      {
+        isRedisConnected = false;
+        logger.LogWarning("Redis not connected");
+      }
+      else
+      {
+        isRedisConnected = true;
       }
 
-       await Task.Delay(TimeSpan.FromSeconds(healthCheckTimeoutSec), stoppingToken);
-        
-      }
+      await Task.Delay(TimeSpan.FromSeconds(healthCheckTimeoutSec), stoppingToken);
+
+    }
     //}
 
   }
@@ -54,7 +52,7 @@ public class RedisHealthCheckService : BackgroundService
       {
         //options.SyncTimeout = connectTimeoutMs;
         //options.ConnectTimeout = connectTimeoutMs;
-        
+
       });
       //redis = services.GetRequiredService<IConnectionMultiplexer>();
     }

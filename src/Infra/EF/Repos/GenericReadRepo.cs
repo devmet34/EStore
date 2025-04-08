@@ -1,14 +1,8 @@
 ﻿using EStore.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.Infra.EF.Repos;
-public class GenericReadRepo<TEntity> :IRepoRead<TEntity> where TEntity : class
+public class GenericReadRepo<TEntity> : IRepoRead<TEntity> where TEntity : class
 {
   private readonly EStoreDbContext _dbContext;
 

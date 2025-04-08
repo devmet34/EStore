@@ -1,12 +1,4 @@
 ﻿using EStore.Core.Entities;
-using EStore.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.Core.Specs;
 public class ProductSpec : BaseSpec<Product>
@@ -15,21 +7,21 @@ public class ProductSpec : BaseSpec<Product>
   //public Expression<Func<Product, object>> Include { get; set; } = x => x.Brand;
 
   public int ProductId { get; set; }
-  
+
   protected override void SetQuery()
   {
 
     base.AddWhere(x => x.Id == ProductId)
       .AddInclude(x => x.Brand!)
       .AddInclude(x => x.Category!);
-      
+
     /*
     Query.Where(Where)
       .Include(Include);
     */
   }
 
- 
+
 
 
   //void Add() { base.AddWhere(Where).AddInclude(Include); }

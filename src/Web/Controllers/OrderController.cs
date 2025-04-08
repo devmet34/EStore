@@ -1,9 +1,8 @@
-﻿using EStore.Core.Interfaces;
+﻿using EStore.App.Services;
 using EStore.Core.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using EStore.Web.Models;
+using EStore.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using EStore.App.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EStore.Web.Controllers;
 
@@ -26,7 +25,7 @@ public class OrderController : Controller
     basketVM.GuardNull();
     basketVM?.BasketItems.GuardNull();
 
-  
+
     return View("checkout", basketVM);
 
 

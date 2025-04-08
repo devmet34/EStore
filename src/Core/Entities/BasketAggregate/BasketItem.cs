@@ -1,11 +1,4 @@
 ﻿using EStore.Core.Extensions;
-using EStore.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace EStore.Core.Entities.BasketAggregate;
 public class BasketItem : BaseEntity
@@ -17,10 +10,10 @@ public class BasketItem : BaseEntity
   public int Qt { get; private set; }
 
   //mc, Product param is needed for redis caching so product name, uri etc can be saved/loaded with basket.
-  public BasketItem(int basketId, int productId, int qt, decimal price,Product? product=null)
+  public BasketItem(int basketId, int productId, int qt, decimal price, Product? product = null)
   {
     BasketId = basketId;
-    ProductId = productId;    
+    ProductId = productId;
     SetQt(qt);
     SetPrice(price);
     Product = product ?? null;
@@ -35,7 +28,7 @@ public class BasketItem : BaseEntity
     Qt = qt;
     Price = price;
   }
-  
+
 
   public void SetQt(int qt)
   {

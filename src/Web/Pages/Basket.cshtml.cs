@@ -1,17 +1,3 @@
-using AutoMapper;
-using EStore.App.Services;
-using EStore.Core.Entities.BasketAggregate;
-using EStore.Core.Extensions;
-using EStore.Core.Interfaces;
-using EStore.Web.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using NuGet.Protocol;
-using System.Security.Claims;
-using System.Text.Json;
-
 /*
 namespace EStore.Web.Pages
 {

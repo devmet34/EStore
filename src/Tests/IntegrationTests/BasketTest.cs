@@ -1,14 +1,7 @@
 ﻿using EStore.App.Services;
-using EStore.Core.Entities.BasketAggregate;
+using EStore.Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IntegrationTests;
-using EStore.Core.Interfaces;
 using Xunit;
 
 namespace IntegrationTests;
@@ -32,8 +25,8 @@ public class BasketTest
     await basketService.CreateBasketAsync(userId);
     //await basketService.SetBasketItemAsync(userId, 1, 2);
 
- 
-   
+
+
     /*
     var product = await productService.GetProductAsync(1);
     var basket = new Basket(userId);

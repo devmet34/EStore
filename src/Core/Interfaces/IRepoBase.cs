@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EStore.Core.Interfaces
+﻿namespace EStore.Core.Interfaces
 {
   public interface IRepoBase<T> where T : class
   {
@@ -21,6 +15,6 @@ namespace EStore.Core.Interfaces
 
     Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
-    
+
   }
 }

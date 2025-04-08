@@ -1,7 +1,5 @@
 ﻿using EStore.Core.Interfaces;
-using EStore.App.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using System.Collections;
@@ -13,19 +11,20 @@ namespace EStore.WebApi.Controllers
   public class TestController : ControllerBase
   {
     private readonly IBasketService _basketService;
-    public TestController(IBasketService basketService) {
+    public TestController(IBasketService basketService)
+    {
       _basketService = basketService;
-      
+
     }
 
     [HttpGet]
     [Route("test")]
     public void Test()
     {
-      
-      
-      
-      
+
+
+
+
     }
 
 
@@ -34,7 +33,7 @@ namespace EStore.WebApi.Controllers
     [Route("getnumbers")]
     public IEnumerable GetNumbers()
     {
-      return  Enumerable.Range(0, 10);
+      return Enumerable.Range(0, 10);
     }
 
     [HttpGet]
@@ -45,6 +44,6 @@ namespace EStore.WebApi.Controllers
       Log.Information("test/getstring");
       return "test";
     }
-    
+
   }
 }

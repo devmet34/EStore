@@ -2,13 +2,7 @@
 using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
 using EStore.Core.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.App.Services;
 public class FilterService

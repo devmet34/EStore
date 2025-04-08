@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EStore.Core.Models;
+﻿namespace EStore.Core.Models;
 public class FilterModel
 {
-  
+
   public string? MainCat { get; set; }
   public string? SubCat { get; set; }
   public int PriceMin { get; set; }

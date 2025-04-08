@@ -1,17 +1,10 @@
 ﻿using EStore.Core;
-using EStore.Core.Entities.BasketAggregate;
 using EStore.Core.Exceptions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace EStore.App.Services;
@@ -34,9 +27,9 @@ public class RedisService
   /// <exception cref="RedisGenericException"></exception>
   private void ThrowIfRedisBroken()
   {
-       
+
     if (IsRedisBroken)
-      throw new RedisConnectionException(ConnectionFailureType.None,Constants.redisGenericException);
+      throw new RedisConnectionException(ConnectionFailureType.None, Constants.redisGenericException);
   }
 
 
@@ -51,7 +44,7 @@ public class RedisService
   {
 
     ThrowIfRedisBroken();
-    
+
     try
     {
       var jsonData = await _redisCache.GetStringAsync(key);
@@ -61,7 +54,7 @@ public class RedisService
 
       return JsonSerializer.Deserialize<T>(jsonData);
     }
-    catch ( Exception ex) 
+    catch (Exception ex)
     {
       _logger.LogError(Constants.redisGetErrorMsg + ex.ToString());
       IsRedisBroken = ex is RedisConnectionException;
@@ -134,14 +127,14 @@ public class RedisService
   public async Task SetCacheDataAsync(string key, string val, TimeSpan? cacheDuration)
   {
     ThrowIfRedisBroken();
-   
+
     try
     {
       var options = new DistributedCacheEntryOptions
       {
-        AbsoluteExpirationRelativeToNow = cacheDuration ?? _defaultCacheDuration        
+        AbsoluteExpirationRelativeToNow = cacheDuration ?? _defaultCacheDuration
       };
-      
+
       await _redisCache.SetStringAsync(key, val, options);
     }
     catch (Exception ex)
@@ -155,7 +148,7 @@ public class RedisService
 
 
 
-    
+
 
   /// <summary>
   /// Remove cached data with given key, throws error. 

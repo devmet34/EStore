@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
-using EStore.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +10,16 @@ namespace EStore.Web.Controllers;
 [Authorize]
 
 
-public class BasketController:Controller
+public class BasketController : Controller
 {
 
- 
+
   private readonly IBasketService _basketService;
   private readonly ILogger<BasketController> _logger;
   private readonly IMapper _mapper;
 
   public BasketController(IBasketService basketService, ILogger<BasketController> logger, IMapper mapper)
-  {  
+  {
     _basketService = basketService;
     _logger = logger;
     _mapper = mapper;
@@ -50,7 +49,7 @@ public class BasketController:Controller
 
     //var basket = await _basketService.GetBasketAsync(buyerId!, true);
     var basketCount = await _basketService.GetBasketCountAsync(buyerId!);
-    
+
     return Content(basketCount.ToString());
   }
 
@@ -96,7 +95,7 @@ public class BasketController:Controller
   {
     _logger.LogDebug("Removing basket");
     var buyerId = GetBuyerId();
-    buyerId.GuardNullOrEmpty(); 
+    buyerId.GuardNullOrEmpty();
 
     await _basketService.RemoveBasketAsync(buyerId!);
 

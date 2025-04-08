@@ -3,11 +3,6 @@ using EStore.Core.Interfaces;
 using EStore.Core.Models;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.App.Services;
 /// <summary>
@@ -36,7 +31,7 @@ public class BasketService : IBasketService
   private readonly IBasketCacheService _basketCacheSrv;
   private readonly IBasketDBService _basketDBSrv;
   private readonly ILogger<BasketService> _logger;
- 
+
 
   public BasketService(IBasketCacheService basketCacheSrv, IBasketDBService basketDBSrv, ILogger<BasketService> logger)
   {
@@ -44,7 +39,7 @@ public class BasketService : IBasketService
     _basketDBSrv = basketDBSrv;
     _logger = logger;
   }
- 
+
 
   /// <summary>
   /// mc, Get basket from cache, try to get it from DB if cache fails.
@@ -72,8 +67,8 @@ public class BasketService : IBasketService
   /// <returns></returns>
   public async Task CreateBasketAsync(string buyerId)
   {
-    try {  await _basketCacheSrv.CreateBasketAsync(buyerId); }
-    catch (RedisConnectionException) {  await _basketDBSrv.CreateBasketAsync(buyerId); }
+    try { await _basketCacheSrv.CreateBasketAsync(buyerId); }
+    catch (RedisConnectionException) { await _basketDBSrv.CreateBasketAsync(buyerId); }
   }
 
   /// <summary>
@@ -114,5 +109,5 @@ public class BasketService : IBasketService
     catch (RedisConnectionException) { await _basketDBSrv.RemoveBasketItemAsync(buyerId, productId); }
   }
 
-  
+
 }

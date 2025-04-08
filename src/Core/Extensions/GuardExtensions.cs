@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 
 
 namespace EStore.Core.Extensions;
@@ -22,10 +16,10 @@ public static class GuardExtensions
     if (value == null)
       throw new ArgumentNullException(paramName, $"{paramName} cant be null");
   }
-  
+
   public static int GuardZero(this int value, [CallerArgumentExpression("value")] string? paramName = null)
   {
-    if (value == 0) 
+    if (value == 0)
       throw new ArgumentException($"{paramName} cant be zero");
     return value;
   }
@@ -51,11 +45,11 @@ public static class GuardExtensions
     return value;
   }
 
-  public static string GuardNullOrEmpty( this string? value, [CallerArgumentExpression("value")] string? paramName=null)
+  public static string GuardNullOrEmpty(this string? value, [CallerArgumentExpression("value")] string? paramName = null)
   {
     if (string.IsNullOrEmpty(value))
       throw new ArgumentException($"{paramName} cant be null or empty");
     return value;
 
-  } 
+  }
 }

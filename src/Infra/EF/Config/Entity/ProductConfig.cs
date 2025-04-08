@@ -1,12 +1,6 @@
 ﻿using EStore.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.Infra.EF.Config.Entity
 {
@@ -36,7 +30,7 @@ namespace EStore.Infra.EF.Config.Entity
       builder.HasOne(p => p.Brand)
         .WithMany()
         .HasForeignKey(p => p.BrandId);
-              
+
 
       builder.HasOne(p => p.Category)
         .WithMany()
@@ -44,13 +38,13 @@ namespace EStore.Infra.EF.Config.Entity
 
       builder.Navigation(p => p.Category);
       //todo check loading brand when there is no nav set explicitly
-     
-
-        
 
 
-            
 
-        }
+
+
+
+
+    }
   }
 }

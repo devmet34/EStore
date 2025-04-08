@@ -1,9 +1,4 @@
 ﻿using EStore.Core.Entities.BasketAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace UnitTests;
@@ -20,7 +15,7 @@ public class BasketTest
   public void TestBasket()
   {
     var basket = new Basket("test");
-    basket.SetBasketItem(1, 3, 4m);    
+    basket.SetBasketItem(1, 3, 4m);
     BasketMock basketMock = new BasketMock("buyer1", 3);
     /*
     basket.AddItem(3);

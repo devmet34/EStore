@@ -1,26 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.Infra.EF.Helpers;
 public class UpdateProducts
-{  
+{
   //mc, This was used for testing dummy product updates
   public static async Task UpdateProductsBatch(EStoreDbContext context)
   {
     int startIndex = 43;
     int range = 10;
     int it = 10;
-    for(int iter=0;iter<5;iter++) 
+    for (int iter = 0; iter < 5; iter++)
     {
-      await context.Products.Where(p => p.Id > startIndex & p.Id <= startIndex+range).ExecuteUpdateAsync
+      await context.Products.Where(p => p.Id > startIndex & p.Id <= startIndex + range).ExecuteUpdateAsync
         (x =>
-            x.SetProperty(p => p.Name, p => p.Name+it.ToString())
+            x.SetProperty(p => p.Name, p => p.Name + it.ToString())
         );
       startIndex += range;
       it++;
@@ -43,6 +36,6 @@ public class UpdateProducts
 
     */
 
-    
+
   }
 }

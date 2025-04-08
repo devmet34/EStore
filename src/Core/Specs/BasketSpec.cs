@@ -1,17 +1,12 @@
 ﻿using EStore.Core.Entities.BasketAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EStore.Core.Specs;
 public class BasketSpec : BaseSpec<Basket>
 {
-  public string? BuyerId {  get; set; }
-  public bool IsIncludeItems {  get; set; }
+  public string? BuyerId { get; set; }
+  public bool IsIncludeItems { get; set; }
 
-  public BasketSpec(string? buyerId, bool isIncludeItems=true)
+  public BasketSpec(string? buyerId, bool isIncludeItems = true)
   {
     BuyerId = buyerId;
     IsIncludeItems = isIncludeItems;
@@ -19,12 +14,12 @@ public class BasketSpec : BaseSpec<Basket>
   }
   protected override void SetQuery()
   {
-    
+
     base.AddWhere(b => b.BuyerId == BuyerId);
     if (IsIncludeItems)
       base.AddInclude(b => b.BasketItems);
-    
-    
+
+
   }
 
 

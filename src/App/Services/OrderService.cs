@@ -35,7 +35,7 @@ public class OrderService
     //return await _repo.Query().Where(o => o.BuyerId == buyerId)
     //.Include(o=>o.OrderItems).AsNoTracking().ToListAsync();
   }
- 
+
 
   public async Task CreateOrderAsync(string buyerId)
   {
@@ -58,7 +58,7 @@ public class OrderService
       _logger.LogError(ex.Message);
       throw;
     }
-    
+
   }
 
   private async Task<bool> HasProductPriceUpdatedAsync(BasketItem item)

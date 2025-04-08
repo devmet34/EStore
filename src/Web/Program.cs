@@ -1,34 +1,11 @@
 
-using EStore.Web;
-using Serilog;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using EStore.Infra.EF.Identity;
-using EStore.Infra.EF;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using EStore.Infra.EF.Config;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Net.Mime;
+using EStore.Infra.EF.Identity;
+using EStore.Web;
 using EStore.Web.Config;
-using AutoMapper;
-using EStore.Infra.EF.Helpers;
-using NuGet.Protocol;
-using MC.Logger;
-using Microsoft.VisualBasic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Drawing.Text;
-using EStore.Web.Middlewares.Custom;
-using Web;
+using Microsoft.AspNetCore.Identity;
+using Serilog;
 using static Web.Constants;
-using EStore.Core.Entities;
-using Microsoft.AspNetCore.Authorization;
-using EStore.Core.Interfaces;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Microsoft.AspNetCore.Mvc;
-using EStore.Core.Entities.BasketAggregate;
 
 
 // Add services to the container.

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EStore.Infra.EF.Identity
+﻿namespace EStore.Infra.EF.Identity
 {
   public class ConstIdent
   {
@@ -15,10 +9,10 @@ namespace EStore.Infra.EF.Identity
 
     public const string ADMIN_ROLE = "Administrators";
 
-    
+
     public const int JWT_EXP_DAYS = 7;
 
 
-    
+
   }
 }

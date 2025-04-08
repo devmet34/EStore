@@ -1,18 +1,13 @@
 ﻿using EStore.Core.Extensions;
 using EStore.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace EStore.Core.Entities.BasketAggregate
 {
   public class Basket : BaseEntity, IAggregateRoot
   {
     public string BuyerId { get; private set; }
-    
+
     public DateTime BasketCreatedAt { get; init; }
     [JsonInclude]
     public decimal TotalPrice { get; private set; }
@@ -26,7 +21,7 @@ namespace EStore.Core.Entities.BasketAggregate
       BasketCreatedAt = DateTime.Now;
 
     }
-    
+
     /// <summary>
     /// mc, Set/add basketitem to basket. Product param is needed for redis caching so product name, uri etc can be saved/loaded with basket.
     /// </summary>
@@ -35,7 +30,7 @@ namespace EStore.Core.Entities.BasketAggregate
     /// <param name="price"></param>
     /// <param name="product"></param>
     /// <exception cref="Exception"></exception>
-    public void SetBasketItem(int productId, int qt, decimal price,Product? product=null)
+    public void SetBasketItem(int productId, int qt, decimal price, Product? product = null)
     {
       //qt.GuardNegative(); already guarded in basketitem
       qt.GuardZero();
@@ -47,13 +42,13 @@ namespace EStore.Core.Entities.BasketAggregate
           throw new Exception("Same quantity already set");
 
         //mc deduct current item price from total for reset.
-        TotalPrice += -basketItem.Qt * price;                
+        TotalPrice += -basketItem.Qt * price;
 
         basketItem.SetQt(qt);
         TotalPrice += price * qt;
         return;
       }
-      basketItem = product != null ? new BasketItem(Id, productId, qt,price, product) : new BasketItem(Id, productId, qt,price);
+      basketItem = product != null ? new BasketItem(Id, productId, qt, price, product) : new BasketItem(Id, productId, qt, price);
 
       TotalPrice += price * qt;
       BasketItems.Add(basketItem);
@@ -78,9 +73,9 @@ namespace EStore.Core.Entities.BasketAggregate
       var basketItem = BasketItems.FirstOrDefault(bi => bi.ProductId == productId);
       if (basketItem == null)
         throw new Exception("Item to remove not found");
-      var itemPrice=basketItem!.Price;
+      var itemPrice = basketItem!.Price;
       BasketItems.Remove(basketItem);
-      TotalPrice -= itemPrice*basketItem.Qt ;
+      TotalPrice -= itemPrice * basketItem.Qt;
     }
 
     public bool IsItemExist(int productId)
@@ -89,7 +84,7 @@ namespace EStore.Core.Entities.BasketAggregate
 
     }
 
-    public int BasketItemCount =>BasketItems.Count;
+    public int BasketItemCount => BasketItems.Count;
 
   }
 }
