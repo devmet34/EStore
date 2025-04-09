@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EStore.Web.Controllers;
 
 [Authorize]
+[AutoValidateAntiforgeryToken]
 public class OrderController : Controller
 {
   private readonly ILogger<OrderController> _logger;
