@@ -8,7 +8,7 @@ namespace EStore.Web.Controllers;
 
 
 [Authorize]
-
+[AutoValidateAntiforgeryToken]
 
 public class BasketController : Controller
 {
@@ -54,6 +54,7 @@ public class BasketController : Controller
   }
 
   [HttpPost]
+  
   public async Task<IActionResult> SetBasketItem(int productId, int qt)
   {
 

@@ -37,19 +37,19 @@ namespace EStore.WebApi.Controllers
       if (!ModelState.IsValid)
         throw new ArgumentException();
 
-      var result = await _signInManager.PasswordSignInAsync(loginModel.UserName, loginModel.Password, false,
+      var result = await _signInManager.PasswordSignInAsync(loginModel.UserName!, loginModel.Password!, false,
         false);
 
 
       if (result.Succeeded)
       {
 
-        var token = await _identityTokenClaimService.GetTokenAsync(loginModel.UserName);
+        var token = await _identityTokenClaimService.GetTokenAsync(loginModel.UserName!);
         return new AppLoginResponse(true, result.ToString(), token);
 
       }
       //signin failed
-      return new AppLoginResponse(false, result.ToString(), null);
+      return new AppLoginResponse(false, result.ToString(), default);
 
 
     }

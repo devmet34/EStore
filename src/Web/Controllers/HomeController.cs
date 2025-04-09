@@ -41,14 +41,6 @@ namespace EStore.Web.Controllers
 
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Test(string id)
-    {
-      await Task.Delay(1000);
-      Thread.Sleep(5000);
-      return Ok("test ok");
-    }
 
     private bool IsUserSigned()
     {
