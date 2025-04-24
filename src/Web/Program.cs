@@ -3,7 +3,9 @@ using EStore.Infra.EF.Config;
 using EStore.Infra.EF.Identity;
 using EStore.Web;
 using EStore.Web.Config;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using static Web.Constants;
 
@@ -27,9 +29,9 @@ builder.Services.AddAntiforgery();
 
 //Helper.SetMCLogger();
 
-ConfigDb.AddDbContexts(builder.Configuration, builder.Services);
 //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+builder.AddDBContextsPool(); //mc, add db context to di container
+//builder.AddDBContexts(); //mc, add db context to di container
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
   .AddDefaultUI()
