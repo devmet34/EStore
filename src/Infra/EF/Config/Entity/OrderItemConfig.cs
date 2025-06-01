@@ -1,4 +1,5 @@
-﻿using EStore.Core.Entities.OrderAggregate;
+﻿using EStore.Core.Entities;
+using EStore.Core.Entities.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,12 +13,12 @@ public class OrderItemConfig : IEntityTypeConfiguration<OrderItem>
       .IsRequired();
     builder.Property(o => o.Price)
       .HasColumnType("decimal(18, 2)");
-    /*
-    builder.HasOne(o => o.Product)
+
+    builder.HasOne<Product>()
       .WithMany()
       .HasForeignKey(o => o.ProductId)
       .OnDelete(DeleteBehavior.ClientSetNull);
-      */
+
   }
 
 

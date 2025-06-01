@@ -18,13 +18,9 @@ Helper.SetSeriLog();
 //builder.Logging.AddConsole();
 builder.Logging.AddSerilog();
 
-//var prod = new Product("sd", null, null, 5, 5);
-
-
 // Add services to the container.
 
-if (builder.Environment.IsDevelopment())
-  ConfigDb.AddDbContexts(builder.Configuration, builder.Services);
+ConfigDb.AddDBContexts(builder);
 
 builder.Services.AddScoped<IIdentityTokenClaimService, IdentityTokenClaimService>();
 builder.Services.AddIdentity<AppUser, IdentityRole>()
