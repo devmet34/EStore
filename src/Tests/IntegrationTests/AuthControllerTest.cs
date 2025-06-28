@@ -7,28 +7,29 @@ namespace IntegrationTests;
 public class AuthControllerTest
 {
 
-  string userName = Constants.DEFAULT_USERNAME;
-  string pass = Constants.DEFAULT_PASS;
+    string userName = Constants.DEFAULT_USERNAME;
+    string pass = Constants.DEFAULT_PASS;
 
-  string uri = "api/auth";
+    string authApiLoginUri = "api/auth/login";
+    /// <summary>
+    /// mc, Test Api login (local Identity), also tests JWT token generation.
+    /// </summary>
+    /// <returns></returns>
+    [TestMethod]
+    public async Task TestApiLoginJwt()
+    {
 
-  [TestMethod]
-  public async Task TestLogin()
-  {
+        var loginModel = new AppLoginModel(userName, pass);
 
-    var loginModel = new AppLoginModel(userName, pass);
+        var client = ProgramFactory.ApiClient;
 
-    var client = ProgramFactory.Client;
+        var httpContent = new StringContent(JsonSerializer.Serialize(loginModel), null, "application/json");
 
-    var resp = await client.GetAsync("api/test");
+        var response = await client.PostAsync(authApiLoginUri, httpContent);
+        var stringResponse = await response.Content.ReadAsStringAsync();
+        var loginResponse = stringResponse.FromJson<AppLoginResponse>();
 
-    var jsonContent = new StringContent(JsonSerializer.Serialize(loginModel), null, "application/json");
-
-
-    var response = await client.PostAsync(uri, jsonContent);
-    var stringResponse = await response.Content.ReadAsStringAsync();
-
-    var loginResponse = stringResponse.FromJson<AppLoginResponse>();
-    //Assert.IsNotNull(resp);
-  }
+        Assert.IsTrue(response?.IsSuccessStatusCode);
+        Assert.IsNotNull(loginResponse?.Token);
+    }
 }

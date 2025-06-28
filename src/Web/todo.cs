@@ -32,10 +32,12 @@
 //todo implement projections for Getbasket calls; basketvm>basketitemvm>productvm +
 //todo sec for all post actions +
 //todo cleanup, sort warnings like unused assigments/usings, dereference possible nulls etc. +
+//todo dbcontext pool for performance +
+//todo move identity to main db
+//todo normalize address table?
 //todo show specific error msgs when setbasketitem fails e.g; same qt already set
 //todo IMemoryCache test?
 //todo review ef queries; compiled, cached etc
-//todo dbcontext pool for performance?
 //todo ts warnings?
 //todo helper js
 //todo response compression

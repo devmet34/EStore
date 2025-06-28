@@ -36,16 +36,19 @@ namespace IntegrationTests.AutomaticTests
       _dbContext = scope.ServiceProvider.GetRequiredService<EStoreDbContext>();
       _config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
       _productService = scope.ServiceProvider.GetRequiredService<ProductService>();
-      _userId = _config["userId"];//mc; getting config from secret or appsettings.json
+      _userId = _config["userId"] ?? throw new ArgumentNullException();
+      InitBasket(); //mc, Set basket and add product for tests
+    }
+
+    private void InitBasket()
+    {
       _basket = new Basket(_userId!);
       _product = new Product("test", 3, null, 5.50m, 100);
       _basket.SetBasketItem(_productId, 2, _product.Price, _product);
     }
 
-
-
     [Fact]
-    public async Task ChangedProductPrice()
+    public async Task TestProductPriceChange()
     {
       //using var scope = Helper4Tests.GetServiceScope();
 
@@ -77,7 +80,7 @@ namespace IntegrationTests.AutomaticTests
     }
 
     [Fact]
-    public async Task NotAvailableQt()
+    public async Task TestQtNotEnough()
     {
       SqlChangeProductQt(_dbContext);
       try
@@ -94,7 +97,7 @@ namespace IntegrationTests.AutomaticTests
     }
 
     [Fact]
-    public async Task ConcurrencyException()
+    public async Task TestConcurrencyException()
     {
       try
       {

@@ -28,6 +28,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
   .AddDefaultTokenProviders();
 
 ConfigRedis.AddRedis(builder);
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddCoreServices();
 
 /* test basic auth
@@ -52,8 +53,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.UseSwagger();
-  app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -70,4 +71,4 @@ app.MapControllers();
 app.Run();
 
 
-//public partial class Program();
+public partial class ProgramApi(); //mc, for integration tests
