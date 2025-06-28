@@ -364,3 +364,5 @@ FodyWeavers.xsd
 /src/Web/Log.txt
 /src/Web/wwwroot/lib/bootstrap
 /src/Web/MCLogger.txt
+/src/WebApi/Log.txt
+/src/WebApi/Log.txt
