@@ -6,7 +6,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Assert = Xunit.Assert;
 
-namespace IntegrationTests;
+namespace IntegrationTests.Tests;
 public class RedisTest
 {
   private WebApplicationFactory<Program> app = ProgramFactory.webApplicationFactory;

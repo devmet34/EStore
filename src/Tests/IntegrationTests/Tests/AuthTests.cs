@@ -2,9 +2,9 @@
 using NuGet.Protocol;
 using System.Text.Json;
 
-namespace IntegrationTests;
+namespace IntegrationTests.Tests;
 [TestClass]
-public class AuthControllerTest
+public class AuthTests
 {
 
     string userName = Constants.DEFAULT_USERNAME;

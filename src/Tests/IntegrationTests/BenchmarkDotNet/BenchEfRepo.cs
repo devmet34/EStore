@@ -11,46 +11,37 @@ namespace IntegrationTests.BenchmarkDotNet;
 public class BenchEfRepo
 {
 
-  IRepo<Product> repo;
-  public static IQueryable<Product>? query { get; set; }
-  public WebApplicationFactory<Program>? app;
+    IRepo<Product> repo;
+    public static IQueryable<Product>? query { get; set; }
+    public WebApplicationFactory<Program>? app;
 
-  [GlobalSetup]
-  public void GlobalSetup()
-  {
+    [GlobalSetup]
+    public void GlobalSetup()
+    {
 
-    app = ProgramFactory.webApplicationFactory;
+        app = ProgramFactory.webApplicationFactory;
 
 
-  }
-  //public BenchmarkClass(IQueryable<Product> query) {  this.query = query;}
-  [Benchmark]
-  [IterationCount(10)]
-  public async Task Test()
-  {
+    }
+    //public BenchmarkClass(IQueryable<Product> query) {  this.query = query;}
+    [Benchmark]
+    [IterationCount(10)]
+    public async Task Test()
+    {
 
-    using var scope = app.Services.CreateScope();
-    repo = scope.ServiceProvider.GetRequiredService<IRepo<Product>>();
+        using var scope = app.Services.CreateScope();
+        repo = scope.ServiceProvider.GetRequiredService<IRepo<Product>>();
 
-    query = repo.Query;
-    query = query.Where(p => p.CategoryId > 1).AsNoTracking();
-    var t = await repo.ListByQueryAsync(query);
+        query = repo.Query;
+        query = query.Where(p => p.CategoryId > 1).Take(1000).AsNoTracking();
+        var list = await repo.ListByQueryAsync(query);
 
-    //await repo.ListByQueryAsync(query);
-  }
+        if (list == null || !list.Any())
+            throw new ArgumentException("List is null or empty");
 
-  /*
-  public void Test()
-  {
 
-    using var scope = app.Services.CreateScope();
-    repo = scope.ServiceProvider.GetRequiredService<IRepo<Product>>();
+    }
 
-    query = repo.Query();
-    query = query.Where(p => p.CategoryId > 1);
-    var t = query.AsNoTracking().ToList();
-    //await repo.ListByQueryAsync(query);
-  }
-  */
+
 
 }//eo class

@@ -12,7 +12,7 @@ using Xunit.Abstractions;
 using Assert = Xunit.Assert;
 
 
-namespace IntegrationTests.AutomaticTests
+namespace IntegrationTests.Tests
 {
   public class OrderTests
   {
