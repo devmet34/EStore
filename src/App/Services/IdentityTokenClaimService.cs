@@ -1,4 +1,5 @@
 ﻿using EStore.Core.Interfaces;
+using EStore.Infra.EF.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -6,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace EStore.Infra.EF.Identity;
+namespace EStore.App.Services;
 
 public class IdentityTokenClaimService : IIdentityTokenClaimService
 {
@@ -45,6 +46,6 @@ public class IdentityTokenClaimService : IIdentityTokenClaimService
     //var token = tokenHandler.CreateToken(tokenDescriptor);
     var token = tokenHandler.CreateEncodedJwt(tokenDescriptor);
     return token;
-    //return tokenHandler.WriteToken(token);
+    
   }
 }

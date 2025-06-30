@@ -8,6 +8,7 @@ namespace EStore.Web.Controllers;
 
 [Authorize]
 [AutoValidateAntiforgeryToken]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class OrderController : Controller
 {
   private readonly ILogger<OrderController> _logger;

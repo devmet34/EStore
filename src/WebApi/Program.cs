@@ -22,7 +22,7 @@ builder.Logging.AddSerilog();
 
 ConfigDb.AddDBContexts(builder);
 
-builder.Services.AddScoped<IIdentityTokenClaimService, IdentityTokenClaimService>();
+builder.Services.AddScoped<IIdentityTokenClaimService, EStore.App.Services.IdentityTokenClaimService>();
 builder.Services.AddIdentity<AppUser, IdentityRole>()
   .AddEntityFrameworkStores<EstoreIdentityDbContext>()
   .AddDefaultTokenProviders();

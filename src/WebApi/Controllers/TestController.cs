@@ -17,16 +17,6 @@ namespace EStore.WebApi.Controllers
 
     }
 
-    [HttpGet]
-    [Route("test")]
-    public void Test()
-    {
-
-
-
-
-    }
-
 
     [Authorize]
     [HttpGet]

@@ -5,6 +5,7 @@ using EStore.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EStore.Web.Controllers;
+[ApiExplorerSettings(IgnoreApi = true)]
 public class FilterController : Controller
 {
   private readonly ILogger<FilterController> _logger;
